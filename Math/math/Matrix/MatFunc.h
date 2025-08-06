@@ -1,5 +1,5 @@
 #pragma once
-#include "../Vector/VectorFunc.h"
+#include "VectorFunc.h"
 #include "SMatrix.h"
 
 namespace Math::Matrix::Func {

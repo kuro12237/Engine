@@ -51,8 +51,8 @@
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
 
-#include"DirectXTex/DirectXTex.h"
-#include"DirectXTex/d3dx12.h"
+#include"DirectXTex.h"
+#include"d3dx12.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 
@@ -80,7 +80,7 @@ using namespace Microsoft::WRL;
 
 #pragma region Math
 
-#include "math/MathInclude.h"
+#include "MathInclude.h"
 #pragma comment(lib, "math.lib")
 
 #pragma endregion

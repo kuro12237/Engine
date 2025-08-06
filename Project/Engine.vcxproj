@@ -113,10 +113,15 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\;$(ProjectDir)..\Externals\DirectXTex\include\;$(ProjectDir)..\Externals\ImGui\include\;$(ProjectDir)..\Externals\LuaAssets\;$(ProjectDir)..\Externals\Math\include\;$(ProjectDir)..\Externals\nlohmann\;$(ProjectDir)..\Externals\assimp\include\;$(ProjectDir)CLEYERA\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>DirectXTex.lib;assimp-vc143.lib;math.lib;ImGui.lib;lua51.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Externals\assimp\lib\Debug\;$(ProjectDir)..\Externals\DirectXTex\lib\Debug\;$(ProjectDir)..\Externals\ImGui\lib\Debug\;$(ProjectDir)..\Externals\Math\lib\Debug\;$(ProjectDir)..\Externals\LuaAssets\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -128,16 +133,211 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\;$(ProjectDir)..\Externals\DirectXTex\include\;$(ProjectDir)..\Externals\ImGui\include\;$(ProjectDir)..\Externals\LuaAssets\;$(ProjectDir)..\Externals\Math\include\;$(ProjectDir)..\Externals\nlohmann\;$(ProjectDir)..\Externals\assimp\include\;$(ProjectDir)CLEYERA\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(ProjectDir)..\Externals\ImGui\lib\Release\;$(ProjectDir)..\Externals\DirectXTex\lib\Release\;$(ProjectDir)..\Externals\Math\lib\Release\;$(ProjectDir)..\Externals\assimp\lib\Release\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>Directex.lib;assimp-vc143.lib;math.lib;ImGui.lib;lua51.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CLEYERA\2d\LayerManager.cpp" />
+    <ClCompile Include="CLEYERA\2d\Sprite.cpp" />
+    <ClCompile Include="CLEYERA\2d\SpriteMesh.cpp" />
+    <ClCompile Include="CLEYERA\3d\Blas\Blas.cpp" />
+    <ClCompile Include="CLEYERA\3d\Game3dObject.cpp" />
+    <ClCompile Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.cpp" />
+    <ClCompile Include="CLEYERA\3d\Line3d\Line3d.cpp" />
+    <ClCompile Include="CLEYERA\3d\LocalRootSignature\ClosestHitRootSignature.cpp" />
+    <ClCompile Include="CLEYERA\3d\LocalRootSignature\RayGenRootSignature.cpp" />
+    <ClCompile Include="CLEYERA\3d\Mesh\MeshData.cpp" />
+    <ClCompile Include="CLEYERA\3d\Model3d.cpp" />
+    <ClCompile Include="CLEYERA\3d\ModelManager\ModelManager.cpp" />
+    <ClCompile Include="CLEYERA\3d\ShaderTable\ShaderTable.cpp" />
+    <ClCompile Include="CLEYERA\3d\StateObject\StateObject.cpp" />
+    <ClCompile Include="CLEYERA\3d\Tlas\Tlas.cpp" />
+    <ClCompile Include="CLEYERA\CLEYERA.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\CameraCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\JsonCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\ManagerCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\ObjectCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\SpriteComponent.cpp" />
+    <ClCompile Include="CLEYERA\DebugTools\DebugCamera.cpp" />
+    <ClCompile Include="CLEYERA\DebugTools\Grid.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXAdapter\DXAdapter.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXBarrier\DXBarrier.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXCommand\DXCommandAllocator.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXCommand\DXCommandList.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXCommand\DXCommandManager.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXCommand\DXCommandQueue.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXCommon.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDebugLayer\DXDebugLayer.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDepth\DXDepth.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDescripter\DXDescripterComponent.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDescripter\DXDescripterManager.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDescripter\DXDSVDescripter.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDescripter\DXRTVDescripter.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDescripter\DXSRVDescripter.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXDevice\DXDevice.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXFactory\DXFactory.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXFence\DXFence.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXInfoQueue\DXInfoQueue.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXManager.cpp" />
+    <ClCompile Include="CLEYERA\DX\DXSwapChain\DXSwapChain.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\pipline\2d\DF\DFSprite2dDraw.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\pipline\DF\DFModel3dDraw.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\pipline\Line\Line3dDraw.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\pipline\PostEffect\PostEffectCopy.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\pipline\RasterPiplineCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\RasterPiplineCommon.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RasterPipline\RasterPiplineManager.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\RaytracingManager\RaytracingManager.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\ShaderManager\ShaderCommon.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\ShaderManager\ShaderManager.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\ShaderManager\Shaders\ShaderCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Graphics\TexManager\TexManager.cpp" />
+    <ClCompile Include="CLEYERA\PostEffect\PostEffect.cpp" />
+    <ClCompile Include="CLEYERA\SystemLogManager\ConvertString.cpp" />
+    <ClCompile Include="CLEYERA\SystemLogManager\SystemLogManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Camera\Camera.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Camera\CameraManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\AABBCollider.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\Collider.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\ColliderFunc.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\ColliderSystem.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\OBBCollider.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\Octree\Octree.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ColliderSystem\SCollider.cpp" />
+    <ClCompile Include="CLEYERA\Utility\FileLoader\FileLoader.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Flame\Flame.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ImGui\ImGuiCommon.cpp" />
+    <ClCompile Include="CLEYERA\Utility\ImGui\ImGuiManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Input\InputComtroller.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Input\InputKeybord.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Input\InputManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Json\GlobalVariables.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Light\DIrectionLight.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Light\LightManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Object\ObjectManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\PhysicsForces\GravityManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\RenderManager\RenderManager.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Terrain\Terrain.cpp" />
+    <ClCompile Include="CLEYERA\Utility\TransformBase\TransformBase.cpp" />
+    <ClCompile Include="CLEYERA\Utility\World\WorldTransform.cpp" />
+    <ClCompile Include="CLEYERA\WIn\WinApp.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="CLEYERA\2d\LayerManager.h" />
+    <ClInclude Include="CLEYERA\2d\Sprite.h" />
+    <ClInclude Include="CLEYERA\2d\SpriteMesh.h" />
+    <ClInclude Include="CLEYERA\3d\Blas\Blas.h" />
+    <ClInclude Include="CLEYERA\3d\Game3dObject.h" />
+    <ClInclude Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.h" />
+    <ClInclude Include="CLEYERA\3d\Line3d\Line3d.h" />
+    <ClInclude Include="CLEYERA\3d\LocalRootSignature\ClosestHitRootSignature.h" />
+    <ClInclude Include="CLEYERA\3d\LocalRootSignature\RayGenRootSignature.h" />
+    <ClInclude Include="CLEYERA\3d\Material\BaseMaterial3d.h" />
+    <ClInclude Include="CLEYERA\3d\Material\ColorMaterial3d.h" />
+    <ClInclude Include="CLEYERA\3d\Material\IMaterial3d.h" />
+    <ClInclude Include="CLEYERA\3d\Material\MaterialEnum.h" />
+    <ClInclude Include="CLEYERA\3d\Mesh\MeshData.h" />
+    <ClInclude Include="CLEYERA\3d\Model3d.h" />
+    <ClInclude Include="CLEYERA\3d\ModelManager\Model3dPool.h" />
+    <ClInclude Include="CLEYERA\3d\ModelManager\ModelManager.h" />
+    <ClInclude Include="CLEYERA\3d\ShaderTable\ShaderTable.h" />
+    <ClInclude Include="CLEYERA\3d\StateObject\StateObject.h" />
+    <ClInclude Include="CLEYERA\3d\Tlas\Tlas.h" />
+    <ClInclude Include="CLEYERA\CLEYERA.h" />
+    <ClInclude Include="CLEYERA\Compornent\CameraCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\JsonCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\ManagerCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\ObjectCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\SpriteComponent.h" />
+    <ClInclude Include="CLEYERA\DebugTools\DebugCamera.h" />
+    <ClInclude Include="CLEYERA\DebugTools\Grid.h" />
+    <ClInclude Include="CLEYERA\DX\DXAdapter\DXAdapter.h" />
+    <ClInclude Include="CLEYERA\DX\DXBarrier\DXBarrier.h" />
+    <ClInclude Include="CLEYERA\DX\DXBufferResource\DXBufferResource.h" />
+    <ClInclude Include="CLEYERA\DX\DXCommand\DXCommandAllocator.h" />
+    <ClInclude Include="CLEYERA\DX\DXCommand\DXCommandList.h" />
+    <ClInclude Include="CLEYERA\DX\DXCommand\DXCommandManager.h" />
+    <ClInclude Include="CLEYERA\DX\DXCommand\DXCommandQueue.h" />
+    <ClInclude Include="CLEYERA\DX\DXCommon.h" />
+    <ClInclude Include="CLEYERA\DX\DXComponent.h" />
+    <ClInclude Include="CLEYERA\DX\DXDebugLayer\DXDebugLayer.h" />
+    <ClInclude Include="CLEYERA\DX\DXDepth\DXDepth.h" />
+    <ClInclude Include="CLEYERA\DX\DXDescripter\DXDescripterComponent.h" />
+    <ClInclude Include="CLEYERA\DX\DXDescripter\DXDescripterManager.h" />
+    <ClInclude Include="CLEYERA\DX\DXDescripter\DXDSVDescripter.h" />
+    <ClInclude Include="CLEYERA\DX\DXDescripter\DXRTVDescripter.h" />
+    <ClInclude Include="CLEYERA\DX\DXDescripter\DXSRVDescripter.h" />
+    <ClInclude Include="CLEYERA\DX\DXDevice\DXDevice.h" />
+    <ClInclude Include="CLEYERA\DX\DXFactory\DXFactory.h" />
+    <ClInclude Include="CLEYERA\DX\DXFence\DXFence.h" />
+    <ClInclude Include="CLEYERA\DX\DXInfoQueue\DXInfoQueue.h" />
+    <ClInclude Include="CLEYERA\DX\DXManager.h" />
+    <ClInclude Include="CLEYERA\DX\DXSwapChain\DXSwapChain.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\pipline\2d\DF\DFSprite2dDraw.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\pipline\DF\DFModel3dDraw.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\pipline\Line\Line3dDraw.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\pipline\PostEffect\PostEffectCopy.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\pipline\RasterPiplineCompornent.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\RasterEnum.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\RasterPiplineCommon.h" />
+    <ClInclude Include="CLEYERA\Graphics\RasterPipline\RasterPiplineManager.h" />
+    <ClInclude Include="CLEYERA\Graphics\RaytracingManager\HitGroup.h" />
+    <ClInclude Include="CLEYERA\Graphics\RaytracingManager\RaytracingManager.h" />
+    <ClInclude Include="CLEYERA\Graphics\ShaderManager\ShaderCommon.h" />
+    <ClInclude Include="CLEYERA\Graphics\ShaderManager\ShaderEnum.h" />
+    <ClInclude Include="CLEYERA\Graphics\ShaderManager\ShaderManager.h" />
+    <ClInclude Include="CLEYERA\Graphics\ShaderManager\Shaders\ShaderCompornent.h" />
+    <ClInclude Include="CLEYERA\Graphics\TexManager\TexData.h" />
+    <ClInclude Include="CLEYERA\Graphics\TexManager\TexManager.h" />
+    <ClInclude Include="CLEYERA\Lua\Helpers\LuaHelpers.h" />
+    <ClInclude Include="CLEYERA\Lua\Script\LuaScript.h" />
+    <ClInclude Include="CLEYERA\pch\Pch.h" />
+    <ClInclude Include="CLEYERA\PostEffect\PostEffect.h" />
+    <ClInclude Include="CLEYERA\SystemLogManager\ConvertString.h" />
+    <ClInclude Include="CLEYERA\SystemLogManager\ISystemObserver.h" />
+    <ClInclude Include="CLEYERA\SystemLogManager\SystemLogManager.h" />
+    <ClInclude Include="CLEYERA\ThreadedLoader.h\ThreadedLoader.h" />
+    <ClInclude Include="CLEYERA\Utility\Camera\Camera.h" />
+    <ClInclude Include="CLEYERA\Utility\Camera\CameraManager.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\AABBCollider.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\Collider.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\ColliderFunc.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\ColliderSystem.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\OBBCollider.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\Octree\Octree.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\SCollider.h" />
+    <ClInclude Include="CLEYERA\Utility\ColliderSystem\TerrainCollider.h" />
+    <ClInclude Include="CLEYERA\Utility\Easing.h" />
+    <ClInclude Include="CLEYERA\Utility\FileLoader\FileLoader.h" />
+    <ClInclude Include="CLEYERA\Utility\Flame\Flame.h" />
+    <ClInclude Include="CLEYERA\Utility\ImGui\ImGuiCommon.h" />
+    <ClInclude Include="CLEYERA\Utility\ImGui\ImGuiManager.h" />
+    <ClInclude Include="CLEYERA\Utility\Input\InputComtroller.h" />
+    <ClInclude Include="CLEYERA\Utility\Input\InputKeybord.h" />
+    <ClInclude Include="CLEYERA\Utility\Input\InputManager.h" />
+    <ClInclude Include="CLEYERA\Utility\Json\GlobalVariables.h" />
+    <ClInclude Include="CLEYERA\Utility\Light\DIrectionLight.h" />
+    <ClInclude Include="CLEYERA\Utility\Light\LightManager.h" />
+    <ClInclude Include="CLEYERA\Utility\Object\ObjectManager.h" />
+    <ClInclude Include="CLEYERA\Utility\PhysicsForces\GravityManager.h" />
+    <ClInclude Include="CLEYERA\Utility\RenderManager\RenderManager.h" />
+    <ClInclude Include="CLEYERA\Utility\ResourceFunc\ResourceFunc.h" />
+    <ClInclude Include="CLEYERA\Utility\SceneFactory\SceneFactory.h" />
+    <ClInclude Include="CLEYERA\Utility\Terrain\Terrain.h" />
+    <ClInclude Include="CLEYERA\Utility\TransformBase\TransformBase.h" />
+    <ClInclude Include="CLEYERA\Utility\World\WorldTransform.h" />
+    <ClInclude Include="CLEYERA\WIn\WinApp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

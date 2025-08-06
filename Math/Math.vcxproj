@@ -117,7 +117,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\nlohmann\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\nlohmann\;$(ProjectDir)Vector\;$(ProjectDir)math\Vector\;$(ProjectDir)math\Matrix\;$(ProjectDir)math\Quaternion\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>
@@ -135,7 +135,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\nlohmann\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\nlohmann\;$(ProjectDir)Vector\;$(ProjectDir)math\Vector\;$(ProjectDir)math\Matrix\;$(ProjectDir)math\Quaternion\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>

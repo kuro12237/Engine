@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Vector/SVector.h"
-#include "Vector/VectorFunc.h"
+#include "SVector.h"
+#include "VectorFunc.h"
 
-#include "Matrix/MatFunc.h"
-#include "Matrix/SMatrix.h"
+#include "MatFunc.h"
+#include "SMatrix.h"
 
-#include "Quaternion/Quaternion.h"
+#include "Quaternion.h"

@@ -1,4 +1,5 @@
-#include"windows.h"
+#include"CLEYERA/CLEYERA.h"
+
 /// <summary>
 /// メイン関数
 /// </summary>

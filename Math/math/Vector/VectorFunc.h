@@ -1,5 +1,5 @@
 #pragma once
-#include "../Matrix/SMatrix.h"
+#include "SMatrix.h"
 #include "SVector.h"
 
 #include <cmath>
