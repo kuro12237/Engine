@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>17.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{ff869f87-fb32-4e77-bb85-e3b0cc2846be}</ProjectGuid>
+    <RootNamespace>Lua</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)LuaJIT\src\;$(SolutionDir)..\Externals\Math\Include\;$(SolutionDir)..\Externals\Math\lib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>$(ProjectDir)LuaJIT\src\;$(SolutionDir)..\Externals\Math\Include\;$(SolutionDir)..\Externals\Math\lib\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>
+      </SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="LuaJIT\dynasm\dasm_arm.h" />
+    <ClInclude Include="LuaJIT\dynasm\dasm_arm64.h" />
+    <ClInclude Include="LuaJIT\dynasm\dasm_mips.h" />
+    <ClInclude Include="LuaJIT\dynasm\dasm_ppc.h" />
+    <ClInclude Include="LuaJIT\dynasm\dasm_proto.h" />
+    <ClInclude Include="LuaJIT\dynasm\dasm_x86.h" />
+    <ClInclude Include="LuaJIT\src\host\buildvm.h" />
+    <ClInclude Include="LuaJIT\src\host\buildvm_libbc.h" />
+    <ClInclude Include="LuaJIT\src\lauxlib.h" />
+    <ClInclude Include="LuaJIT\src\lj_alloc.h" />
+    <ClInclude Include="LuaJIT\src\lj_arch.h" />
+    <ClInclude Include="LuaJIT\src\lj_asm.h" />
+    <ClInclude Include="LuaJIT\src\lj_asm_arm.h" />
+    <ClInclude Include="LuaJIT\src\lj_asm_arm64.h" />
+    <ClInclude Include="LuaJIT\src\lj_asm_mips.h" />
+    <ClInclude Include="LuaJIT\src\lj_asm_ppc.h" />
+    <ClInclude Include="LuaJIT\src\lj_asm_x86.h" />
+    <ClInclude Include="LuaJIT\src\lj_bc.h" />
+    <ClInclude Include="LuaJIT\src\lj_bcdump.h" />
+    <ClInclude Include="LuaJIT\src\lj_buf.h" />
+    <ClInclude Include="LuaJIT\src\lj_carith.h" />
+    <ClInclude Include="LuaJIT\src\lj_ccall.h" />
+    <ClInclude Include="LuaJIT\src\lj_ccallback.h" />
+    <ClInclude Include="LuaJIT\src\lj_cconv.h" />
+    <ClInclude Include="LuaJIT\src\lj_cdata.h" />
+    <ClInclude Include="LuaJIT\src\lj_char.h" />
+    <ClInclude Include="LuaJIT\src\lj_clib.h" />
+    <ClInclude Include="LuaJIT\src\lj_cparse.h" />
+    <ClInclude Include="LuaJIT\src\lj_crecord.h" />
+    <ClInclude Include="LuaJIT\src\lj_ctype.h" />
+    <ClInclude Include="LuaJIT\src\lj_debug.h" />
+    <ClInclude Include="LuaJIT\src\lj_def.h" />
+    <ClInclude Include="LuaJIT\src\lj_dispatch.h" />
+    <ClInclude Include="LuaJIT\src\lj_emit_arm.h" />
+    <ClInclude Include="LuaJIT\src\lj_emit_arm64.h" />
+    <ClInclude Include="LuaJIT\src\lj_emit_mips.h" />
+    <ClInclude Include="LuaJIT\src\lj_emit_ppc.h" />
+    <ClInclude Include="LuaJIT\src\lj_emit_x86.h" />
+    <ClInclude Include="LuaJIT\src\lj_err.h" />
+    <ClInclude Include="LuaJIT\src\lj_errmsg.h" />
+    <ClInclude Include="LuaJIT\src\lj_ff.h" />
+    <ClInclude Include="LuaJIT\src\lj_ffrecord.h" />
+    <ClInclude Include="LuaJIT\src\lj_frame.h" />
+    <ClInclude Include="LuaJIT\src\lj_func.h" />
+    <ClInclude Include="LuaJIT\src\lj_gc.h" />
+    <ClInclude Include="LuaJIT\src\lj_gdbjit.h" />
+    <ClInclude Include="LuaJIT\src\lj_ir.h" />
+    <ClInclude Include="LuaJIT\src\lj_ircall.h" />
+    <ClInclude Include="LuaJIT\src\lj_iropt.h" />
+    <ClInclude Include="LuaJIT\src\lj_jit.h" />
+    <ClInclude Include="LuaJIT\src\lj_lex.h" />
+    <ClInclude Include="LuaJIT\src\lj_lib.h" />
+    <ClInclude Include="LuaJIT\src\lj_mcode.h" />
+    <ClInclude Include="LuaJIT\src\lj_meta.h" />
+    <ClInclude Include="LuaJIT\src\lj_obj.h" />
+    <ClInclude Include="LuaJIT\src\lj_parse.h" />
+    <ClInclude Include="LuaJIT\src\lj_prng.h" />
+    <ClInclude Include="LuaJIT\src\lj_profile.h" />
+    <ClInclude Include="LuaJIT\src\lj_record.h" />
+    <ClInclude Include="LuaJIT\src\lj_serialize.h" />
+    <ClInclude Include="LuaJIT\src\lj_snap.h" />
+    <ClInclude Include="LuaJIT\src\lj_state.h" />
+    <ClInclude Include="LuaJIT\src\lj_str.h" />
+    <ClInclude Include="LuaJIT\src\lj_strfmt.h" />
+    <ClInclude Include="LuaJIT\src\lj_strscan.h" />
+    <ClInclude Include="LuaJIT\src\lj_tab.h" />
+    <ClInclude Include="LuaJIT\src\lj_target.h" />
+    <ClInclude Include="LuaJIT\src\lj_target_arm.h" />
+    <ClInclude Include="LuaJIT\src\lj_target_arm64.h" />
+    <ClInclude Include="LuaJIT\src\lj_target_mips.h" />
+    <ClInclude Include="LuaJIT\src\lj_target_ppc.h" />
+    <ClInclude Include="LuaJIT\src\lj_target_x86.h" />
+    <ClInclude Include="LuaJIT\src\lj_trace.h" />
+    <ClInclude Include="LuaJIT\src\lj_traceerr.h" />
+    <ClInclude Include="LuaJIT\src\lj_udata.h" />
+    <ClInclude Include="LuaJIT\src\lj_vm.h" />
+    <ClInclude Include="LuaJIT\src\lj_vmevent.h" />
+    <ClInclude Include="LuaJIT\src\lua.h" />
+    <ClInclude Include="LuaJIT\src\lua.hpp" />
+    <ClInclude Include="LuaJIT\src\luaconf.h" />
+    <ClInclude Include="LuaJIT\src\luajit.h" />
+    <ClInclude Include="LuaJIT\src\luajit_rolling.h" />
+    <ClInclude Include="LuaJIT\src\lualib.h" />
+    <ClInclude Include="Lua\Helpers\LuaHelpers.h" />
+    <ClInclude Include="Lua\Manager\LuaManager.h" />
+    <ClInclude Include="Lua\Script\LuaScript.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="LuaJIT\src\host\buildvm.c" />
+    <ClCompile Include="LuaJIT\src\host\buildvm_asm.c" />
+    <ClCompile Include="LuaJIT\src\host\buildvm_fold.c" />
+    <ClCompile Include="LuaJIT\src\host\buildvm_lib.c" />
+    <ClCompile Include="LuaJIT\src\host\buildvm_peobj.c" />
+    <ClCompile Include="LuaJIT\src\host\minilua.c" />
+    <ClCompile Include="LuaJIT\src\lib_aux.c" />
+    <ClCompile Include="LuaJIT\src\lib_base.c" />
+    <ClCompile Include="LuaJIT\src\lib_bit.c" />
+    <ClCompile Include="LuaJIT\src\lib_buffer.c" />
+    <ClCompile Include="LuaJIT\src\lib_debug.c" />
+    <ClCompile Include="LuaJIT\src\lib_ffi.c" />
+    <ClCompile Include="LuaJIT\src\lib_init.c" />
+    <ClCompile Include="LuaJIT\src\lib_io.c" />
+    <ClCompile Include="LuaJIT\src\lib_jit.c" />
+    <ClCompile Include="LuaJIT\src\lib_math.c" />
+    <ClCompile Include="LuaJIT\src\lib_os.c" />
+    <ClCompile Include="LuaJIT\src\lib_package.c" />
+    <ClCompile Include="LuaJIT\src\lib_string.c" />
+    <ClCompile Include="LuaJIT\src\lib_table.c" />
+    <ClCompile Include="LuaJIT\src\ljamalg.c" />
+    <ClCompile Include="LuaJIT\src\lj_alloc.c" />
+    <ClCompile Include="LuaJIT\src\lj_api.c" />
+    <ClCompile Include="LuaJIT\src\lj_asm.c" />
+    <ClCompile Include="LuaJIT\src\lj_assert.c" />
+    <ClCompile Include="LuaJIT\src\lj_bc.c" />
+    <ClCompile Include="LuaJIT\src\lj_bcread.c" />
+    <ClCompile Include="LuaJIT\src\lj_bcwrite.c" />
+    <ClCompile Include="LuaJIT\src\lj_buf.c" />
+    <ClCompile Include="LuaJIT\src\lj_carith.c" />
+    <ClCompile Include="LuaJIT\src\lj_ccall.c" />
+    <ClCompile Include="LuaJIT\src\lj_ccallback.c" />
+    <ClCompile Include="LuaJIT\src\lj_cconv.c" />
+    <ClCompile Include="LuaJIT\src\lj_cdata.c" />
+    <ClCompile Include="LuaJIT\src\lj_char.c" />
+    <ClCompile Include="LuaJIT\src\lj_clib.c" />
+    <ClCompile Include="LuaJIT\src\lj_cparse.c" />
+    <ClCompile Include="LuaJIT\src\lj_crecord.c" />
+    <ClCompile Include="LuaJIT\src\lj_ctype.c" />
+    <ClCompile Include="LuaJIT\src\lj_debug.c" />
+    <ClCompile Include="LuaJIT\src\lj_dispatch.c" />
+    <ClCompile Include="LuaJIT\src\lj_err.c" />
+    <ClCompile Include="LuaJIT\src\lj_ffrecord.c" />
+    <ClCompile Include="LuaJIT\src\lj_func.c" />
+    <ClCompile Include="LuaJIT\src\lj_gc.c" />
+    <ClCompile Include="LuaJIT\src\lj_gdbjit.c" />
+    <ClCompile Include="LuaJIT\src\lj_ir.c" />
+    <ClCompile Include="LuaJIT\src\lj_lex.c" />
+    <ClCompile Include="LuaJIT\src\lj_lib.c" />
+    <ClCompile Include="LuaJIT\src\lj_load.c" />
+    <ClCompile Include="LuaJIT\src\lj_mcode.c" />
+    <ClCompile Include="LuaJIT\src\lj_meta.c" />
+    <ClCompile Include="LuaJIT\src\lj_obj.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_dce.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_fold.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_loop.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_mem.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_narrow.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_sink.c" />
+    <ClCompile Include="LuaJIT\src\lj_opt_split.c" />
+    <ClCompile Include="LuaJIT\src\lj_parse.c" />
+    <ClCompile Include="LuaJIT\src\lj_prng.c" />
+    <ClCompile Include="LuaJIT\src\lj_profile.c" />
+    <ClCompile Include="LuaJIT\src\lj_record.c" />
+    <ClCompile Include="LuaJIT\src\lj_serialize.c" />
+    <ClCompile Include="LuaJIT\src\lj_snap.c" />
+    <ClCompile Include="LuaJIT\src\lj_state.c" />
+    <ClCompile Include="LuaJIT\src\lj_str.c" />
+    <ClCompile Include="LuaJIT\src\lj_strfmt.c" />
+    <ClCompile Include="LuaJIT\src\lj_strfmt_num.c" />
+    <ClCompile Include="LuaJIT\src\lj_strscan.c" />
+    <ClCompile Include="LuaJIT\src\lj_tab.c" />
+    <ClCompile Include="LuaJIT\src\lj_trace.c" />
+    <ClCompile Include="LuaJIT\src\lj_udata.c" />
+    <ClCompile Include="LuaJIT\src\lj_vmevent.c" />
+    <ClCompile Include="LuaJIT\src\lj_vmmath.c" />
+    <ClCompile Include="LuaJIT\src\luajit.c" />
+    <ClCompile Include="Lua\Manager\LuaManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LuaJIT\doc\contact.html" />
+    <None Include="LuaJIT\doc\extensions.html" />
+    <None Include="LuaJIT\doc\ext_buffer.html" />
+    <None Include="LuaJIT\doc\ext_c_api.html" />
+    <None Include="LuaJIT\doc\ext_ffi.html" />
+    <None Include="LuaJIT\doc\ext_ffi_api.html" />
+    <None Include="LuaJIT\doc\ext_ffi_semantics.html" />
+    <None Include="LuaJIT\doc\ext_ffi_tutorial.html" />
+    <None Include="LuaJIT\doc\ext_jit.html" />
+    <None Include="LuaJIT\doc\ext_profiler.html" />
+    <None Include="LuaJIT\doc\install.html" />
+    <None Include="LuaJIT\doc\luajit.html" />
+    <None Include="LuaJIT\doc\running.html" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
