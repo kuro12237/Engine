@@ -98,6 +98,9 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
+../Externals/
+../Generated/
+
 # Chutzpah Test files
 _Chutzpah*
 
