@@ -86,6 +86,10 @@ void Engine::ImGuiUpdate() {
 void Engine::PhysiceForcesUpdate() { gravityManager_->Update(); }
 
 void Engine::Update() {
+  CLEYERA::Base::DX::DXCommandManager *commandManager =
+      CLEYERA::Base::DX::DXCommandManager::GetInstace();
+  CLEYERA::Base::Win::WinApp *winApp =
+      CLEYERA::Base::Win::WinApp::GetInstance();
 
   terrain_->Update();
   objectManager_->Update();
@@ -96,6 +100,11 @@ void Engine::Update() {
   lightManager_->Update();
 
   debugCamera_->Update();
+
+  commandManager->SetViewCommand(winApp->GetKWindowWidth(),
+                                 winApp->GetKWindowHeight());
+  commandManager->SetScissorCommand(winApp->GetKWindowWidth(),
+                                    winApp->GetKWindowHeight());
 }
 
 void Engine::Finalize() {
@@ -120,9 +129,14 @@ void Engine::Finalize() {
   winApp_->Finalize();
 }
 
-void Engine::Begin() { inputManager_->Begin(); }
+void Engine::Begin() {
+  inputManager_->Begin();
+  CLEYERA::Utility::ImGuiManager::GetInstance()->Begin();
+}
 
 void Engine::End() {
+
+  CLEYERA::Utility::ImGuiManager::GetInstance()->Render();
   dxCommon_->PostDraw();
   flame_->Update();
   dxCommon_->CommandReset();
@@ -130,4 +144,7 @@ void Engine::End() {
 
 void Engine::PreDraw() { dxCommon_->PreDraw(); }
 
-void Engine::Draw() { grid_->DrawRaster3d(); }
+void Engine::Draw() {
+  CLEYERA::Manager::RenderManager::GetInstance()->Draw3d();
+  // grid_->DrawRaster3d();
+}

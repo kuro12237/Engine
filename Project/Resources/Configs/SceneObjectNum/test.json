@@ -1,0 +1,29 @@
+{
+    "test": {
+        "PlayerCore": [
+            "PlayerCore", 
+            128 
+        ],
+        "NormalEnemy1": [
+            "NormalEnemy1", 
+            128 
+        ],
+        "NormalEnemy2": [
+            "NormalEnemy2", 
+            128 
+        ],
+        "NormalEnemy3": [
+            "NormalEnemy3", 
+            128 
+        ],
+        "wall": [
+            "wall", 
+            128 
+        ],
+        "hole": [
+            "hole", 
+            128 
+        ]
+
+    }
+}
