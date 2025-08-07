@@ -203,6 +203,7 @@
     <ClCompile Include="CLEYERA\Graphics\ShaderManager\Shaders\ShaderCompornent.cpp" />
     <ClCompile Include="CLEYERA\Graphics\TexManager\TexManager.cpp" />
     <ClCompile Include="CLEYERA\PostEffect\PostEffect.cpp" />
+    <ClCompile Include="CLEYERA\SceneManager\SceneManager.cpp" />
     <ClCompile Include="CLEYERA\SystemLogManager\ConvertString.cpp" />
     <ClCompile Include="CLEYERA\SystemLogManager\SystemLogManager.cpp" />
     <ClCompile Include="CLEYERA\Utility\Camera\Camera.cpp" />
@@ -259,6 +260,7 @@
     <ClInclude Include="CLEYERA\Compornent\JsonCompornent.h" />
     <ClInclude Include="CLEYERA\Compornent\ManagerCompornent.h" />
     <ClInclude Include="CLEYERA\Compornent\ObjectCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\SceneComponent.h" />
     <ClInclude Include="CLEYERA\Compornent\SpriteComponent.h" />
     <ClInclude Include="CLEYERA\DebugTools\DebugCamera.h" />
     <ClInclude Include="CLEYERA\DebugTools\Grid.h" />
@@ -304,6 +306,7 @@
     <ClInclude Include="CLEYERA\Lua\Script\LuaScript.h" />
     <ClInclude Include="CLEYERA\pch\Pch.h" />
     <ClInclude Include="CLEYERA\PostEffect\PostEffect.h" />
+    <ClInclude Include="CLEYERA\SceneManager\SceneManager.h" />
     <ClInclude Include="CLEYERA\SystemLogManager\ConvertString.h" />
     <ClInclude Include="CLEYERA\SystemLogManager\ISystemObserver.h" />
     <ClInclude Include="CLEYERA\SystemLogManager\SystemLogManager.h" />

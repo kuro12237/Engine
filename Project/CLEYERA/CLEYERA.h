@@ -35,12 +35,15 @@
 #include "Compornent/ObjectCompornent.h"
 #include "Compornent/SpriteComponent.h"
 
+#include"SceneManager/SceneManager.h"
+
 class Engine {
 public:
   Engine() {};
   ~Engine() {};
 
   void Init();
+  void Run();
 
   void ImGuiUpdate();
 
@@ -77,6 +80,7 @@ private:
   CLEYERA::Manager::Terrain *terrain_ = nullptr;
   CLEYERA::Manager::InputManager *inputManager_ = nullptr;
   CLEYERA::Manager::GravityManager *gravityManager_ = nullptr;
+  CLEYERA::Manager::SceneManager *sceneManager_ = nullptr;
 
   CLEYERA::Util::Flame *flame_ = nullptr;
 

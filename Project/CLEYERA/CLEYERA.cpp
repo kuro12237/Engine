@@ -69,6 +69,32 @@ void Engine::Init() {
 
   gravityManager_ = CLEYERA::Manager::GravityManager::GetInstance();
   gravityManager_->Init();
+
+  sceneManager_ = CLEYERA::Manager::SceneManager::GetInstance();
+}
+
+void Engine::Run() {
+  while (CLEYERA::Base::Win::WinApp::GetInstance()->WinMsg()) {
+    Begin();
+
+    PhysiceForcesUpdate();
+    sceneManager_->Update();
+
+    Update();
+
+    PreDraw();
+
+#ifdef _DEBUG
+
+    ImGuiUpdate();
+
+#endif // _DEBUG
+
+    Draw();
+
+    End();
+  }
+
 }
 
 void Engine::ImGuiUpdate() {
@@ -81,6 +107,7 @@ void Engine::ImGuiUpdate() {
   // grid_->ImGuiUpdate();
   colliderSystem_->ImGuiUpdate();
   objectManager_->ImGuiUpdate();
+  sceneManager_->ImGuiUpdate();
 }
 
 void Engine::PhysiceForcesUpdate() { gravityManager_->Update(); }
@@ -146,5 +173,6 @@ void Engine::PreDraw() { dxCommon_->PreDraw(); }
 
 void Engine::Draw() {
   CLEYERA::Manager::RenderManager::GetInstance()->Draw3d();
+  sceneManager_->Draw2d();
   // grid_->DrawRaster3d();
 }
