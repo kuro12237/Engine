@@ -26,6 +26,9 @@ public:
   /// </summary>
   void Draw();
 
+  /// <summary>
+  /// バッファ確保
+  /// </summary>
   void Create();
 
   std::string GetName() { return name_; }
@@ -49,13 +52,13 @@ protected:
   Math::Vector::Vec3 rotate_ = {};
   Math::Vector::Vec3 translate_ = {};
 
-  Math::Vector::Vec2 size = {1280.0f, 1280.0f};
-  Math::Vector::Vec2 anker = {0.5f, 0.5f};
+  Math::Vector::Vec2 size_ = {1280.0f, 1280.0f};
+  Math::Vector::Vec2 anker_ = {0.5f, 0.5f};
 
-  Math::Vector::Vec2 LeftTop = {0.0f, 1.0f};
-  Math::Vector::Vec2 RightTop = {1.0f, 1.0f};
-  Math::Vector::Vec2 LeftBottom = {0.0f, 0.0f};
-  Math::Vector::Vec2 RightBottom = {1.0f, 0.0f};
+  Math::Vector::Vec2 LeftBottom_ = {0.0f, 1.0f};
+  Math::Vector::Vec2 RightBottom_ = {1.0f, 1.0f};
+  Math::Vector::Vec2 LeftTop_ = {0.0f, 0.0f};
+  Math::Vector::Vec2 RightTop_ = {1.0f, 0.0f};
 
   uint32_t handle_ = 0;
 };

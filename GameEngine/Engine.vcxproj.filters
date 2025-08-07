@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CLEYERA\2d\LayerManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -271,6 +268,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="CLEYERA\SceneManager\SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CLEYERA\Compornent\SceneComponent.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,4 +1,4 @@
-#include "CLEYERA/CLEYERA.h"
+#include "CLEYERA.h"
 
 /// <summary>
 /// メイン関数

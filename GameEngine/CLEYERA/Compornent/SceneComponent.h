@@ -14,7 +14,7 @@ namespace Component {
 class SceneComponent {
 public:
   SceneComponent() {};
-  ~SceneComponent() {};
+  virtual ~SceneComponent() {};
 
   virtual void Init() = 0;
   virtual void Update(CLEYERA::Manager::SceneManager *ins) = 0;

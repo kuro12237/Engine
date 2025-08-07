@@ -40,13 +40,13 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -167,6 +167,7 @@
     <ClCompile Include="CLEYERA\Compornent\JsonCompornent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\ManagerCompornent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\ObjectCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\SceneComponent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\SpriteComponent.cpp" />
     <ClCompile Include="CLEYERA\DebugTools\DebugCamera.cpp" />
     <ClCompile Include="CLEYERA\DebugTools\Grid.cpp" />
@@ -232,7 +233,6 @@
     <ClCompile Include="CLEYERA\Utility\TransformBase\TransformBase.cpp" />
     <ClCompile Include="CLEYERA\Utility\World\WorldTransform.cpp" />
     <ClCompile Include="CLEYERA\WIn\WinApp.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\2d\LayerManager.h" />

@@ -51,8 +51,8 @@
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
 
-#include"DirectXTex.h"
-#include"d3dx12.h"
+#include"DirectXTex/include/DirectXTex.h"
+#include"DirectXTex/include/d3dx12.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 

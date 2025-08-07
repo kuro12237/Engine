@@ -15,15 +15,15 @@ public:
   void ImGuiUpdate();
   void Draw2d();
 
-  using SceneFactoryFunc =
-      std::function<std::unique_ptr<CLEYERA::Component::SceneComponent>()>;
+  //using SceneFactoryFunc =
+  //    std::function<std::unique_ptr<CLEYERA::Component::SceneComponent>()>;
 
-  template <typename T> void RegisterScene(const std::string &name);
+  //template <typename T> void RegisterScene(const std::string &name);
 
   void ChangeScene(const std::string &name);
 
 private:
-  std::unordered_map<std::string, SceneFactoryFunc> sceneFactoryMap_;
+  //std::unordered_map<std::string, SceneFactoryFunc> sceneFactoryMap_;
   std::unique_ptr<CLEYERA::Component::SceneComponent>currentScene_;
 
   SceneManager() = default;
@@ -32,11 +32,11 @@ private:
   const SceneManager &operator=(const SceneManager &) = delete;
 };
 
-template <typename T>
-void SceneManager::RegisterScene(const std::string &name) {
-  static_assert(std::is_base_of<CLEYERA::Component::SceneComponent, T>::value, "T must derive from IScene");
-  sceneFactoryMap_[name] = []() { return std::make_unique<T>(); };
-}
+//template <typename T>
+//void SceneManager::RegisterScene(const std::string &name) {
+//  static_assert(std::is_base_of<CLEYERA::Component::SceneComponent, T>::value, "T must derive from IScene");
+//  //sceneFactoryMap_[name] = []() { return std::make_unique<T>(); };
+//}
 
 } // namespace Manager
 } // namespace CLEYERA
