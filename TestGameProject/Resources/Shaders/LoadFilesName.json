@@ -1,0 +1,19 @@
+{
+    "Shaders": {
+
+        "ShaderTag": {
+            "PiplineName": "DF_MODEL3d",
+            "PS": "Rasterization/DFDraw3d/DFDraw3d_PS.hlsl",
+            "VS": "Rasterization/DFDraw3d/DFDraw3d_VS.hlsl",
+            "DS": "NONE",
+            "HS": "NONE",
+            "GS": "NONE",
+            "CS": "NONE",
+            "RAYGEN": "NONE",
+            "MISS": "NONE",
+            "CLOSEST_HIT": "NONE",
+            "ANY_HIT": "NONE",
+            "INTERSECTION": "NONE"
+        }
+    }
+}

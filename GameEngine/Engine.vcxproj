@@ -72,7 +72,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)..\Generated\output\$(Configuration)\$(ProjectName)\</OutDir>
-    <IntDir>$(SolutionDir)..\Generated\obj\</IntDir>
+    <IntDir>$(SolutionDir)..\Generated\obj\$(ProjectName)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)..\Generated\output\$(Configuration)\$(ProjectName)\</OutDir>
@@ -113,7 +113,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpplatest</LanguageStandard>
-      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\;$(ProjectDir)..\Externals\DirectXTex\include\;$(ProjectDir)..\Externals\ImGui\include\;$(ProjectDir)..\Externals\LuaAssets\;$(ProjectDir)..\Externals\Math\include\;$(ProjectDir)..\Externals\nlohmann\;$(ProjectDir)..\Externals\assimp\include\;$(ProjectDir)CLEYERA\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)..\Externals\;$(ProjectDir)..\Externals\DirectXTex\include\;$(ProjectDir)..\Externals\LuaAssets\;$(ProjectDir)..\Externals\nlohmann\;$(ProjectDir)CLEYERA\;$(ProjectDir)..\Externals\assimp\include\;$(ProjectDir)..\Externals\assimp\lib\Debug\;$(ProjectDir)..\Externals\Math\include\;$(ProjectDir)..\Externals\Math\lib\Debug\;$(ProjectDir)..\Externals\ImGui\include\;$(ProjectDir)..\Externals\ImGui\lib\Debug\;$(ProjectDir)..\Externals\DirectXTex\lib\Debug\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
@@ -233,6 +233,7 @@
     <ClCompile Include="CLEYERA\Utility\TransformBase\TransformBase.cpp" />
     <ClCompile Include="CLEYERA\Utility\World\WorldTransform.cpp" />
     <ClCompile Include="CLEYERA\WIn\WinApp.cpp" />
+    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\2d\LayerManager.h" />
