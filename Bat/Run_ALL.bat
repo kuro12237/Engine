@@ -4,11 +4,14 @@ setlocal
 echo Run Start
 echo directory: %cd%
 
+rem バッチ自身のあるディレクトリに移動
+cd /d %~dp0
+set "CURDIR=%cd%"
 
-rem 
-for %%f in (*.bat) do (
+rem カレントディレクトリの .bat ファイルをループ
+for %%f in ("%CURDIR%\*.bat") do (
     if /I not "%%~nxf"=="%~nx0" (
-        echo Run: %%f
+        echo Run: %%~nxf
         call "%%f"
     )
 )
