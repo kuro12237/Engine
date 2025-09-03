@@ -120,7 +120,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)..\Externals\Engine\lib\Debug\;$(ProjectDir)..\Externals\Math\lib\Debug\;$(ProjectDir)..\Externals\ImGui\lib\Debug\;$(ProjectDir)..\Externals\DirectXTex\lib\Debug\;$(ProjectDir)..\Externals\assimp\lib\Debug\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>Engine.lib;assimp-vc143.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>assimp-vc143.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -144,12 +144,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\GameObj\TestCamera.cpp" />
+    <ClCompile Include="GameObject\GameObj\TestObject.cpp" />
+    <ClCompile Include="GameObject\GameObj\TestSprite.cpp" />
+    <ClCompile Include="GameObject\TestScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine.vcxproj">
       <Project>{2e76c1f3-23e0-4603-89e6-4b2db16172d5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="GameObject\GameObj\TestCamera.h" />
+    <ClInclude Include="GameObject\GameObj\TestObject.h" />
+    <ClInclude Include="GameObject\GameObj\TestSprite.h" />
+    <ClInclude Include="GameObject\TestScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

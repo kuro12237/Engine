@@ -267,13 +267,10 @@
     <ClCompile Include="CLEYERA\CLEYERA.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="CLEYERA\SceneManager\SceneManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CLEYERA\Compornent\SceneComponent.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="CLEYERA\SceneManager\SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

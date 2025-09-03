@@ -233,7 +233,6 @@
     <ClCompile Include="CLEYERA\Utility\TransformBase\TransformBase.cpp" />
     <ClCompile Include="CLEYERA\Utility\World\WorldTransform.cpp" />
     <ClCompile Include="CLEYERA\WIn\WinApp.cpp" />
-    <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLEYERA\2d\LayerManager.h" />

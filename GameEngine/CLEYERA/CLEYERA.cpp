@@ -94,7 +94,6 @@ void Engine::Run() {
 
     End();
   }
-
 }
 
 void Engine::ImGuiUpdate() {
@@ -128,6 +127,8 @@ void Engine::Update() {
 
   debugCamera_->Update();
 
+  CLEYERA::Manager::CameraManager::GetInstance()->Update();
+
   commandManager->SetViewCommand(winApp->GetKWindowWidth(),
                                  winApp->GetKWindowHeight());
   commandManager->SetScissorCommand(winApp->GetKWindowWidth(),
@@ -135,6 +136,8 @@ void Engine::Update() {
 }
 
 void Engine::Finalize() {
+
+  sceneManager_->Finalize();
   CLEYERA::Manager::RenderManager::GetInstance()->Clear();
   CLEYERA::Manager::ObjectManager::GetInstance()->Clear();
   inputManager_->Finalize();
