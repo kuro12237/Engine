@@ -4,6 +4,7 @@ setlocal
 set "SCRIPT_DIR=%~dp0"
 cd /d "%SCRIPT_DIR%\..\"
 
+
 call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 
 
@@ -14,7 +15,7 @@ MSBuild "GameEngine\Engine.vcxproj" ^
  /m
 
 
-IF EXIST "Generated\output\Debug\Engine/Engine.lib" (
+IF EXIST "Generated\output\Debug\Engine\Engine.lib" (
     mkdir "Externals\Engine\lib\Debug" >nul 2>&1
     copy /Y "Generated\output\Debug\Engine\Engine.lib" "Externals\Engine\lib\Debug\"
 ) ELSE (
@@ -25,7 +26,5 @@ IF EXIST "Generated\output\Debug\Engine/Engine.lib" (
 set "INCLUDE_DIR=Externals\Engine\include"
 mkdir "%INCLUDE_DIR%" >nul 2>&1
 
-for /R "GameEngine\" %%f in (*.h) do (
-    copy /Y "%%f" "%INCLUDE_DIR%\"
-)
-pause
+robocopy "GameEngine" "Externals\Engine\include" *.h /S /XO
+
