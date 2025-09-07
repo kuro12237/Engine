@@ -37,10 +37,21 @@ void CLEYERA::Manager::RenderManager::Draw3d() {
         static_cast<Graphics::RasterPipline_Mode3d>(i));
     piplineManager_->SetPipline(static_cast<Graphics::RasterPipline_Mode3d>(i));
 
-    for (auto obj : objs_[static_cast<Graphics::RasterPipline_Mode3d>(i)]) {
-      auto it = obj.lock();
-      if (it) {
+    auto &list = objs_[static_cast<Graphics::RasterPipline_Mode3d>(i)];
 
+    // layerNumber 昇順にソート
+    list.sort([](const std::weak_ptr<Model3d::Game3dObject> &a,
+                 const std::weak_ptr<Model3d::Game3dObject> &b) {
+      auto pa = a.lock();
+      auto pb = b.lock();
+      if (!pa || !pb)
+        return false;
+      return pa->GetLayerNumber() < pb->GetLayerNumber();
+    });
+
+    // 描画処理
+    for (auto &obj : list) {
+      if (auto it = obj.lock()) {
         it->DrawRaster3d();
       }
     }

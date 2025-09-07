@@ -18,7 +18,7 @@ class DFModel3dDraw : public RasterPiplineCompornent {
    void SettingRootParam() override;
    void SettingSampler() override;
    void SettingInput() override;
-
+   void SettingDepth() override;
  private:
 
 	 
