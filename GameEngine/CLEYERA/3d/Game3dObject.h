@@ -40,11 +40,14 @@ public:
     return rasterMode_;
   }
   Material::ColorMaterialData &ColorData() { return colors_; }
+
+  uint32_t GetLayerNumber() { return layerNumber_; }
 #pragma endregion
 
 #pragma region Set
   void SetTexHandle(uint32_t handle) { texHandle_ = handle; }
   void SetName(const std::string &name) { name_ = &name; }
+  void SetLayerNumber(uint32_t num) { layerNumber_ = num; }
 #pragma endregion
 
 private:
@@ -71,6 +74,8 @@ private:
   uint32_t texHandle_ = 0;
 
   uint32_t ins_ = 1;
+
+  uint32_t layerNumber_ = 0;
 };
 
 template <typename T> inline void Game3dObject::ChangeMaterialMode() {

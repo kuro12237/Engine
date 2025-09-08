@@ -99,3 +99,10 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingInput() {
    inputLayoutDesc.pInputElementDescs = inputElementDesc_.data();
    inputLayoutDesc.NumElements = UINT(inputElementDesc_.size());
 }
+
+void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingDepth() {
+  despthStencilDesc_ = {};
+  despthStencilDesc_.DepthEnable = true;
+  despthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ZERO;
+  despthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+}
