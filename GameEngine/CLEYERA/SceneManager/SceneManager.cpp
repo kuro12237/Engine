@@ -29,6 +29,9 @@ void CLEYERA::Manager::SceneManager::ChangeScene(const std::string &name) {
     if (currentScene_)
       currentScene_->Finalize();
 
+    currentScene_.reset();
+    Manager::ObjectManager::GetInstance()->Clear();
+
     currentScene_ = it->second(); // シーン生成
 
     if (currentScene_)
