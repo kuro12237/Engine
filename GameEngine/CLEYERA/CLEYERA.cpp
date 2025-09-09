@@ -74,7 +74,6 @@ void Engine::Init() {
 }
 
 void Engine::Run() {
-  while (CLEYERA::Base::Win::WinApp::GetInstance()->WinMsg()) {
     Begin();
 
     PhysiceForcesUpdate();
@@ -86,14 +85,14 @@ void Engine::Run() {
 
 #ifdef _DEBUG
 
-    ImGuiUpdate();
+    //ImGuiUpdate();
 
 #endif // _DEBUG
 
     Draw();
 
     End();
-  }
+  
 }
 
 void Engine::ImGuiUpdate() {
