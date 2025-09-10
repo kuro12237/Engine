@@ -9,7 +9,7 @@ WinApp *CLEYERA::Base::Win::WinApp::GetInstance() {
 
 void WinApp::Create() {
    wc_.lpfnWndProc = WinApp::WindowProc;
-   wc_.lpszClassName = L"CLEYERA";
+   wc_.lpszClassName = L"4023_HOTLIMIT_WHITE_BREATH";
    wc_.hInstance = GetModuleHandle(nullptr);
    wc_.hCursor = LoadCursor(nullptr, IDC_ARROW);
    RegisterClass(&wc_);
