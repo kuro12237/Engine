@@ -7,7 +7,6 @@
 #include "OBBCollider.h"
 
 #include "../Object/ObjectManager.h"
-#include "../RenderManager/RenderManager.h"
 #include "Octree/Octree.h"
 
 namespace CLEYERA {

@@ -32,7 +32,6 @@ void CLEYERA::Manager::PostEffectManager::Update() {
 
 void CLEYERA::Manager::PostEffectManager::Draw() {
 
-Manager::RenderManager::GetInstance();
 
 
 }

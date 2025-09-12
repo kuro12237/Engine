@@ -56,6 +56,15 @@ void CLEYERA::Manager::ObjectManager::Update() {
       }
     }
   }
+
+  for (auto &ins : instancingData_) {
+
+    auto &it = ins.second;
+    if (!it.ins)
+      return;
+
+    it.ins->Update();
+  }
 }
 
 void CLEYERA::Manager::ObjectManager::ImGuiUpdate() {
@@ -80,10 +89,45 @@ void CLEYERA::Manager::ObjectManager::ImGuiUpdate() {
   ImGui::End();
 }
 
+void CLEYERA::Manager::ObjectManager::Draw() {
+  auto piplineManager_ = Graphics::Raster::RasterPiplineManager::GetInstance();
+  auto cameraManager_ = Manager::CameraManager::GetInstance();
+  auto lightManager = Manager::LightManager::GetInstance();
+  auto texManager_ = Manager::TexManager::GetInstance();
+  auto commandManager_ = Base::DX::DXCommandManager::GetInstace();
+
+  piplineManager_->SetRootsignature(Graphics::RasterPipline_Mode3d::DF_MODEL3d);
+  piplineManager_->SetPipline(Graphics::RasterPipline_Mode3d::DF_MODEL3d);
+
+  
+  cameraManager_->BindCommand(0);
+  // this->BindWT(1);
+  lightManager->DirectionLightCommandBind(3);
+
+  //ins消す
+  //this->BindWT(4);
+
+  cameraManager_->BindCommand(5);
+  //material_->Bind(6);
+
+  // 頂点、インデックス、形状設定
+  //model_->RasterDraw3d();
+
+
+
+  auto data = texManager_->GetTexData(0);
+  auto handle = Base::DX::DXDescripterManager::GetInstance()->GetSRVGPUHandle(
+      data.lock()->GetSrvIndex());
+  commandManager_->GraphicsDescripterTable(2, handle);
+
+  //commandManager_->DrawIndexCall(
+  //    UINT(model_->GetMeshData()->GetData().indecs.size()));
+
+}
+
 void CLEYERA::Manager::ObjectManager::LoadObjectData(const std::string &file) {
   const std::string filePath = "Resources/Configs/SceneObjectNum/" + file;
 
-  CLEYERA::Manager::RenderManager::GetInstance()->Clear();
   Clear();
 
   std::ifstream ifs(filePath);
@@ -131,8 +175,11 @@ void CLEYERA::Manager::ObjectManager::LoadObjectData(const std::string &file) {
 
       // 登録
       objects_[name][fullName] = nullptr;
+
       unUseObjsName_[name].push_back(fullName);
     }
+
+    this->CreateInstancing(name, data.objNum);
   }
 }
 
@@ -152,6 +199,8 @@ void CLEYERA::Manager::ObjectManager::DeleteObject(
     auto &nameMap = itCat->second;
     auto itName = nameMap.find(name);
     if (itName != nameMap.end()) {
+      int num = this->ExtractNumber(name);
+      this->instancingData_[category].worldData[name] = nullptr;
       itName->second.reset();
     }
   }
@@ -174,8 +223,12 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(
 
       // 登録
       objects_[category][fullName] = nullptr;
+
       unUseObjsName_[category].push_back(fullName);
     }
+
+    // instancingでーた作成
+    this->CreateInstancing(category, size);
   }
 
   // 使用可能名がないならエラー
@@ -187,11 +240,38 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(
   itCategory = unUseObjsName_.find(category);
   std::string name = itCategory->second.front();
   itCategory->second.erase(itCategory->second.begin());
+
   // 登録
   objects_[category][name] = obj;
-  RenderManager::GetInstance()->PushObj(obj->GetGameObject());
+  instancingData_[category].worldData[name] =
+      &obj->GetGameObject().lock()->GetWorldData();
+
+  int32_t number = ExtractNumber(name);
+  instancingData_[category].ins->SetWorldData(
+      instancingData_[category].worldData[name], number);
 
   // 名前とカテゴリを設定
   obj->SetName(name);
   obj->SetCategory(category);
+}
+
+void CLEYERA::Manager::ObjectManager::CreateInstancing(
+    const std::string &category, uint32_t size) {
+
+  instancingData_[category].ins =
+      std::make_unique<Model3d::InstancingGameObject>();
+  instancingData_[category].ins->Init(size);
+}
+
+int CLEYERA::Manager::ObjectManager::ExtractNumber(const std::string &key) {
+  int i = (int)key.size() - 1;
+  // 後ろから数字を探す
+  while (i >= 0 && std::isdigit(key[i])) {
+    --i;
+  }
+  if (i == (int)key.size() - 1) {
+    return 0; // 数字が無ければ 0
+  }
+  std::string numStr = key.substr(i + 1);
+  return std::stoi(numStr);
 }

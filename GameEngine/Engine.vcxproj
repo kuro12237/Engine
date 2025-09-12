@@ -153,6 +153,7 @@
     <ClCompile Include="CLEYERA\3d\Blas\Blas.cpp" />
     <ClCompile Include="CLEYERA\3d\Game3dObject.cpp" />
     <ClCompile Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.cpp" />
+    <ClCompile Include="CLEYERA\3d\InstancingObject.cpp" />
     <ClCompile Include="CLEYERA\3d\Line3d\Line3d.cpp" />
     <ClCompile Include="CLEYERA\3d\LocalRootSignature\ClosestHitRootSignature.cpp" />
     <ClCompile Include="CLEYERA\3d\LocalRootSignature\RayGenRootSignature.cpp" />
@@ -228,7 +229,6 @@
     <ClCompile Include="CLEYERA\Utility\Light\LightManager.cpp" />
     <ClCompile Include="CLEYERA\Utility\Object\ObjectManager.cpp" />
     <ClCompile Include="CLEYERA\Utility\PhysicsForces\GravityManager.cpp" />
-    <ClCompile Include="CLEYERA\Utility\RenderManager\RenderManager.cpp" />
     <ClCompile Include="CLEYERA\Utility\Terrain\Terrain.cpp" />
     <ClCompile Include="CLEYERA\Utility\TransformBase\TransformBase.cpp" />
     <ClCompile Include="CLEYERA\Utility\World\WorldTransform.cpp" />
@@ -241,6 +241,7 @@
     <ClInclude Include="CLEYERA\3d\Blas\Blas.h" />
     <ClInclude Include="CLEYERA\3d\Game3dObject.h" />
     <ClInclude Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.h" />
+    <ClInclude Include="CLEYERA\3d\InstancingObject.h" />
     <ClInclude Include="CLEYERA\3d\Line3d\Line3d.h" />
     <ClInclude Include="CLEYERA\3d\LocalRootSignature\ClosestHitRootSignature.h" />
     <ClInclude Include="CLEYERA\3d\LocalRootSignature\RayGenRootSignature.h" />
@@ -321,7 +322,6 @@
     <ClInclude Include="CLEYERA\Utility\ColliderSystem\Octree\Octree.h" />
     <ClInclude Include="CLEYERA\Utility\ColliderSystem\SCollider.h" />
     <ClInclude Include="CLEYERA\Utility\ColliderSystem\TerrainCollider.h" />
-    <ClInclude Include="CLEYERA\Utility\Easing.h" />
     <ClInclude Include="CLEYERA\Utility\FileLoader\FileLoader.h" />
     <ClInclude Include="CLEYERA\Utility\Flame\Flame.h" />
     <ClInclude Include="CLEYERA\Utility\ImGui\ImGuiCommon.h" />
@@ -334,7 +334,6 @@
     <ClInclude Include="CLEYERA\Utility\Light\LightManager.h" />
     <ClInclude Include="CLEYERA\Utility\Object\ObjectManager.h" />
     <ClInclude Include="CLEYERA\Utility\PhysicsForces\GravityManager.h" />
-    <ClInclude Include="CLEYERA\Utility\RenderManager\RenderManager.h" />
     <ClInclude Include="CLEYERA\Utility\ResourceFunc\ResourceFunc.h" />
     <ClInclude Include="CLEYERA\Utility\SceneFactory\SceneFactory.h" />
     <ClInclude Include="CLEYERA\Utility\Terrain\Terrain.h" />

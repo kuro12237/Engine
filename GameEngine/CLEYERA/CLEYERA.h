@@ -17,7 +17,6 @@
 
 #include "Utility/Camera/CameraManager.h"
 #include "Utility/Light/LightManager.h"
-#include "Utility/RenderManager/RenderManager.h"
 
 #include "DebugTools/DebugCamera.h"
 #include "DebugTools/Grid.h"

@@ -3,7 +3,6 @@
 #include "3d/Mesh/MeshData.h"
 #include "Utility/World/WorldTransform.h"
 #include "pch/Pch.h"
-#include"Utility/RenderManager/RenderManager.h"
 
 namespace CLEYERA {
 

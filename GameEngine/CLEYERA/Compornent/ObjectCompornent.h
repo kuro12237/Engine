@@ -1,7 +1,6 @@
 #pragma once
 #include "../3d/Game3dObject.h"
 #include "../3d/ModelManager/ModelManager.h"
-#include "../Utility/RenderManager/RenderManager.h"
 
 #include "../Utility/Input/InputManager.h"
 #include "Utility/Flame/Flame.h"
@@ -145,7 +144,7 @@ protected:
 
   Manager::ModelManager *modelManager_ = nullptr;
   Manager::ObjectManager *objectManager_ = nullptr;
-  Manager::RenderManager *renderManager_ = nullptr;
+  //Manager::RenderManager *renderManager_ = nullptr;
   Manager::ColliderSystem *colliderSystem_ = nullptr;
   Manager::InputManager *inputManager_ = nullptr;
 

@@ -35,7 +35,6 @@ class Terrain : public CLEYERA::Util::WorldTransform {
    std::list<std::weak_ptr<Component::ObjectComponent>> objList_;
 
    Manager::ModelManager *modelManager_ = nullptr;
-   Manager::RenderManager *renderManager_ = nullptr;
    Manager::ColliderSystem *colliderSystem_ = nullptr;
    Manager::ObjectManager *objectManager_ = nullptr;
 

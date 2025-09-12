@@ -4,13 +4,14 @@
 #define NOMINMAX
 
 /// コンパイルファイル
-
+#include <memory>
+#include <algorithm>
 #include <cassert>
 #include <thread>
-#include <algorithm>
 
 #include <cstdint>
 #include <format>
+#include <regex>
 #include <wrl.h>
 
 #include <chrono>
@@ -28,17 +29,17 @@
 #include <vector>
 
 #include <cstring>
+#include <filesystem>
 #include <fstream>
 #include <iomanip>
 #include <span>
 #include <sstream>
-#include<filesystem>
 #include <string>
 #include <type_traits>
 
-#include <iostream>
-#include <comdef.h>
 #include <Windows.h>
+#include <comdef.h>
+#include <iostream>
 #pragma comment(lib, "winmm.lib")
 
 #pragma region DirectX
@@ -51,8 +52,8 @@
 #include <dxgi1_6.h>
 #include <dxgidebug.h>
 
-#include"DirectXTex.h"
-#include"d3dx12.h"
+#include "DirectXTex.h"
+#include "d3dx12.h"
 
 #pragma comment(lib, "d3dcompiler.lib")
 

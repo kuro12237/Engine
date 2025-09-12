@@ -10,7 +10,6 @@ CLEYERA::Component::ObjectComponent::ObjectComponent() {
 
   this->modelManager_ = CLEYERA::Manager::ModelManager::GetInstance();
   this->objectManager_ = CLEYERA::Manager::ObjectManager::GetInstance();
-  this->renderManager_ = CLEYERA::Manager::RenderManager::GetInstance();
   this->inputManager_ = CLEYERA::Manager::InputManager::GetInstance();
 
   // デフォルトモデル

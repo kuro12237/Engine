@@ -2,7 +2,6 @@
 
 void CLEYERA::Manager::Terrain::Init() {
   modelManager_ = CLEYERA::Manager::ModelManager::GetInstance();
-  renderManager_ = CLEYERA::Manager::RenderManager::GetInstance();
   colliderSystem_ = CLEYERA::Manager::ColliderSystem::GetInstance();
   objectManager_ = CLEYERA::Manager::ObjectManager::GetInstance();
 
@@ -17,7 +16,6 @@ void CLEYERA::Manager::Terrain::Init() {
   gameObj_->SetName(objName_);
   this->gameObj_->Update();
 
-  renderManager_->PushObj(gameObj_);
   //objectManager_->AddObject(gameObj_);
 
   CLEYERA::Model3d::MeshData *meshData = gameObj_->GetModel().lock()->GetMeshData();
@@ -50,7 +48,6 @@ void CLEYERA::Manager::Terrain::Init() {
 
   mat_.Identity();
 
-  renderManager_->PushLine3d(line_);
 
   size_t index = 0;
 
@@ -191,8 +188,6 @@ void CLEYERA::Manager::Terrain::ChengeData(uint32_t modelHandle) {
   line_->SetMat4x4(mat_);
 
   mat_.Identity();
-
-  renderManager_->PushLine3d(line_);
 
   size_t index = 0;
 

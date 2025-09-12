@@ -1,9 +1,24 @@
 #pragma once
+#include "3d/InstancingObject.h"
 #include "Compornent/ObjectCompornent.h"
 #include "Utility/PhysicsForces/GravityManager.h"
 #include "Utility/Terrain/Terrain.h"
+#include"Graphics/RasterPipline/RasterPiplineManager.h"
 
 namespace CLEYERA {
+
+namespace Util {
+
+namespace system {
+
+struct InstancingObjectData {
+
+  std::unique_ptr<Model3d::InstancingGameObject> ins = nullptr;
+  std::map<std::string, const forWorldMat *> worldData;
+};
+
+} // namespace system
+} // namespace Util
 
 namespace Manager {
 
@@ -32,7 +47,13 @@ public:
 
   void ImGuiUpdate();
 
-  void Clear() { objects_.clear(), unUseObjsName_.clear(); }
+  void Clear() {
+    objects_.clear(), unUseObjsName_.clear();
+    instancingData_.clear();
+  }
+
+  void Draw();
+
 
   /// <summary>
   /// オブジェクトの合計数を読み込む関数
@@ -63,10 +84,16 @@ private:
   std::map<std::string,
            std::map<std::string, std::shared_ptr<Component::ObjectComponent>>>
       objects_;
+  std::map<std::string, Util::system::InstancingObjectData> instancingData_;
+
   std::map<std::string, std::vector<std::string>> unUseObjsName_;
 
   void ObjectRegister(const std::string &category, const size_t &size,
                       const std::shared_ptr<Component::ObjectComponent> &obj);
+
+  void CreateInstancing(const std::string &category, uint32_t size);
+
+  int ExtractNumber(const std::string &key);
 
 #pragma region Singleton
 

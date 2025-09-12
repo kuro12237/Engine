@@ -15,8 +15,8 @@ void TestObj::Init() {
 void TestObj::Update() {
 
 #ifdef _DEBUG
-
-  if (ImGui::TreeNode("TestObj")) {
+  ImGui::Text(name_.c_str());
+  /*if () {
 
     ImGui::DragFloat3("scale", &scale_.x);
     ImGui::DragFloat3("rotate", &rotate_.x);
@@ -25,7 +25,7 @@ void TestObj::Update() {
     ImGui::DragFloat4("color", &gameObject_->ColorData().color_.x);
 
     ImGui::TreePop();
-  }
+  }*/
 #endif // _DEBUG
 
   ///クラスを削除する際、下の状態に変更

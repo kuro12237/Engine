@@ -4,18 +4,18 @@
 #include"../../Common/WtTransform.hlsli"
 
 ConstantBuffer<SCamera> gCamera : register(b0);
-ConstantBuffer<WtTransform> gTransformform : register(b1);
+StructuredBuffer<WtTransform> gTransformform : register(t1);
 
 
 VSOutput main(VSInput input, uint32_t instanceId : SV_InstanceID)
 {
     VSOutput output;
-    float32_t4x4 resultMatrix = mul(gTransformform.worldmat, gCamera.mtxVP);
+    float32_t4x4 resultMatrix = mul(gTransformform[instanceId].worldmat, gCamera.mtxVP);
 
     output.position = mul(input.position, resultMatrix);
     output.texcoord = input.texCoord;
-    output.normal = normalize(mul(input.normal, (float32_t3x3) gTransformform.worldmat));
-    output.worldPos = mul(input.position, gTransformform.worldmat).xyz;
+    output.normal = normalize(mul(input.normal, (float32_t3x3) gTransformform[instanceId].worldmat));
+    output.worldPos = mul(input.position, gTransformform[instanceId].worldmat).xyz;
     output.instanceId = 0;
     
     return output;

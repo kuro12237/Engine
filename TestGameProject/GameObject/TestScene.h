@@ -16,8 +16,11 @@ public:
 
 
 private:
-  std::weak_ptr<TestObj> testObj_;
+  std::vector<std::weak_ptr<TestObj>> testObj_;
+
   std::shared_ptr<TestCamera> testCamera_ = nullptr;
   std::unique_ptr<TestSprite> testSprite_ = nullptr;
+
+  int num_ = 0;
 
 };

@@ -22,6 +22,7 @@ class DFModel3dDraw : public RasterPiplineCompornent {
  private:
 
 	 
+  D3D12_DESCRIPTOR_RANGE worldDescriptor[1] = {};
    D3D12_DESCRIPTOR_RANGE descriptorRangeVertices[1] = {};
 };
 

@@ -37,7 +37,7 @@ void CLEYERA::Model3d::Game3dObject::DrawRaster3d() {
    this->SetWorldTransfar();
 
    cameraManager_->BindCommand(0);
-   this->BindWT(1);
+   //this->BindWT(1);
    lightManager->DirectionLightCommandBind(3);
 
    this->BindWT(4);

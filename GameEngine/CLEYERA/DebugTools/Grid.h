@@ -1,7 +1,6 @@
 #pragma once
 #include "../3d/Game3dObject.h"
 #include "../3d/Line3d/Line3d.h"
-#include"../Utility/RenderManager/RenderManager.h"
 
 namespace CLEYERA {
 

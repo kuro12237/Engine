@@ -15,9 +15,8 @@ void CLEYERA::Manager::ColliderSystem::ImGuiUpdate() {
         auto collider = obj->GetCollider().lock();
         if (collider) {
           if (isLineDraw_) {
-            RenderManager::GetInstance()->PushLine3d(collider->GetLine());
           } else {
-            RenderManager::GetInstance()->PopLine3d(collider->GetLine());
+          
           }
         }
       }

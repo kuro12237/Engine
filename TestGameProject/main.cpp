@@ -9,7 +9,6 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
   auto scene = CLEYERA::Manager::SceneManager::GetInstance();
   auto win = CLEYERA::Base::Win::WinApp::GetInstance();
-  win->SetWindowName(L"Test");
 
   std::unique_ptr<Engine> engine_ = std::make_unique<Engine>();
   engine_->Init();

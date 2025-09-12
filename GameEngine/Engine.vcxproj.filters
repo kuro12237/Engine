@@ -249,9 +249,6 @@
     <ClCompile Include="CLEYERA\Utility\PhysicsForces\GravityManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="CLEYERA\Utility\RenderManager\RenderManager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="CLEYERA\Utility\Terrain\Terrain.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -271,6 +268,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="CLEYERA\SceneManager\SceneManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CLEYERA\3d\InstancingObject.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -560,9 +560,6 @@
     <ClInclude Include="CLEYERA\Utility\PhysicsForces\GravityManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="CLEYERA\Utility\RenderManager\RenderManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="CLEYERA\Utility\ResourceFunc\ResourceFunc.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -578,9 +575,6 @@
     <ClInclude Include="CLEYERA\Utility\World\WorldTransform.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="CLEYERA\Utility\Easing.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="CLEYERA\WIn\WinApp.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -591,6 +585,9 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="CLEYERA\SceneManager\SceneManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CLEYERA\3d\InstancingObject.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

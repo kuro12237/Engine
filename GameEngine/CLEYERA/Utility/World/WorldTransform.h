@@ -25,6 +25,8 @@ class WorldTransform : public TransformBase {
 
    void BindWT(UINT num);
 
+   system::forWorldMat &GetWorldData() { return forGpuWorldMat_; }
+
  private:
 
  protected:
