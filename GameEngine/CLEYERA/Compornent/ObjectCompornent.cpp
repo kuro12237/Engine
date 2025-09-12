@@ -12,14 +12,10 @@ CLEYERA::Component::ObjectComponent::ObjectComponent() {
   this->objectManager_ = CLEYERA::Manager::ObjectManager::GetInstance();
   this->inputManager_ = CLEYERA::Manager::InputManager::GetInstance();
 
-  // デフォルトモデル
-  uint32_t handleSphere = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
-      "Resources/Model/system/Sphere", "Sphere");
-  modelHandle_ = handleSphere;
 
   // オブジェクトの生成、scaleなどのポインタセット
   gameObject_ = std::make_shared<CLEYERA::Model3d::Game3dObject>();
-  gameObject_->Create(modelHandle_);
+  gameObject_->Create();
   gameObject_->SetScale(scale_);
   gameObject_->SetRotate(rotate_);
   gameObject_->SetTranslate(translate_);

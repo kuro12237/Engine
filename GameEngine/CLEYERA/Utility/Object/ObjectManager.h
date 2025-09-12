@@ -1,9 +1,10 @@
 #pragma once
-#include "3d/InstancingObject.h"
+#include "3d/Instancing/InstancingMaterial.h"
+#include "3d/Instancing/InstancingWorld.h"
 #include "Compornent/ObjectCompornent.h"
+#include "Graphics/RasterPipline/RasterPiplineManager.h"
 #include "Utility/PhysicsForces/GravityManager.h"
 #include "Utility/Terrain/Terrain.h"
-#include"Graphics/RasterPipline/RasterPiplineManager.h"
 
 namespace CLEYERA {
 
@@ -12,9 +13,17 @@ namespace Util {
 namespace system {
 
 struct InstancingObjectData {
+  size_t max = 1;
+  uint32_t modelHandle = 0;
+  std::weak_ptr<Model3d::Model> model;
 
-  std::unique_ptr<Model3d::InstancingGameObject> ins = nullptr;
+  std::unique_ptr<Model3d::InstancingMaterial> MaterialIns = nullptr;
+  std::map<std::string, const Model3d::Material::ColorMaterialData *>
+      MaterialData;
+  std::unique_ptr<Model3d::InstancingWorld> worldIns = nullptr;
   std::map<std::string, const forWorldMat *> worldData;
+
+  void ChangeModelData(uint32_t modelHandle_);
 };
 
 } // namespace system
@@ -54,7 +63,6 @@ public:
 
   void Draw();
 
-
   /// <summary>
   /// オブジェクトの合計数を読み込む関数
   /// </summary>
@@ -78,6 +86,10 @@ public:
            std::map<std::string, std::shared_ptr<Component::ObjectComponent>>>
   GetObjects() const {
     return objects_;
+  }
+
+  Util::system::InstancingObjectData &GetCategoryData(const std::string &name) {
+    return instancingData_[name];
   }
 
 private:

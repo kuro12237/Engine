@@ -6,13 +6,18 @@ void TestScene::Init() {
 
   objManager->LoadObjectData("test.json");
 
-  testObj_.resize(4);
+  testObj_.resize(128);
+  std::string category = VAR_NAME(TestObj);
+  uint32_t modelHandle =
+      CLEYERA::Manager::ModelManager::GetInstance()->LoadModel("Resources/Model/system/Sphere", "sphere");
 
   testObj_[0] = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
                                                   std::make_shared<TestObj>());
 
   testObj_[1] = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
                                                   std::make_shared<TestObj>());
+  objManager->GetCategoryData(category).ChangeModelData(modelHandle);
+
   num_ = 1;
   testCamera_ = std::make_shared<TestCamera>();
   testCamera_->Init();

@@ -9,7 +9,7 @@ void CLEYERA::Manager::Terrain::Init() {
 
   gameObj_ = std::make_shared<CLEYERA::Model3d::Game3dObject>();
 
-  gameObj_->Create(modelHandle_);
+  gameObj_->Create();
   gameObj_->SetScale(scaleTerrain_);
   gameObj_->SetRotate(rotateTerrain_);
   gameObj_->SetTranslate(translateTerrain_);
@@ -18,7 +18,8 @@ void CLEYERA::Manager::Terrain::Init() {
 
   //objectManager_->AddObject(gameObj_);
 
-  CLEYERA::Model3d::MeshData *meshData = gameObj_->GetModel().lock()->GetMeshData();
+  CLEYERA::Model3d::MeshData *meshData =
+      ModelManager::GetInstance()->GetModel(modelHandle_).lock()->GetMeshData();
   CLEYERA::Model3d::system::VertexData data = meshData->GetData();
   size_t triangleCount = data.indecs.size() / 3;
 
@@ -158,9 +159,10 @@ void CLEYERA::Manager::Terrain::CheckObjct() {
 void CLEYERA::Manager::Terrain::ChengeData(uint32_t modelHandle) {
 
   modelHandle_ = modelHandle;
-  gameObj_->ChangeModel(modelHandle);
+  //gameObj_->ChangeModel(modelHandle);
 
-  CLEYERA::Model3d::MeshData *meshData = gameObj_->GetModel().lock()->GetMeshData();
+  CLEYERA::Model3d::MeshData *meshData =
+      ModelManager::GetInstance()->GetModel(modelHandle_).lock()->GetMeshData();
   CLEYERA::Model3d::system::VertexData data = meshData->GetData();
   size_t triangleCount = data.indecs.size() / 3;
   triCollider_.clear();

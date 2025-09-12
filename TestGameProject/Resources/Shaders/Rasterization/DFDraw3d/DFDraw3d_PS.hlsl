@@ -19,9 +19,8 @@ struct ColorData
 
 
 ConstantBuffer<DirectionLight> gDirectionLight : register(b0);
-ConstantBuffer<WtTransform> gTransformform : register(b1);
 ConstantBuffer<SCamera> gCamera : register(b2);
-ConstantBuffer<ColorData> gColor : register(b3);
+StructuredBuffer<ColorData> gColor : register(t3);
 
 PSOutput main(VSOutput input)
 {
@@ -49,10 +48,10 @@ PSOutput main(VSOutput input)
     float Ndol = saturate(dot(N, -lightDir));
     float cos = pow(Ndol * 0.5f + 0.5f, 2.0f);
     
-    float32_t3 deffiseColor = textureColor.rgb*gColor.color_.rgb * lightColor * cos * gDirectionLight.intencity;
+    float32_t3 deffiseColor = textureColor.rgb * gColor[input.instanceId].color_.rgb * lightColor * cos * gDirectionLight.intencity;
     float32_t3 specularColor = lightColor * gDirectionLight.intencity * spec;
     outColor.rgb = deffiseColor + specularColor;
-    outColor.a = textureColor.a*gColor.color_.a;
+    outColor.a = textureColor.a * gColor[input.instanceId].color_.a;
     output.color = outColor;
     
     return output;

@@ -93,6 +93,9 @@ public:
 
   bool GetIsGravity() { return isGravity_; }
   bool GetIsTerrainHit() { return isTerrainHit_; }
+  CLEYERA::Model3d::Material::ColorMaterialData &GetColorData() {
+    return colors_;
+  }
 #pragma endregion
 
 #pragma region Set
@@ -118,10 +121,11 @@ public:
   void SetIsTerrainHit(bool f = true) { isTerrainHit_ = f; }
 
 #pragma endregion
-  void SetModelHandle(uint32_t handle) {
-    modelHandle_ = handle;
-    gameObject_->ChangeModel(handle);
-  }
+  /// <summary>
+  ///  使わない
+  /// </summary>
+  /// <param name="handle"></param>
+  void SetModelHandle(uint32_t *handle) { modelHandle_ = handle; }
 
   /// <summary>
   /// jsonパラメータSet
@@ -132,10 +136,9 @@ public:
 #pragma endregion
 
 private:
-  uint32_t modelHandle_ = 0;
-
 protected:
   using OBJ_MODE = CLEYERA::Component::ObjectComponent::OBJ_MODE;
+  uint32_t *modelHandle_ = nullptr;
 
   /// <summary>
   /// 基礎機能表示(内容Transform,json,collider)
@@ -144,7 +147,7 @@ protected:
 
   Manager::ModelManager *modelManager_ = nullptr;
   Manager::ObjectManager *objectManager_ = nullptr;
-  //Manager::RenderManager *renderManager_ = nullptr;
+  // Manager::RenderManager *renderManager_ = nullptr;
   Manager::ColliderSystem *colliderSystem_ = nullptr;
   Manager::InputManager *inputManager_ = nullptr;
 
@@ -173,6 +176,8 @@ protected:
   float friction_ = 0.5f;
   float mass_ = 1.0f;
   float bounceFactor_ = 0.5f;
+
+  CLEYERA::Model3d::Material::ColorMaterialData colors_ = {};
 
   // 当たり判定
   std::shared_ptr<Util::Collider::Collider> collider_ = nullptr;

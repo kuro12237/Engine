@@ -6,7 +6,9 @@ void CLEYERA::Model3d::Model::Init() {
    commandManager_->CommandClose();
 }
 
-void CLEYERA::Model3d::Model::Update() {}
+void CLEYERA::Model3d::Model::Update() {
+
+}
 
 void CLEYERA::Model3d::Model::RasterDraw3d() {
 

@@ -209,21 +209,21 @@ void ShaderTable::Init() {
 
 uint8_t *ShaderTable::WriteShaderRecord(uint8_t *dst, std::weak_ptr<CLEYERA::Model3d::Game3dObject> obj, UINT recordSize) {
    ComPtr<ID3D12StateObjectProperties> rtsoProps;
-   stateObject_.As(&rtsoProps);
-   auto entryBegin = dst;
-   auto shader = obj.lock()->GetModel().lock()->GetMeshData()->GetShaderName();
-   auto id = rtsoProps->GetShaderIdentifier(shader.c_str());
+   //stateObject_.As(&rtsoProps);
+   //auto entryBegin = dst;
+   //auto shader = obj.lock()->GetModel().lock()->GetMeshData()->GetShaderName();
+   //auto id = rtsoProps->GetShaderIdentifier(shader.c_str());
 
-   dst += WriteShaderIdentifier(dst, id);
-   auto descManager = CLEYERA::Base::DX::DXDescripterManager::GetInstance();
-   auto mesh = obj.lock()->GetModel().lock()->GetMeshData();
-   D3D12_GPU_DESCRIPTOR_HANDLE vb = descManager->GetSRVGPUHandle(mesh->GetVertexBufIndex());
-   D3D12_GPU_DESCRIPTOR_HANDLE ib = descManager->GetSRVGPUHandle(mesh->GetIndexBufIndex());
+   //dst += WriteShaderIdentifier(dst, id);
+   //auto descManager = CLEYERA::Base::DX::DXDescripterManager::GetInstance();
+   //auto mesh = obj.lock()->GetModel().lock()->GetMeshData();
+   //D3D12_GPU_DESCRIPTOR_HANDLE vb = descManager->GetSRVGPUHandle(mesh->GetVertexBufIndex());
+   //D3D12_GPU_DESCRIPTOR_HANDLE ib = descManager->GetSRVGPUHandle(mesh->GetIndexBufIndex());
 
-   dst += WriteGPUDescriptor(dst, ib);
-   dst += WriteGPUDescriptor(dst, vb);
+   //dst += WriteGPUDescriptor(dst, ib);
+   //dst += WriteGPUDescriptor(dst, vb);
 
-   dst = entryBegin + recordSize;
+   //dst = entryBegin + recordSize;
    return dst;
 }
 

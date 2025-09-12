@@ -43,6 +43,7 @@ class DXCommandManager {
 
    void SetTopology(D3D_PRIMITIVE_TOPOLOGY type= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
    void DrawIndexCall(UINT num);
+   void DrawIndexCall(UINT num,UINT instancedId);
    void DrawCall(UINT vertNum, UINT instanceid);
 
    void DispachRay(const D3D12_DISPATCH_RAYS_DESC &desc);

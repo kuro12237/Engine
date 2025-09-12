@@ -270,7 +270,10 @@
     <ClCompile Include="CLEYERA\SceneManager\SceneManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="CLEYERA\3d\InstancingObject.cpp">
+    <ClCompile Include="CLEYERA\3d\Instancing\InstancingWorld.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="CLEYERA\3d\Instancing\InstancingMaterial.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -587,7 +590,13 @@
     <ClInclude Include="CLEYERA\SceneManager\SceneManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="CLEYERA\3d\InstancingObject.h">
+    <ClInclude Include="CLEYERA\3d\Instancing\InstancingWorld.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CLEYERA\3d\Instancing\InstancingBase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="CLEYERA\3d\Instancing\InstancingMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -174,6 +174,7 @@ void Engine::End() {
 void Engine::PreDraw() { dxCommon_->PreDraw(); }
 
 void Engine::Draw() {
+  objectManager_->Draw();
   sceneManager_->Draw2d();
   // grid_->DrawRaster3d();
 }

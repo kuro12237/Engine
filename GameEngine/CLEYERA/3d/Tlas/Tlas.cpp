@@ -110,7 +110,7 @@ void CLEYERA::Model3d::system::Tlas::SetCreateObject(std::vector<std::weak_ptr<M
       instanceDesc_[i].InstanceMask = 0xFF;
       instanceDesc_[i].InstanceContributionToHitGroupIndex = 0;
       instanceDesc_[i].Flags = D3D12_RAYTRACING_INSTANCE_FLAG_NONE;
-      instanceDesc_[i].AccelerationStructure = it->GetModel().lock()->GetMeshData()->GetBlasBuf()->GetGPUVirtualAddress();
+      //instanceDesc_[i].AccelerationStructure = it->GetModel().lock()->GetMeshData()->GetBlasBuf()->GetGPUVirtualAddress();
 
    }
 }

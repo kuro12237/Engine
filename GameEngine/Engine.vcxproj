@@ -153,7 +153,8 @@
     <ClCompile Include="CLEYERA\3d\Blas\Blas.cpp" />
     <ClCompile Include="CLEYERA\3d\Game3dObject.cpp" />
     <ClCompile Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.cpp" />
-    <ClCompile Include="CLEYERA\3d\InstancingObject.cpp" />
+    <ClCompile Include="CLEYERA\3d\Instancing\InstancingMaterial.cpp" />
+    <ClCompile Include="CLEYERA\3d\Instancing\InstancingWorld.cpp" />
     <ClCompile Include="CLEYERA\3d\Line3d\Line3d.cpp" />
     <ClCompile Include="CLEYERA\3d\LocalRootSignature\ClosestHitRootSignature.cpp" />
     <ClCompile Include="CLEYERA\3d\LocalRootSignature\RayGenRootSignature.cpp" />
@@ -241,7 +242,9 @@
     <ClInclude Include="CLEYERA\3d\Blas\Blas.h" />
     <ClInclude Include="CLEYERA\3d\Game3dObject.h" />
     <ClInclude Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.h" />
-    <ClInclude Include="CLEYERA\3d\InstancingObject.h" />
+    <ClInclude Include="CLEYERA\3d\Instancing\InstancingMaterial.h" />
+    <ClInclude Include="CLEYERA\3d\Instancing\InstancingWorld.h" />
+    <ClInclude Include="CLEYERA\3d\Instancing\InstancingBase.h" />
     <ClInclude Include="CLEYERA\3d\Line3d\Line3d.h" />
     <ClInclude Include="CLEYERA\3d\LocalRootSignature\ClosestHitRootSignature.h" />
     <ClInclude Include="CLEYERA\3d\LocalRootSignature\RayGenRootSignature.h" />

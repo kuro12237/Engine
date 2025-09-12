@@ -10,7 +10,7 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingShader() {
 
 void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
 
-  this->rootParam_.resize(7);
+  this->rootParam_.resize(6);
 
   // かめら
   rootParam_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -29,7 +29,6 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
   rootParam_[1].DescriptorTable.pDescriptorRanges = worldDescriptor;
   rootParam_[1].DescriptorTable.NumDescriptorRanges = _countof(worldDescriptor);
 
- 
   // texDescriptorRanged
   descriptorRangeVertices[0].BaseShaderRegister = 0;
   descriptorRangeVertices[0].NumDescriptors = 1;
@@ -49,18 +48,21 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
   rootParam_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
   rootParam_[3].Descriptor.ShaderRegister = 0;
 
-  // PsWorld
   rootParam_[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
   rootParam_[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-  rootParam_[4].Descriptor.ShaderRegister = 1;
+  rootParam_[4].Descriptor.ShaderRegister = 2;
 
-  rootParam_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+  materialDescriptor[0].BaseShaderRegister = 3;
+  materialDescriptor[0].NumDescriptors = 1;
+  materialDescriptor[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+  materialDescriptor[0].OffsetInDescriptorsFromTableStart =
+      D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+  // world
+  rootParam_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
   rootParam_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-  rootParam_[5].Descriptor.ShaderRegister = 2;
-
-  rootParam_[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
-  rootParam_[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-  rootParam_[6].Descriptor.ShaderRegister = 3;
+  rootParam_[5].DescriptorTable.pDescriptorRanges = materialDescriptor;
+  rootParam_[5].DescriptorTable.NumDescriptorRanges = _countof(materialDescriptor);
 }
 
 void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingSampler() {

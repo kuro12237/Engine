@@ -172,6 +172,14 @@ void CLEYERA::Base::DX::DXCommandManager::DrawIndexCall(UINT num) {
    }
 }
 
+void CLEYERA::Base::DX::DXCommandManager::DrawIndexCall(UINT num,
+                                                        UINT instancedId) {
+  if (list_) {
+    list_->DrawIndexedInstanced(num, instancedId, 0, 0, 0);
+  }
+
+}
+
 void CLEYERA::Base::DX::DXCommandManager::DrawCall(UINT vertNum, UINT instanceid) {
 
    if (list_) {

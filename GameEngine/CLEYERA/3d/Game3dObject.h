@@ -22,7 +22,7 @@ public:
   Game3dObject() {};
   ~Game3dObject() {};
 
-  void Create(uint32_t handle);
+  void Create();
 
   void Update();
 
@@ -30,16 +30,10 @@ public:
 
   void ImGuiUpdate();
 
-  void ChangeModel(uint32_t modelHandle);
-
-  template <typename T> void ChangeMaterialMode();
-
 #pragma region Get
-  std::weak_ptr<Model> GetModel() { return model_; }
   const Graphics::RasterPipline_Mode3d &GetRasterMode() const {
     return rasterMode_;
   }
-  Material::ColorMaterialData &ColorData() { return colors_; }
 
   uint32_t GetLayerNumber() { return layerNumber_; }
 #pragma endregion
@@ -65,10 +59,6 @@ private:
 
   Base::DX::DXCommandManager *commandManager_ = nullptr;
 
-  std::shared_ptr<Model> model_ = nullptr;
-  std::unique_ptr<IMaterial> material_ = nullptr;
-
-  CLEYERA::Model3d::Material::ColorMaterialData colors_ = {};
 
   uint32_t modelHandle_ = 0;
   uint32_t texHandle_ = 0;
@@ -78,11 +68,7 @@ private:
   uint32_t layerNumber_ = 0;
 };
 
-template <typename T> inline void Game3dObject::ChangeMaterialMode() {
-  T;
-    material_ = std::make_unique<CLEYERA::Model3d::Material::ColorMaterial>();
-  material_->Create();
-}
+
 
 } // namespace Model3d
 

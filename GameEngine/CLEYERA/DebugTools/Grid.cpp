@@ -4,7 +4,7 @@ void CLEYERA::DebugTools::Grid::Init() {
 
    uint32_t modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(planePath_, planeName_);
    grid_ = std::make_shared<CLEYERA::Model3d::Game3dObject>();
-   grid_->Create(modelHandle);
+   grid_->Create();
    grid_->SetScale(scale_);
    grid_->SetRotate(rotate_);
    grid_->SetTranslate(translate_);
