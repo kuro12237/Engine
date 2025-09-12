@@ -29,6 +29,8 @@ public:
   /// <returns></returns>
   bool WinMsg();
 
+  void SetWindowName(std::wstring name) { name_ = name; }
+
 #pragma region Get
 
   static int32_t GetKWindowWidth() { return kWindowWidth; }
@@ -47,6 +49,8 @@ private:
 
   static const int32_t kWindowWidth = 1280;
   static const int32_t kWindowHeight = 720;
+
+  std::wstring name_ = L"CLEYERA";
 
   MSG msg{};
   WNDCLASS wc_{};

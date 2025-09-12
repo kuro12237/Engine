@@ -9,7 +9,7 @@ WinApp *CLEYERA::Base::Win::WinApp::GetInstance() {
 
 void WinApp::Create() {
    wc_.lpfnWndProc = WinApp::WindowProc;
-   wc_.lpszClassName = L"4023_HOTLIMIT_WHITE_BREATH";
+   wc_.lpszClassName = name_.c_str();
    wc_.hInstance = GetModuleHandle(nullptr);
    wc_.hCursor = LoadCursor(nullptr, IDC_ARROW);
    RegisterClass(&wc_);
@@ -17,7 +17,7 @@ void WinApp::Create() {
    RECT wrc = {0, 0, kWindowWidth, kWindowHeight};
    AdjustWindowRect(&wrc, WS_OVERLAPPEDWINDOW, false);
 
-   hwnd_ = CreateWindow(wc_.lpszClassName, L"4023_HOTLIMIT_WHITE_BREATH", WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, wrc.right - wrc.left, wrc.bottom - wrc.top, nullptr, nullptr, wc_.hInstance, nullptr);
+   hwnd_ = CreateWindow(wc_.lpszClassName,name_.c_str(), WS_OVERLAPPEDWINDOW, CW_USEDEFAULT, CW_USEDEFAULT, wrc.right - wrc.left, wrc.bottom - wrc.top, nullptr, nullptr, wc_.hInstance, nullptr);
    HFONT hFont = CreateFont(24, 0, 0, 0, FW_NORMAL, FALSE, FALSE, FALSE, DEFAULT_CHARSET, OUT_OUTLINE_PRECIS, CLIP_DEFAULT_PRECIS, CLEARTYPE_NATURAL_QUALITY, DEFAULT_PITCH | FF_SWISS, L"Arial");
    SendMessage(hwnd_, WM_SETFONT, (WPARAM)hFont, TRUE);
 

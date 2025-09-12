@@ -3,8 +3,7 @@
 void TestScene::Init() {
 
   auto objManager = CLEYERA::Manager::ObjectManager::GetInstance();
-  auto cameraManager = CLEYERA::Manager::CameraManager::GetInstance();
-
+ 
   testObj_ = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
                                                std::make_shared<TestObj>());
 

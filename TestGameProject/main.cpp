@@ -3,25 +3,24 @@
 #pragma comment(lib, "imgui.lib")
 #pragma comment(lib, "DirectXTex.lib")
 
-#include"GameObject/TestScene.h"
+#include "GameObject/TestScene.h"
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
+  auto scene = CLEYERA::Manager::SceneManager::GetInstance();
+  auto win = CLEYERA::Base::Win::WinApp::GetInstance();
+  win->SetWindowName(L"Test");
+
   std::unique_ptr<Engine> engine_ = std::make_unique<Engine>();
- 
   engine_->Init();
 
-  CLEYERA::Manager::SceneManager::GetInstance()->RegisterScene<TestScene>(
-      "TestScene");
+  scene->RegisterScene<TestScene>("TestScene");
+  scene->ChangeScene("TestScene");
 
-  // 地形モデルの設定
-  uint32_t modelHandle =
-      CLEYERA::Manager::ModelManager::GetInstance()->LoadModel("Resources/Model/Terrain/", "terrain");
-  CLEYERA::Manager::Terrain::GetInstance()->ChengeData(modelHandle);
+  while (win->WinMsg()) {
 
-  CLEYERA::Manager::SceneManager::GetInstance()->ChangeScene("TestScene");
-
-  engine_->Run();
+    engine_->Run();
+  }
   engine_->Finalize();
 
   return 0;
