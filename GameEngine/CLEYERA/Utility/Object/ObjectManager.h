@@ -82,10 +82,15 @@ public:
 
   void DeleteObject(std::weak_ptr<Component::ObjectComponent> obj);
 
-  std::map<std::string,
+  const std::map<std::string,
            std::map<std::string, std::shared_ptr<Component::ObjectComponent>>>
-  GetObjects() const {
+  &GetObjects() const {
     return objects_;
+  }
+
+  const std::map<std::string, Util::system::InstancingObjectData>
+  &GetInstancingData() const {
+    return instancingData_;
   }
 
   Util::system::InstancingObjectData &GetCategoryData(const std::string &name) {

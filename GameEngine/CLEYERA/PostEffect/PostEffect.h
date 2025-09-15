@@ -8,6 +8,11 @@ namespace CLEYERA {
 
 namespace Manager {
 
+namespace System {
+
+enum class PostEffectBuf { Vert, World, Albedo };
+}
+
 /// <summary>
 /// ポストエフェクト管理クラス
 /// </summary>
@@ -22,7 +27,6 @@ public:
   void Update();
   void FInalize();
 
-
   void Draw();
 
   /// <summary>
@@ -35,20 +39,26 @@ public:
   /// </summary>
   void PostDraw();
 
+  void CommandCall(const System::PostEffectBuf &mode,uint32_t num = 0);
+
+  const std::vector<Model3d::system::VertexForGPU> &GetVertData() const {
+    return vertData_;
+  }
+
 private:
-  std::unique_ptr<Base::DX::DXBufferResource<Model3d::system::VertexForGPU>> vert_;
+  std::unique_ptr<Base::DX::DXBufferResource<Model3d::system::VertexForGPU>>
+      vert_;
   std::vector<Model3d::system::VertexForGPU> vertData_;
 
-  std::unique_ptr<Util::WorldTransform> worldTransform_ = nullptr;
-  Math::Vector::Vec3 scale_ = {1.0f,1.0f,1.0f};
+  Math::Vector::Vec3 scale_ = {1.0f, 1.0f, 1.0f};
   Math::Vector::Vec3 rotate_ = {};
   Math::Vector::Vec3 translate_ = {};
 
   Math::Vector::Vec2 size_ = {1280.0f, 720.0f};
 
+  std::unique_ptr<Util::WorldTransform> worldTransform_ = nullptr;
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> albedo_;
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> depth_;
-
 };
 
 } // namespace Manager

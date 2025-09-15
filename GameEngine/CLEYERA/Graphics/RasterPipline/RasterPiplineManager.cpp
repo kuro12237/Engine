@@ -87,3 +87,40 @@ void CLEYERA::Graphics::Raster::RasterPiplineManager::SetPipline(
   }
   commandManager_->GraphicsPipelineState(state);
 }
+
+void CLEYERA::Graphics::Raster::RasterPiplineManager::
+    SetRootsignature(Graphics::PostEffect_Mode mode) {
+
+  ID3D12RootSignature *root = nullptr;
+  auto common = common_.lock();
+  if (common) {
+
+    if (mode == PostEffect_Mode::Copy) {
+      root = common->Getpipline<system::PostEffectCopy>(mode)
+                 .lock()
+                 ->GetRootSignature();
+    }
+  }
+  if (!root) {
+    assert(0);
+  }
+  commandManager_->GraphicsRootSignature(root);
+}
+
+void CLEYERA::Graphics::Raster::RasterPiplineManager::SetPipline(
+    Graphics::PostEffect_Mode mode) {
+  auto common = common_.lock();
+  ID3D12PipelineState *state = nullptr;
+
+  if (common) {
+
+    if (mode == PostEffect_Mode::Copy) {
+      state =
+          common->Getpipline<system::PostEffectCopy>(mode).lock()->GetPipline();
+    }
+  }
+  if (!state) {
+    assert(0);
+  }
+  commandManager_->GraphicsPipelineState(state);
+}

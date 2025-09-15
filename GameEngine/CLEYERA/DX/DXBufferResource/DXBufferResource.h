@@ -88,6 +88,10 @@ public:
                        D3D12_RESOURCE_FLAGS flags,
                        D3D12_RESOURCE_STATES initialState,
                        D3D12_HEAP_TYPE heapType);
+  void CreateTexture2d(Math::Vector::Vec2 size, DXGI_FORMAT format,
+                       D3D12_RESOURCE_FLAGS flags,
+                       D3D12_RESOURCE_STATES initialState,
+                       D3D12_HEAP_TYPE heapType,D3D12_CLEAR_VALUE &color);
 
   void WriteMemory(const void *pData, size_t dataSize);
 
@@ -473,6 +477,51 @@ inline void DXBufferResource<T>::CreateTexture2d(
   for (uint32_t i = 0; i < 4; i++) {
     color.Color[i] = clearColor[i];
   }
+
+  hr = device_->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
+                                        &resDesc, initialState, &color,
+                                        IID_PPV_ARGS(&buffer_));
+  assert(SUCCEEDED(hr));
+}
+
+template <typename T>
+inline void DXBufferResource<T>::CreateTexture2d(
+    Math::Vector::Vec2 size, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags,
+    D3D12_RESOURCE_STATES initialState, D3D12_HEAP_TYPE heapType,
+    D3D12_CLEAR_VALUE &color) {
+  bufState_ = initialState;
+
+  D3D12_HEAP_PROPERTIES heapProps{};
+  if (heapType == D3D12_HEAP_TYPE_DEFAULT) {
+    heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_DEFAULT,
+                                      D3D12_CPU_PAGE_PROPERTY_UNKNOWN,
+                                      D3D12_MEMORY_POOL_UNKNOWN, 1, 1};
+  }
+  if (heapType == D3D12_HEAP_TYPE_UPLOAD) {
+    heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_UPLOAD,
+                                      D3D12_CPU_PAGE_PROPERTY_UNKNOWN,
+                                      D3D12_MEMORY_POOL_UNKNOWN, 1, 1};
+  }
+  if (heapType == D3D12_HEAP_TYPE_CUSTOM) {
+    heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_CUSTOM,
+                                      D3D12_CPU_PAGE_PROPERTY_WRITE_BACK,
+                                      D3D12_MEMORY_POOL_L0, 1, 1};
+  }
+  HRESULT hr;
+  D3D12_RESOURCE_DESC resDesc{};
+  resDesc.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+  resDesc.Alignment = 0;
+  resDesc.Width = static_cast<UINT>(size.x);
+  resDesc.Height = static_cast<UINT>(size.y);
+  resDesc.DepthOrArraySize = 1;
+  resDesc.MipLevels = 1;
+  resDesc.Format = format;
+  resDesc.SampleDesc = {1, 0};
+  resDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
+  resDesc.Flags = flags;
+
+
+  color.Format = format;
 
   hr = device_->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
                                         &resDesc, initialState, &color,

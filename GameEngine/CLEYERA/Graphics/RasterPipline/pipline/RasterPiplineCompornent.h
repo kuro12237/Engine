@@ -50,6 +50,7 @@ class RasterPiplineCompornent {
    virtual void SettingDepth();
    virtual void SettingPipline();
    virtual void SettingBlend();
+   virtual void RtvSetting() {};
 
    Shader::ShaderManager *shaderManager_ = nullptr;
    RasterPipline_Mode3d mode3d_;
@@ -76,6 +77,8 @@ class RasterPiplineCompornent {
 
    std::map<Shader::ShaderMode, std::string> filePath_;
    std::map<Shader::ShaderMode, IDxcBlob *> shaders_;
+
+   std::vector<DXGI_FORMAT> rtvFormats_;
 };
 
 } // namespace system

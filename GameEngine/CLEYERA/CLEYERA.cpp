@@ -74,6 +74,9 @@ void Engine::Init() {
 
   postEffect_ = CLEYERA::Manager::PostEffectManager::GetInstance();
   postEffect_->Init();
+
+  render_ = std::make_unique<CLEYERA::Manager::RenderManager>();
+  render_->Init();
 }
 
 void Engine::Run() {
@@ -84,6 +87,15 @@ void Engine::Run() {
 
   Update();
 
+  std::vector<ID3D12DescriptorHeap *> desc = {
+      CLEYERA::Base::DX::DXDescripterManager::GetInstance()
+          ->GetSRV()
+          .lock()
+          ->GetDescripter()};
+  DXCommandManager::GetInstace()->SetDescripterHeap(desc);
+
+  Draw();
+
   PreDraw();
 
 #ifdef _DEBUG
@@ -92,7 +104,10 @@ void Engine::Run() {
 
 #endif // _DEBUG
 
-  Draw();
+  render_->PostEffectDraw();
+  sceneManager_->Draw2d();
+  CLEYERA::Utility::ImGuiManager::GetInstance()->Render();
+  dxCommon_->PostDraw();
 
   End();
 }
@@ -129,6 +144,7 @@ void Engine::Update() {
   debugCamera_->Update();
 
   CLEYERA::Manager::CameraManager::GetInstance()->Update();
+  postEffect_->Update();
 
   commandManager->SetViewCommand(winApp->GetKWindowWidth(),
                                  winApp->GetKWindowHeight());
@@ -137,6 +153,8 @@ void Engine::Update() {
 }
 
 void Engine::Finalize() {
+
+  render_.reset();
   postEffect_->FInalize();
   sceneManager_->Finalize();
   // CLEYERA::Manager::RenderManager::GetInstance()->Clear();
@@ -167,8 +185,6 @@ void Engine::Begin() {
 
 void Engine::End() {
 
-  CLEYERA::Utility::ImGuiManager::GetInstance()->Render();
-  dxCommon_->PostDraw();
   flame_->Update();
   dxCommon_->CommandReset();
 }
@@ -177,10 +193,9 @@ void Engine::PreDraw() { dxCommon_->PreDraw(); }
 
 void Engine::Draw() {
 
-  postEffect_->PreDraw();
-  objectManager_->Draw();
-  postEffect_->PostDraw();
+  render_->PreDraw();
+  render_->Draw3d();
+  render_->PostDraw();
 
-  sceneManager_->Draw2d();
   // grid_->DrawRaster3d();
 }

@@ -23,8 +23,8 @@ public:
   void SetPipline(Graphics::RasterPipline_Mode2d mode);
 
 
-  void SetPostEffectRootsignature(Graphics::PostEffect_Mode mode);
-  void SetPostEffectPipline(Graphics::PostEffect_Mode mode);
+  void SetRootsignature(Graphics::PostEffect_Mode mode);
+  void SetPipline(Graphics::PostEffect_Mode mode);
 
 #pragma region Set
   void SetCommon(std::weak_ptr<Raster::system::RasterPiplineCommon> c) { common_ = c; };

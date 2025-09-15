@@ -4,10 +4,13 @@ void CLEYERA::Graphics::Raster::system::RasterPiplineCompornent::Init() {
 
    shaderManager_ = Shader::ShaderManager::GetInstance();
    device_ = Base::DX::DXManager::GetInstance()->GetDevice();
+   rtvFormats_.resize(1);
+   rtvFormats_[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 }
 
 void CLEYERA::Graphics::Raster::system::RasterPiplineCompornent::Create() {
 
+    RtvSetting();
    SettingShader();
    SettingRootParam();
    SettingSampler();
@@ -91,8 +94,11 @@ void CLEYERA::Graphics::Raster::system::RasterPiplineCompornent::SettingPipline(
    pipelineStateDesc_.PrimitiveTopologyType = primitiveType_;
 
 
-   pipelineStateDesc_.NumRenderTargets = 1;
-   pipelineStateDesc_.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+   pipelineStateDesc_.NumRenderTargets = UINT(rtvFormats_.size());
+
+   for (size_t i = 0; i < rtvFormats_.size(); i++) {
+     pipelineStateDesc_.RTVFormats[i] = rtvFormats_[i];
+   }
 
    pipelineStateDesc_.SampleDesc.Count = 1;
    pipelineStateDesc_.SampleMask = D3D12_DEFAULT_SAMPLE_MASK;

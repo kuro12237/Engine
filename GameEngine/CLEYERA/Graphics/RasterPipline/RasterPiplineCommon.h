@@ -34,6 +34,9 @@ public:
   template <typename T> std::weak_ptr<T> Getpipline(RasterPipline_Mode2d mode) {
     return dynamic_pointer_cast<T>(piplines2d_[mode]);
   }
+  template <typename T> std::weak_ptr<T> Getpipline(PostEffect_Mode mode) {
+    return dynamic_pointer_cast<T>(piplinesPostEffect_[mode]);
+  }
 
 private:
   std::map<RasterPipline_Mode3d, std::shared_ptr<RasterPiplineCompornent>>

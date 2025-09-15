@@ -62,7 +62,8 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
   rootParam_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
   rootParam_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
   rootParam_[5].DescriptorTable.pDescriptorRanges = materialDescriptor;
-  rootParam_[5].DescriptorTable.NumDescriptorRanges = _countof(materialDescriptor);
+  rootParam_[5].DescriptorTable.NumDescriptorRanges =
+      _countof(materialDescriptor);
 }
 
 void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingSampler() {
@@ -119,4 +120,9 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingDepth() {
   despthStencilDesc_.DepthEnable = true;
   despthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
   despthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
+}
+
+void CLEYERA::Graphics::Raster::system::DFModel3dDraw::RtvSetting() {
+
+  rtvFormats_[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 }
