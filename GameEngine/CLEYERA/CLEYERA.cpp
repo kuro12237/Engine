@@ -43,7 +43,7 @@ void Engine::Init() {
   modelManager_ = CLEYERA::Manager::ModelManager::GetInstance();
   modelManager_->Init();
 
-  //CLEYERA::Manager::RenderManager::GetInstance()->Init();
+  // CLEYERA::Manager::RenderManager::GetInstance()->Init();
   CLEYERA::Manager::CameraManager::GetInstance()->Init();
 
   debugCamera_ = std::make_shared<CLEYERA::DebugTools::DebugCamera>();
@@ -71,28 +71,30 @@ void Engine::Init() {
   gravityManager_->Init();
 
   sceneManager_ = CLEYERA::Manager::SceneManager::GetInstance();
+
+  postEffect_ = CLEYERA::Manager::PostEffectManager::GetInstance();
+  postEffect_->Init();
 }
 
 void Engine::Run() {
-    Begin();
+  Begin();
 
-    PhysiceForcesUpdate();
-    sceneManager_->Update();
+  PhysiceForcesUpdate();
+  sceneManager_->Update();
 
-    Update();
+  Update();
 
-    PreDraw();
+  PreDraw();
 
 #ifdef _DEBUG
 
-    //ImGuiUpdate();
+  ImGuiUpdate();
 
 #endif // _DEBUG
 
-    Draw();
+  Draw();
 
-    End();
-  
+  End();
 }
 
 void Engine::ImGuiUpdate() {
@@ -135,9 +137,9 @@ void Engine::Update() {
 }
 
 void Engine::Finalize() {
-
+  postEffect_->FInalize();
   sceneManager_->Finalize();
-  //CLEYERA::Manager::RenderManager::GetInstance()->Clear();
+  // CLEYERA::Manager::RenderManager::GetInstance()->Clear();
   CLEYERA::Manager::ObjectManager::GetInstance()->Clear();
   inputManager_->Finalize();
   terrain_->Finalize();
@@ -174,7 +176,11 @@ void Engine::End() {
 void Engine::PreDraw() { dxCommon_->PreDraw(); }
 
 void Engine::Draw() {
+
+  postEffect_->PreDraw();
   objectManager_->Draw();
+  postEffect_->PostDraw();
+
   sceneManager_->Draw2d();
   // grid_->DrawRaster3d();
 }

@@ -35,6 +35,7 @@
 #include "Compornent/SpriteComponent.h"
 
 #include"SceneManager/SceneManager.h"
+#include"PostEffect/PostEffect.h"
 
 class Engine {
 public:
@@ -95,4 +96,6 @@ private:
 
   std::shared_ptr<CLEYERA::Base::DX::DXCommon> dxCommon_ = nullptr;
   std::shared_ptr<CLEYERA::Utility::ImGuiCommon> imGuiCommon_ = nullptr;
+
+  CLEYERA::Manager::PostEffectManager *postEffect_;
 };

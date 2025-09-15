@@ -30,65 +30,36 @@ public:
   void Update();
 
   void Map();
-
   void Map(void **p);
-
   void UnMap();
 
   void GraphicsRootDescripterTable(UINT num);
   void ComputeRootDescripterTable(UINT num);
-  void GraphicsCommand(UINT num) {
-    commandManager_->GraphicsCommandCall(num, buffer_.Get());
-  };
+  void GraphicsCommand(UINT num);
   void VBCommand();
   void IBCommand();
 
-  void RegisterRTV(D3D12_RENDER_TARGET_VIEW_DESC desc) {
-    rtvHandleIndex_ = descripterManager_->RTVAddPtr(buffer_.Get(), desc);
-    isRtvUse_ = true;
-  }
+  void RegisterRTV(D3D12_RENDER_TARGET_VIEW_DESC desc);
+  void RegisterSRV();
+  void RegisterSRV(D3D12_SHADER_RESOURCE_VIEW_DESC desc);
+  void RegisterUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC desc);
+  void RegisterDSV(D3D12_DEPTH_STENCIL_VIEW_DESC desc);
 
-  void RegisterSRV() {
+  void TransfarImage(const UINT pixCount, const UINT rowPitch,
+                     const UINT depthPitch);
 
-    D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
-    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
-    srvDesc.Format = DXGI_FORMAT_UNKNOWN;
-    srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-    srvDesc.Buffer.NumElements = static_cast<UINT>(instanceNum_);
-    srvDesc.Buffer.FirstElement = 0;
-    srvDesc.Buffer.StructureByteStride = static_cast<UINT>(sizeof(T));
-
-    srvHandleIndex_ =
-        descripterManager_->SRVAddCreatePtr(buffer_.Get(), srvDesc);
-    isSrvUse_ = true;
-  }
-
-  void RegisterSRV(D3D12_SHADER_RESOURCE_VIEW_DESC desc) {
-    srvHandleIndex_ = descripterManager_->SRVAddCreatePtr(buffer_.Get(), desc);
-    isSrvUse_ = true;
-  }
-
-  void RegisterUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC desc) {
-    srvHandleIndex_ = descripterManager_->UAVAddPtr(buffer_.Get(), desc);
-    isSrvUse_ = true;
-  }
-
-  void RegisterDSV(D3D12_DEPTH_STENCIL_VIEW_DESC desc) {
-    dsvHandleIndex_ = descripterManager_->DSVAddPtr(buffer_.Get(), desc);
-    isDsvUse_ = true;
-  }
+  void ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE Typ,
+                         D3D12_RESOURCE_BARRIER_FLAGS Flags,
+                         D3D12_RESOURCE_STATES after);
 
 #pragma region Set
-  void SetDevice(ID3D12Device5 *device) { device_ = device; }
   void SetParam(T param) { *param_ptr_ = param; }
   void SetParam(std::vector<T> param);
   void SetParam(std::vector<T *> param);
   void SetParam(std::vector<const T *> param);
 
-
-  void SetResource(ComPtr<ID3D12Resource> resource) {
-    buffer_ = std::move(resource);
-  };
+  void SetDevice(ID3D12Device5 *device) { device_ = device; }
+  void SetResource(ComPtr<ID3D12Resource> resource);
 #pragma endregion
 
 #pragma region Get
@@ -105,7 +76,8 @@ public:
   void CreateIndexBufferView();
 
   void CreateBuffer(D3D12_HEAP_TYPE heapType, D3D12_RESOURCE_STATES state);
-
+  void CreateBuffer(D3D12_HEAP_TYPE heapType, D3D12_RESOURCE_STATES state,
+                    DXGI_FORMAT format);
   void CreateBuffer(D3D12_HEAP_PROPERTIES heapParam, D3D12_HEAP_FLAGS HeapFlags,
                     D3D12_RESOURCE_DESC pDesc, D3D12_RESOURCE_STATES state,
                     D3D12_CLEAR_VALUE *value);
@@ -140,6 +112,8 @@ private:
   DXCommandManager *commandManager_ = nullptr;
   DXDescripterManager *descripterManager_ = nullptr;
   ID3D12Device5 *device_;
+
+  D3D12_RESOURCE_STATES bufState_ = {};
 };
 
 template <typename T>
@@ -178,6 +152,12 @@ inline void DXBufferResource<T>::ComputeRootDescripterTable(UINT num) {
   list->ComputeDescripterTable(num, handle);
 }
 
+template <typename T>
+inline void DXBufferResource<T>::GraphicsCommand(UINT num) {
+
+  commandManager_->GraphicsCommandCall(num, buffer_.Get());
+}
+
 template <typename T> inline void DXBufferResource<T>::VBCommand() {
   std::vector<D3D12_VERTEX_BUFFER_VIEW> view = {this->vertexBufferView_};
   commandManager_->VBCommandCall(view);
@@ -186,6 +166,79 @@ template <typename T> inline void DXBufferResource<T>::VBCommand() {
 template <typename T> inline void DXBufferResource<T>::IBCommand() {
   std::vector<D3D12_INDEX_BUFFER_VIEW> view = {this->indexBufferView_};
   commandManager_->IBCommandCall(view);
+}
+
+template <typename T>
+inline void
+DXBufferResource<T>::RegisterRTV(D3D12_RENDER_TARGET_VIEW_DESC desc) {
+  rtvHandleIndex_ = descripterManager_->RTVAddPtr(buffer_.Get(), desc);
+  isRtvUse_ = true;
+}
+
+template <typename T> inline void DXBufferResource<T>::RegisterSRV() {
+  D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+  srvDesc.ViewDimension = D3D12_SRV_DIMENSION_BUFFER;
+  srvDesc.Format = DXGI_FORMAT_UNKNOWN;
+  srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+  srvDesc.Buffer.NumElements = static_cast<UINT>(instanceNum_);
+  srvDesc.Buffer.FirstElement = 0;
+  srvDesc.Buffer.StructureByteStride = static_cast<UINT>(sizeof(T));
+
+  srvHandleIndex_ = descripterManager_->SRVAddCreatePtr(buffer_.Get(), srvDesc);
+  isSrvUse_ = true;
+}
+
+template <typename T>
+inline void
+DXBufferResource<T>::RegisterSRV(D3D12_SHADER_RESOURCE_VIEW_DESC desc) {
+  srvHandleIndex_ = descripterManager_->SRVAddCreatePtr(buffer_.Get(), desc);
+  isSrvUse_ = true;
+}
+
+template <typename T>
+inline void
+DXBufferResource<T>::RegisterUAV(D3D12_UNORDERED_ACCESS_VIEW_DESC desc) {
+  srvHandleIndex_ = descripterManager_->UAVAddPtr(buffer_.Get(), desc);
+  isSrvUse_ = true;
+}
+
+template <typename T>
+inline void
+DXBufferResource<T>::RegisterDSV(D3D12_DEPTH_STENCIL_VIEW_DESC desc) {
+  dsvHandleIndex_ = descripterManager_->DSVAddPtr(buffer_.Get(), desc);
+  isDsvUse_ = true;
+}
+
+template <typename T>
+inline void DXBufferResource<T>::TransfarImage(const UINT pixCount,
+                                               const UINT rowPitch,
+                                               const UINT depthPitch) {
+
+  UINT *img = new UINT[pixCount];
+  for (int i = 0; i < int(pixCount); i++) {
+    img[i] = 0xff0000ff;
+  }
+  HRESULT hr = {};
+  hr = buffer_->WriteToSubresource(0, nullptr, img, rowPitch, depthPitch);
+  assert(SUCCEEDED(hr));
+  delete[] img;
+}
+
+template <typename T>
+inline void
+DXBufferResource<T>::ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE Typ,
+                                       D3D12_RESOURCE_BARRIER_FLAGS Flags,
+                                       D3D12_RESOURCE_STATES after) {
+
+  D3D12_RESOURCE_BARRIER barrier{};
+  barrier.Type =Typ;
+  barrier.Flags = Flags;
+  barrier.Transition.Subresource = 0xffffffff;
+  barrier.Transition.pResource = buffer_.Get();
+  barrier.Transition.StateBefore = bufState_;
+  barrier.Transition.StateAfter = after;
+  bufState_ = after;
+  commandManager_->Barrier(barrier);
 }
 
 template <typename T>
@@ -210,7 +263,6 @@ inline void DXBufferResource<T>::SetParam(std::vector<T *> param) {
   }
 }
 
-
 template <typename T>
 inline void DXBufferResource<T>::SetParam(std::vector<const T *> param) {
 
@@ -225,6 +277,10 @@ inline void DXBufferResource<T>::SetParam(std::vector<const T *> param) {
   }
 }
 
+template <typename T>
+inline void DXBufferResource<T>::SetResource(ComPtr<ID3D12Resource> resource) {
+  buffer_ = std::move(resource);
+}
 
 template <typename T>
 inline void DXBufferResource<T>::BaindComuputeCBV(UINT num) {
@@ -262,6 +318,8 @@ inline void DXBufferResource<T>::CreateBuffer(D3D12_HEAP_TYPE heapType,
                                       D3D12_MEMORY_POOL_UNKNOWN, 1, 1};
   }
 
+  bufState_ = state;
+
   D3D12_RESOURCE_DESC ResourceDesc{};
   ResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
   ResourceDesc.Width = sizeInbyte;
@@ -273,7 +331,45 @@ inline void DXBufferResource<T>::CreateBuffer(D3D12_HEAP_TYPE heapType,
 
   [[maybe_unused]] HRESULT hr = {};
   hr = device_->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
-                                        &ResourceDesc, state, nullptr,
+                                        &ResourceDesc, bufState_, nullptr,
+                                        IID_PPV_ARGS(&buffer_));
+  assert(SUCCEEDED(hr));
+}
+
+template <typename T>
+inline void DXBufferResource<T>::CreateBuffer(D3D12_HEAP_TYPE heapType,
+                                              D3D12_RESOURCE_STATES state,
+                                              DXGI_FORMAT format) {
+
+  size_t sizeInbyte = sizeof(T) * instanceNum_;
+
+  bufState_ = state;
+
+  D3D12_HEAP_PROPERTIES heapProps{};
+  if (heapType == D3D12_HEAP_TYPE_DEFAULT) {
+    heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_DEFAULT,
+                                      D3D12_CPU_PAGE_PROPERTY_UNKNOWN,
+                                      D3D12_MEMORY_POOL_UNKNOWN, 1, 1};
+  }
+  if (heapType == D3D12_HEAP_TYPE_UPLOAD) {
+    heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_UPLOAD,
+                                      D3D12_CPU_PAGE_PROPERTY_UNKNOWN,
+                                      D3D12_MEMORY_POOL_UNKNOWN, 1, 1};
+  }
+
+  D3D12_RESOURCE_DESC ResourceDesc{};
+  ResourceDesc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+  ResourceDesc.Width = sizeInbyte;
+  ResourceDesc.Height = 1;
+  ResourceDesc.DepthOrArraySize = 1;
+  ResourceDesc.MipLevels = 1;
+  ResourceDesc.SampleDesc.Count = 1;
+  ResourceDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+  ResourceDesc.Format = format;
+
+  [[maybe_unused]] HRESULT hr = {};
+  hr = device_->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
+                                        &ResourceDesc, bufState_, nullptr,
                                         IID_PPV_ARGS(&buffer_));
   assert(SUCCEEDED(hr));
 }
@@ -285,8 +381,10 @@ inline void DXBufferResource<T>::CreateBuffer(D3D12_HEAP_PROPERTIES heapParam,
                                               D3D12_RESOURCE_STATES state,
                                               D3D12_CLEAR_VALUE *value) {
 
+  bufState_ = state;
+
   [[maybe_unused]] HRESULT hr = device_->CreateCommittedResource(
-      &heapParam, HeapFlags, &pDesc, state, value, IID_PPV_ARGS(&buffer_));
+      &heapParam, HeapFlags, &pDesc, bufState_, value, IID_PPV_ARGS(&buffer_));
   assert(SUCCEEDED(hr));
 }
 
@@ -322,6 +420,8 @@ DXBufferResource<T>::DFCreateBuffer(size_t size, D3D12_RESOURCE_FLAGS flags,
   resDesc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
   resDesc.Flags = flags;
 
+  bufState_ = initialState;
+
   hr = device_->CreateCommittedResource(
       &heapProps, D3D12_HEAP_FLAG_NONE, &resDesc, initialState, nullptr,
       IID_PPV_ARGS(buffer_.ReleaseAndGetAddressOf()));
@@ -333,6 +433,8 @@ inline void DXBufferResource<T>::CreateTexture2d(
     Math::Vector::Vec2 size, DXGI_FORMAT format, D3D12_RESOURCE_FLAGS flags,
     D3D12_RESOURCE_STATES initialState, D3D12_HEAP_TYPE heapType) {
 
+  bufState_ = initialState;
+
   D3D12_HEAP_PROPERTIES heapProps{};
   if (heapType == D3D12_HEAP_TYPE_DEFAULT) {
     heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_DEFAULT,
@@ -343,6 +445,11 @@ inline void DXBufferResource<T>::CreateTexture2d(
     heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_UPLOAD,
                                       D3D12_CPU_PAGE_PROPERTY_UNKNOWN,
                                       D3D12_MEMORY_POOL_UNKNOWN, 1, 1};
+  }
+  if (heapType == D3D12_HEAP_TYPE_CUSTOM) {
+    heapProps = D3D12_HEAP_PROPERTIES{D3D12_HEAP_TYPE_CUSTOM,
+                                      D3D12_CPU_PAGE_PROPERTY_WRITE_BACK,
+                                      D3D12_MEMORY_POOL_L0, 1, 1};
   }
   HRESULT hr;
   D3D12_RESOURCE_DESC resDesc{};
@@ -357,8 +464,18 @@ inline void DXBufferResource<T>::CreateTexture2d(
   resDesc.Layout = D3D12_TEXTURE_LAYOUT_UNKNOWN;
   resDesc.Flags = flags;
 
+  // 色
+  D3D12_CLEAR_VALUE color = {};
+
+  const float clearColor[4] = {0.25f, 0.5f, 0.1f, 0.0f};
+
+  color.Format = format;
+  for (uint32_t i = 0; i < 4; i++) {
+    color.Color[i] = clearColor[i];
+  }
+
   hr = device_->CreateCommittedResource(&heapProps, D3D12_HEAP_FLAG_NONE,
-                                        &resDesc, initialState, nullptr,
+                                        &resDesc, initialState, &color,
                                         IID_PPV_ARGS(&buffer_));
   assert(SUCCEEDED(hr));
 }

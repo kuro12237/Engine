@@ -36,7 +36,7 @@ protected:
 
   ComPtr<ID3D12DescriptorHeap> descripter_ = nullptr;
 
-  int32_t descripterSize_ = 1024;
+  int32_t descripterSize_ = 4096;
 
   D3D12_DESCRIPTOR_HEAP_TYPE type_;
   size_t handleIndex_ = 0;

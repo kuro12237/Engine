@@ -16,7 +16,7 @@ VSOutput main(VSInput input, uint32_t instanceId : SV_InstanceID)
     output.texcoord = input.texCoord;
     output.normal = normalize(mul(input.normal, (float32_t3x3) gTransformform[instanceId].worldmat));
     output.worldPos = mul(input.position, gTransformform[instanceId].worldmat).xyz;
-    output.instanceId = 0;
+    output.instanceId = instanceId;
     
     return output;
 }

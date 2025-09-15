@@ -19,8 +19,9 @@ public:
   }
 
   void Init();
-
   void Update();
+  void FInalize();
+
 
   void Draw();
 
@@ -43,10 +44,11 @@ private:
   Math::Vector::Vec3 rotate_ = {};
   Math::Vector::Vec3 translate_ = {};
 
+  Math::Vector::Vec2 size_ = {1280.0f, 720.0f};
+
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> albedo_;
-  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> normal_;
-  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> metalnessxRoghness_;
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> depth_;
+
 };
 
 } // namespace Manager

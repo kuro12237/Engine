@@ -16,20 +16,34 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::Init() {
 
   // LoadJson();
   fileNames_[RasterPipline_Mode3d::DF_MODEL3d].PiplineName = "DF_MODEL3d";
-  fileNames_[RasterPipline_Mode3d::DF_MODEL3d].PS = "Rasterization/DFDraw3d/DFDraw3d_PS.hlsl";
-  fileNames_[RasterPipline_Mode3d::DF_MODEL3d].VS = "Rasterization/DFDraw3d/DFDraw3d_VS.hlsl";
+  fileNames_[RasterPipline_Mode3d::DF_MODEL3d].PS =
+      "Rasterization/DFDraw3d/DFDraw3d_PS.hlsl";
+  fileNames_[RasterPipline_Mode3d::DF_MODEL3d].VS =
+      "Rasterization/DFDraw3d/DFDraw3d_VS.hlsl";
 
   fileNames_[RasterPipline_Mode3d::LINE3d].PiplineName = "LINE3d";
-  fileNames_[RasterPipline_Mode3d::LINE3d].PS = "Rasterization/Line3d/LineDraw3d_PS.hlsl";
-  fileNames_[RasterPipline_Mode3d::LINE3d].VS = "Rasterization/Line3d/LineDraw3d_VS.hlsl";
+  fileNames_[RasterPipline_Mode3d::LINE3d].PS =
+      "Rasterization/Line3d/LineDraw3d_PS.hlsl";
+  fileNames_[RasterPipline_Mode3d::LINE3d].VS =
+      "Rasterization/Line3d/LineDraw3d_VS.hlsl";
 
   fileNames2d_[RasterPipline_Mode2d::Normal].PiplineName = "Normal";
-  fileNames2d_[RasterPipline_Mode2d::Normal].PS = "Rasterization/DFDraw2d/DFDraw2d_PS.hlsl";
-  fileNames2d_[RasterPipline_Mode2d::Normal].VS = "Rasterization/DFDraw2d/DFDraw2d_VS.hlsl";
+  fileNames2d_[RasterPipline_Mode2d::Normal].PS =
+      "Rasterization/DFDraw2d/DFDraw2d_PS.hlsl";
+  fileNames2d_[RasterPipline_Mode2d::Normal].VS =
+      "Rasterization/DFDraw2d/DFDraw2d_VS.hlsl";
+
+  this->fileNamesPostEffect_[PostEffect_Mode::Copy].PiplineName = "Copy";
+  fileNamesPostEffect_[PostEffect_Mode::Copy].PS =
+      "PostEffect/Copy/PostEffectCopy_PS.hlsl";
+  fileNamesPostEffect_[PostEffect_Mode::Copy].VS =
+      "PostEffect/Copy/PostEffectCopy_VS.hlsl";
 
   for (int i = 1; i < static_cast<int>(RasterPipline_Mode3d::kNum); i++) {
     auto mode = static_cast<RasterPipline_Mode3d>(i);
     compornemts_[mode] = std::make_shared<ShaderCompornent>();
+    compornemts_[mode]->SetType(PiplineType::Model);
+
     compornemts_[mode]->SetRasterMode(mode);
 
     compornemts_[mode]->ShaderFilePath(ShaderMode::PS, fileNames_[mode].PS);
@@ -38,11 +52,15 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::Init() {
     compornemts_[mode]->ShaderFilePath(ShaderMode::GS, fileNames_[mode].GS);
     compornemts_[mode]->ShaderFilePath(ShaderMode::HS, fileNames_[mode].HS);
     compornemts_[mode]->ShaderFilePath(ShaderMode::CS, fileNames_[mode].CS);
-    compornemts_[mode]->ShaderFilePath(ShaderMode::RAYGEN, fileNames_[mode].RAYGEN);
-    compornemts_[mode]->ShaderFilePath(ShaderMode::CLOSEST_HIT, fileNames_[mode].CLOSEST_HIT);
-    compornemts_[mode]->ShaderFilePath(ShaderMode::ANY_HIT, fileNames_[mode].ANY_HIT);
+    compornemts_[mode]->ShaderFilePath(ShaderMode::RAYGEN,
+                                       fileNames_[mode].RAYGEN);
+    compornemts_[mode]->ShaderFilePath(ShaderMode::CLOSEST_HIT,
+                                       fileNames_[mode].CLOSEST_HIT);
+    compornemts_[mode]->ShaderFilePath(ShaderMode::ANY_HIT,
+                                       fileNames_[mode].ANY_HIT);
     compornemts_[mode]->ShaderFilePath(ShaderMode::MISS, fileNames_[mode].MISS);
-    compornemts_[mode]->ShaderFilePath(ShaderMode::INTERSECTION, fileNames_[mode].INTERSECTION);
+    compornemts_[mode]->ShaderFilePath(ShaderMode::INTERSECTION,
+                                       fileNames_[mode].INTERSECTION);
 
     compornemts_[mode]->Init(this);
   }
@@ -50,8 +68,9 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::Init() {
   for (int i = 1; i < static_cast<int>(RasterPipline_Mode2d::kNum); i++) {
     auto mode = static_cast<RasterPipline_Mode2d>(i);
     compornemts2d_[mode] = std::make_shared<ShaderCompornent>();
+
+     compornemts2d_[mode]->SetType(PiplineType::Sprite);
     compornemts2d_[mode]->SetRasterMode(mode);
-    compornemts2d_[mode]->SetIsUse2d(true);
 
     compornemts2d_[mode]->ShaderFilePath(ShaderMode::PS, fileNames2d_[mode].PS);
     compornemts2d_[mode]->ShaderFilePath(ShaderMode::VS, fileNames2d_[mode].VS);
@@ -59,13 +78,50 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::Init() {
     compornemts2d_[mode]->ShaderFilePath(ShaderMode::GS, fileNames2d_[mode].GS);
     compornemts2d_[mode]->ShaderFilePath(ShaderMode::HS, fileNames2d_[mode].HS);
     compornemts2d_[mode]->ShaderFilePath(ShaderMode::CS, fileNames2d_[mode].CS);
-    compornemts2d_[mode]->ShaderFilePath(ShaderMode::RAYGEN, fileNames2d_[mode].RAYGEN);
-    compornemts2d_[mode]->ShaderFilePath(ShaderMode::CLOSEST_HIT, fileNames2d_[mode].CLOSEST_HIT);
-    compornemts2d_[mode]->ShaderFilePath(ShaderMode::ANY_HIT, fileNames2d_[mode].ANY_HIT);
-    compornemts2d_[mode]->ShaderFilePath(ShaderMode::MISS, fileNames2d_[mode].MISS);
-    compornemts2d_[mode]->ShaderFilePath(ShaderMode::INTERSECTION, fileNames2d_[mode].INTERSECTION);
+    compornemts2d_[mode]->ShaderFilePath(ShaderMode::RAYGEN,
+                                         fileNames2d_[mode].RAYGEN);
+    compornemts2d_[mode]->ShaderFilePath(ShaderMode::CLOSEST_HIT,
+                                         fileNames2d_[mode].CLOSEST_HIT);
+    compornemts2d_[mode]->ShaderFilePath(ShaderMode::ANY_HIT,
+                                         fileNames2d_[mode].ANY_HIT);
+    compornemts2d_[mode]->ShaderFilePath(ShaderMode::MISS,
+                                         fileNames2d_[mode].MISS);
+    compornemts2d_[mode]->ShaderFilePath(ShaderMode::INTERSECTION,
+                                         fileNames2d_[mode].INTERSECTION);
 
     compornemts2d_[mode]->Init(this);
+  }
+
+  for (int i = 1; i < static_cast<int>(PostEffect_Mode::kNum); i++) {
+    auto mode = static_cast<PostEffect_Mode>(i);
+    compornemtsPostEffect_[mode] = std::make_shared<ShaderCompornent>();
+    compornemtsPostEffect_[mode]->SetRasterMode(mode);
+    compornemtsPostEffect_[mode]->SetType(PiplineType::PostEffect);
+
+    compornemtsPostEffect_[mode]->ShaderFilePath(ShaderMode::PS,
+                                                 fileNamesPostEffect_[mode].PS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(ShaderMode::VS,
+                                                 fileNamesPostEffect_[mode].VS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(ShaderMode::DS,
+                                                 fileNamesPostEffect_[mode].DS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(ShaderMode::GS,
+                                                 fileNamesPostEffect_[mode].GS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(ShaderMode::HS,
+                                                 fileNamesPostEffect_[mode].HS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(ShaderMode::CS,
+                                                 fileNamesPostEffect_[mode].CS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(
+        ShaderMode::RAYGEN, fileNamesPostEffect_[mode].RAYGEN);
+    compornemtsPostEffect_[mode]->ShaderFilePath(
+        ShaderMode::CLOSEST_HIT, fileNamesPostEffect_[mode].CLOSEST_HIT);
+    compornemtsPostEffect_[mode]->ShaderFilePath(
+        ShaderMode::ANY_HIT, fileNamesPostEffect_[mode].ANY_HIT);
+    compornemtsPostEffect_[mode]->ShaderFilePath(
+        ShaderMode::MISS, fileNamesPostEffect_[mode].MISS);
+    compornemtsPostEffect_[mode]->ShaderFilePath(
+        ShaderMode::INTERSECTION, fileNamesPostEffect_[mode].INTERSECTION);
+
+    compornemtsPostEffect_[mode]->Init(this);
   }
 }
 
@@ -102,7 +158,8 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::LoadJson() {
 
   std::cout << "Number of shader entries: " << itGroup->size() << std::endl;
 
-  for (nlohmann::json::iterator itItem = itGroup->begin(); itItem != itGroup->end(); ++itItem) {
+  for (nlohmann::json::iterator itItem = itGroup->begin();
+       itItem != itGroup->end(); ++itItem) {
 
     if (itItem->is_object()) {
       ShaderTag tag = itItem.value();
@@ -111,7 +168,8 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::LoadJson() {
   }
 }
 
-void CLEYERA::Graphics::Shader::system::ShaderCommon::SetShaderName(const ShaderTag &tag) {
+void CLEYERA::Graphics::Shader::system::ShaderCommon::SetShaderName(
+    const ShaderTag &tag) {
 
   std::string pip = tag.PiplineName;
 
@@ -151,7 +209,8 @@ CLEYERA::Graphics::Shader::system::ShaderCommon::TagHandler(std::string tag) {
 }
 
 CLEYERA::Graphics::RasterPipline_Mode3d
-CLEYERA::Graphics::Shader::system::ShaderCommon::RasterHandler(std::string tag) {
+CLEYERA::Graphics::Shader::system::ShaderCommon::RasterHandler(
+    std::string tag) {
 
   if (tag == "DF_MODEL3d") {
     return RasterPipline_Mode3d::DF_MODEL3d;

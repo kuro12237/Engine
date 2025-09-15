@@ -4,9 +4,11 @@
 
 #include "../../SystemLogManager/ConvertString.h"
 
+#include "pipline/2d/DF/DFSprite2dDraw.h"
 #include "pipline/DF/DFModel3dDraw.h"
 #include "pipline/Line/Line3dDraw.h"
-#include"pipline/2d/DF/DFSprite2dDraw.h"
+#include"pipline/PostEffect/PostEffectCopy.h"
+
 
 namespace CLEYERA {
 
@@ -34,8 +36,12 @@ public:
   }
 
 private:
-  std::map<RasterPipline_Mode3d, std::shared_ptr<RasterPiplineCompornent>> piplines3d_;
-  std::map<RasterPipline_Mode2d, std::shared_ptr<RasterPiplineCompornent>> piplines2d_;
+  std::map<RasterPipline_Mode3d, std::shared_ptr<RasterPiplineCompornent>>
+      piplines3d_;
+  std::map<RasterPipline_Mode2d, std::shared_ptr<RasterPiplineCompornent>>
+      piplines2d_;
+  std::map<PostEffect_Mode, std::shared_ptr<RasterPiplineCompornent>>
+      piplinesPostEffect_;
 };
 
 } // namespace system

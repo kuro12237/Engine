@@ -5,7 +5,7 @@ void CLEYERA::Graphics::RaytracingManager::Create() {
    commandManager_ = CLEYERA::Base::DX::DXCommandManager::GetInstace();
    descripterManager_ = CLEYERA::Base::DX::DXDescripterManager::GetInstance();
 
-   CreateOutPutUAV();
+   //CreateOutPutUAV();
 
    barrier_.Transition.StateBefore = D3D12_RESOURCE_STATE_RENDER_TARGET;
    barrier_.Transition.StateAfter = D3D12_RESOURCE_STATE_COPY_DEST;

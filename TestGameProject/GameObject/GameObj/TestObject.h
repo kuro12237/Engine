@@ -15,5 +15,9 @@ public:
   /// </summary>
   void OnCollision(std::weak_ptr<ObjectComponent> other);
 
+  void SetPos(const Math::Vector::Vec3 &pos) { translate_ = pos; }
+
 private:
+  float lifeTime_ = 0.0f;
+  float lifeMax_ = 2.0f;
 };

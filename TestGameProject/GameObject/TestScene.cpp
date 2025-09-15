@@ -1,5 +1,6 @@
 #include "TestScene.h"
 
+uint32_t modelHandle = 0;
 void TestScene::Init() {
 
   auto objManager = CLEYERA::Manager::ObjectManager::GetInstance();
@@ -8,14 +9,8 @@ void TestScene::Init() {
 
   testObj_.resize(128);
   std::string category = VAR_NAME(TestObj);
-  uint32_t modelHandle =
-      CLEYERA::Manager::ModelManager::GetInstance()->LoadModel("Resources/Model/system/Sphere", "sphere");
-
-  testObj_[0] = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
-                                                  std::make_shared<TestObj>());
-
-  testObj_[1] = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
-                                                  std::make_shared<TestObj>());
+  modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
+      "Resources/Model/system/Sphere", "sphere");
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
 
   num_ = 1;
@@ -24,11 +19,26 @@ void TestScene::Init() {
 
   testSprite_ = std::make_unique<TestSprite>();
   testSprite_->Init();
+
+     for (size_t i = 0; i < 999; i++) {
+
+    auto obj = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
+                                                 std::make_shared<TestObj>());
+    obj.lock()->SetPos(this->GenerateSpawnPos());
+  }
 }
 
 void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
   ins;
   auto objManager = CLEYERA::Manager::ObjectManager::GetInstance();
+
+  spawnInterval_ += 1.0f / 60.0f;
+
+  if (spawnInterval_ >= 1.0f) {
+
+   
+    spawnInterval_ = 0.0f;
+  }
 
 #ifdef _DEBUG
 

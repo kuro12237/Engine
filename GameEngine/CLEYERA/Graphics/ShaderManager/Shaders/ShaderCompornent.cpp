@@ -12,11 +12,24 @@ void CLEYERA::Graphics::Shader::system::ShaderCompornent::Init(ShaderCommon *man
    ShaderTag tag;
 
 
-   if (!isUse2d_) {
+   switch (type_) {
+   case CLEYERA::Graphics::Shader::system::PiplineType::Model:
+
      tag = manager->GetFIleName(rasterMode_);
-   } else {
+     break;
+   case CLEYERA::Graphics::Shader::system::PiplineType::Sprite:
+
      tag = manager->GetFIleName(rasterMode2d_);
+     break;
+   case CLEYERA::Graphics::Shader::system::PiplineType::PostEffect:
+
+     tag = manager->GetFIleName(rasterPostMode_);
+     break;
+   default:
+     break;
    }
+
+
 
    std::string none = "NONE";
    std::string Directory = "Resources/Shaders/";

@@ -11,7 +11,7 @@ enum class RasterPipline_Mode3d { NONE = 0, DF_MODEL3d = 1, LINE3d, kNum };
 
 enum class RasterPipline_Mode2d { NONE = 0, Normal = 1, kNum };
 
-enum class PostEffect_Mode { Copy = 0 };
+enum class PostEffect_Mode { NONE = 0, Copy = 1, kNum };
 
 } // namespace Graphics
 } // namespace CLEYERA

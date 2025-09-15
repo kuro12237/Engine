@@ -19,6 +19,9 @@ public:
   void SettingRootParam() override;
   void SettingSampler() override;
   void SettingInput() override;
+
+
+  D3D12_DESCRIPTOR_RANGE descriptorRangeVertices[1] = {};
 };
 
 } // namespace system

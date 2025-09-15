@@ -28,18 +28,22 @@ public:
 
   void SetRasterMode(CLEYERA::Graphics::RasterPipline_Mode3d mode) { rasterMode_ = mode; }
   void SetRasterMode(CLEYERA::Graphics::RasterPipline_Mode2d mode) { rasterMode2d_ = mode; }
+  void SetRasterMode(CLEYERA::Graphics::PostEffect_Mode mode) {
+    rasterPostMode_ = mode;
+  }
 
-  void SetIsUse2d(bool f) { isUse2d_ = f; }
+  void SetType(system::PiplineType type) { type_ = type; }
 
 private:
   Graphics::RasterPipline_Mode3d rasterMode_;
   Graphics::RasterPipline_Mode2d rasterMode2d_;
+  Graphics::PostEffect_Mode rasterPostMode_;
 
   IDxcIncludeHandler *includeHandler_ = nullptr;
   IDxcUtils *utils_ = nullptr;
   IDxcCompiler3 *compiler_ = nullptr;
 
-  bool isUse2d_ = false;
+  system::PiplineType type_ = system::PiplineType::Model;
 
   std::map<std::string, CLEYERA::Graphics::Shader::ShaderMode> shaderFilePath_;
   std::map<CLEYERA::Graphics::Shader::ShaderMode, ComPtr<IDxcBlob>> shaders_;

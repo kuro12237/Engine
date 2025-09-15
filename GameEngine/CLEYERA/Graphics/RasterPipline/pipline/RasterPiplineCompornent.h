@@ -22,6 +22,7 @@ class RasterPiplineCompornent {
 
    void SetMode(RasterPipline_Mode3d mode) { mode3d_ = mode; }
    void SetMode(RasterPipline_Mode2d mode) { mode2d_ = mode; }
+   void SetMode(PostEffect_Mode mode) { postEffectMode_ = mode; }
 
 #pragma region Get
    ID3D12PipelineState *GetPipline() { return GraphicsPipelineState_.Get(); }
@@ -53,6 +54,7 @@ class RasterPiplineCompornent {
    Shader::ShaderManager *shaderManager_ = nullptr;
    RasterPipline_Mode3d mode3d_;
    RasterPipline_Mode2d mode2d_;
+   PostEffect_Mode postEffectMode_;
 
    D3D12_ROOT_SIGNATURE_DESC descriptionRootSignature_{};
    std::vector<D3D12_ROOT_PARAMETER> rootParam_;

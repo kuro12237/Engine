@@ -110,20 +110,21 @@ void CLEYERA::Manager::ObjectManager::Draw() {
     auto &it = data.second;
 
     cameraManager_->BindCommand(0);
-    // this->BindWT(1);
+
     it.worldIns->Command(1);
-    lightManager->DirectionLightCommandBind(3);
 
-    cameraManager_->BindCommand(4);
-    // material_->Bind(5);
-    it.MaterialIns->Command(5);
-    // 頂点、インデックス、形状設定
-    it.model.lock()->RasterDraw3d();
-
-    auto data = texManager_->GetTexData(0);
+    auto data = texManager_->GetTexData(it.model.lock()->GetTexHandle());
     auto handle = Base::DX::DXDescripterManager::GetInstance()->GetSRVGPUHandle(
         data.lock()->GetSrvIndex());
     commandManager_->GraphicsDescripterTable(2, handle);
+
+    lightManager->DirectionLightCommandBind(3);
+
+    cameraManager_->BindCommand(4);
+
+    it.MaterialIns->Command(5);
+    // 頂点、インデックス、形状設定
+    it.model.lock()->RasterDraw3d();
 
     commandManager_->DrawIndexCall(
         UINT(it.model.lock()->GetMeshData()->GetData().indecs.size()), it.max);
@@ -205,8 +206,11 @@ void CLEYERA::Manager::ObjectManager::DeleteObject(
     auto itName = nameMap.find(name);
     if (itName != nameMap.end()) {
       int num = this->ExtractNumber(name);
+      this->instancingData_[category].worldIns->DelateData(num);
       this->instancingData_[category].worldData[name] = nullptr;
       this->instancingData_[category].MaterialData[name] = nullptr;
+
+      this->instancingData_[category].MaterialIns->DelateData(num);
       itName->second.reset();
     }
   }

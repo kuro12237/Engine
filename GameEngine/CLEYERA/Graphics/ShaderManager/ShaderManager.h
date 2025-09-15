@@ -25,7 +25,10 @@ class ShaderManager {
    IDxcBlob *GetShader(Graphics::RasterPipline_Mode2d pipMode, Shader::ShaderMode shaderMode) {
      return common_.lock()->GetBlob(pipMode, shaderMode);
    }
-
+   IDxcBlob *GetShader(Graphics::PostEffect_Mode pipMode,
+                       Shader::ShaderMode shaderMode) {
+     return common_.lock()->GetBlob(pipMode, shaderMode);
+   }
  private:
 
 
