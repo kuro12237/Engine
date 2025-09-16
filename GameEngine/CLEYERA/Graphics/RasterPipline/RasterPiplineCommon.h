@@ -6,6 +6,9 @@
 
 #include "pipline/2d/DF/DFSprite2dDraw.h"
 #include "pipline/DF/DFModel3dDraw.h"
+
+#include "pipline/DF/NormalModelDraw.h"
+
 #include "pipline/Line/Line3dDraw.h"
 #include"pipline/PostEffect/PostEffectCopy.h"
 

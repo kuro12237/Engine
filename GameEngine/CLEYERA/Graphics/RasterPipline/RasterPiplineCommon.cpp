@@ -8,6 +8,9 @@ void CLEYERA::Graphics::Raster::system::RasterPiplineCommon::Init() {
 
   piplines3d_[mode::DF_MODEL3d] = std::make_shared<system::DFModel3dDraw>();
   piplines3d_[mode::DF_MODEL3d]->SetMode(mode::DF_MODEL3d);
+  piplines3d_[mode::Normal_MODEL3d] =
+      std::make_shared<system::NormalModel3dDraw>();
+  piplines3d_[mode::Normal_MODEL3d]->SetMode(mode::Normal_MODEL3d);
 
   piplines3d_[mode::LINE3d] = std::make_shared<system::Line3dDraw>();
   piplines3d_[mode::LINE3d]->SetMode(mode::LINE3d);

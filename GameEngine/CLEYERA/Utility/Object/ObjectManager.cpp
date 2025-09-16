@@ -113,7 +113,7 @@ void CLEYERA::Manager::ObjectManager::Draw() {
 
     it.worldIns->Command(1);
 
-    auto data = texManager_->GetTexData(it.model.lock()->GetTexHandle());
+    auto data = texManager_->GetTexData(it.model.lock()->GetAlbedoTexHandle());
     auto handle = Base::DX::DXDescripterManager::GetInstance()->GetSRVGPUHandle(
         data.lock()->GetSrvIndex());
     commandManager_->GraphicsDescripterTable(2, handle);

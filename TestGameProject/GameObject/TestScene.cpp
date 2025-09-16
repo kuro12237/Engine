@@ -10,8 +10,10 @@ void TestScene::Init() {
   testObj_.resize(128);
   std::string category = VAR_NAME(TestObj);
   modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
-      "Resources/Model/system/Sphere", "sphere");
+      "Resources/Model/system/NormalBox", "NormalBox");
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
+  objManager->GetCategoryData(category).ChangeDrawMode(
+      CLEYERA::Graphics::RasterPipline_Mode3d::Normal_MODEL3d);
 
   num_ = 1;
   testCamera_ = std::make_shared<TestCamera>();

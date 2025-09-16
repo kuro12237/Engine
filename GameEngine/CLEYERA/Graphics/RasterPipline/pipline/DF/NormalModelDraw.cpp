@@ -1,23 +1,23 @@
-#include "DFModel3dDraw.h"
+#include "NormalModelDraw.h"
 
-void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingShader() {
+void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingShader() {
 
+	
   shaders_[Shader::ShaderMode::PS] =
       shaderManager_->GetShader(mode3d_, Shader::ShaderMode::PS);
   shaders_[Shader::ShaderMode::VS] =
       shaderManager_->GetShader(mode3d_, Shader::ShaderMode::VS);
 }
 
-void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
-
-  this->rootParam_.resize(6);
+void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingRootParam() {
+  this->rootParam_.resize(7);
 
   // かめら
   rootParam_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
   rootParam_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
   rootParam_[0].Descriptor.ShaderRegister = 0;
 
-  worldDescriptor[0].BaseShaderRegister = 1;
+  worldDescriptor[0].BaseShaderRegister = 0;
   worldDescriptor[0].NumDescriptors = 1;
   worldDescriptor[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
   worldDescriptor[0].OffsetInDescriptorsFromTableStart =
@@ -29,13 +29,11 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
   rootParam_[1].DescriptorTable.pDescriptorRanges = worldDescriptor;
   rootParam_[1].DescriptorTable.NumDescriptorRanges = _countof(worldDescriptor);
 
-  // texDescriptorRanged
-  descriptorRangeVertices[0].BaseShaderRegister = 0;
+  descriptorRangeVertices[0].BaseShaderRegister = 1;
   descriptorRangeVertices[0].NumDescriptors = 1;
   descriptorRangeVertices[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
   descriptorRangeVertices[0].OffsetInDescriptorsFromTableStart =
       D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
   // tex
   rootParam_[2].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
   rootParam_[2].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
@@ -47,26 +45,40 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingRootParam() {
   rootParam_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
   rootParam_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
   rootParam_[3].Descriptor.ShaderRegister = 0;
-
+  //カメラ
   rootParam_[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
   rootParam_[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
   rootParam_[4].Descriptor.ShaderRegister = 2;
 
-  materialDescriptor[0].BaseShaderRegister = 3;
+  materialDescriptor[0].BaseShaderRegister = 2;
   materialDescriptor[0].NumDescriptors = 1;
   materialDescriptor[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
   materialDescriptor[0].OffsetInDescriptorsFromTableStart =
       D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
-
-  // world
+  // material
   rootParam_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
   rootParam_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
   rootParam_[5].DescriptorTable.pDescriptorRanges = materialDescriptor;
   rootParam_[5].DescriptorTable.NumDescriptorRanges =
       _countof(materialDescriptor);
+
+
+  NormalDescriptor[0].BaseShaderRegister = 3;
+  NormalDescriptor[0].NumDescriptors = 1;
+  NormalDescriptor[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+  NormalDescriptor[0].OffsetInDescriptorsFromTableStart =
+      D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+
+  // normal
+  rootParam_[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+  rootParam_[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+  rootParam_[6].DescriptorTable.pDescriptorRanges = NormalDescriptor;
+  rootParam_[6].DescriptorTable.NumDescriptorRanges =
+      _countof(NormalDescriptor);
+
 }
 
-void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingSampler() {
+void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingSampler() {
 
   // Sampler
   this->staticSamplers_.resize(1);
@@ -82,15 +94,13 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingSampler() {
   staticSamplers_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 }
 
-void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingInput() {
-
+void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingInput() {
   // Output
   inputElementDesc_.resize(5);
   inputElementDesc_[0].SemanticName = "POSITION";
   inputElementDesc_[0].SemanticIndex = 0;
   inputElementDesc_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
   inputElementDesc_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-
 
   inputElementDesc_[1].SemanticName = "TEXCOORD";
   inputElementDesc_[1].SemanticIndex = 0;
@@ -116,14 +126,14 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingInput() {
   inputLayoutDesc.NumElements = UINT(inputElementDesc_.size());
 }
 
-void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingDepth() {
+void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingDepth() {
   despthStencilDesc_ = {};
   despthStencilDesc_.DepthEnable = true;
   despthStencilDesc_.DepthWriteMask = D3D12_DEPTH_WRITE_MASK_ALL;
   despthStencilDesc_.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
 }
 
-void CLEYERA::Graphics::Raster::system::DFModel3dDraw::RtvSetting() {
+void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::RtvSetting() {
   rtvFormats_.resize(2);
   rtvFormats_[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
   rtvFormats_[1] = DXGI_FORMAT_R8G8B8A8_UNORM;

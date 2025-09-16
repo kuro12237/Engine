@@ -22,6 +22,9 @@ public:
   void PostEffectDraw();
 
 private:
+
+    D3D12_GPU_DESCRIPTOR_HANDLE GetHandle(uint32_t handle);
+
   const std::map<
       std::string,
       std::map<std::string, std::shared_ptr<Component::ObjectComponent>>>

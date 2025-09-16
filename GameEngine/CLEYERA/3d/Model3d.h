@@ -8,37 +8,40 @@ namespace Model3d {
 /// モデルクラス
 /// </summary>
 class Model {
- public:
-   Model() {};
-   ~Model() {};
+public:
+  Model() {};
+  ~Model() {};
 
-   void Init();
+  void Init();
 
-   void Update();
+  void Update();
 
-   void RasterDraw3d();
+  void RasterDraw3d();
 
-   void ImGuiUpdate();
+  void ImGuiUpdate();
 
-   void CreateMesh(aiMesh *mesh) {
-      mesh_ = std::make_unique<Model3d::MeshData>();
-      mesh_->Create(mesh);
-   }
+  void CreateMesh(aiMesh *mesh) {
+    mesh_ = std::make_unique<Model3d::MeshData>();
+    mesh_->Create(mesh);
+  }
 
 #pragma region Set
-   void SetTexHandle(uint32_t handle) { texHandle_ = handle; }
+  void SetAlbedoTexHandle(uint32_t handle) { texHandle_ = handle; }
+  void SetNormalTexHandle(uint32_t handle) { normalTexHandle_ = handle; }
 #pragma endregion
 
 #pragma region Get
-   MeshData *GetMeshData() { return mesh_.get(); }
-   uint32_t GetTexHandle() { return texHandle_; }
+  MeshData *GetMeshData() { return mesh_.get(); }
+  uint32_t GetAlbedoTexHandle() { return texHandle_; }
+  uint32_t GetNormalTexHandle() { return normalTexHandle_; }
 #pragma endregion
 
- private:
-   uint32_t texHandle_ = 0;
-   std::unique_ptr<MeshData> mesh_ = nullptr;
+private:
+  uint32_t texHandle_ = 0;
+  uint32_t normalTexHandle_ = 0;
+  std::unique_ptr<MeshData> mesh_ = nullptr;
 
-   Base::DX::DXCommandManager *commandManager_ = nullptr;
+  Base::DX::DXCommandManager *commandManager_ = nullptr;
 };
 
 } // namespace Model3d

@@ -21,6 +21,13 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::Init() {
   fileNames_[RasterPipline_Mode3d::DF_MODEL3d].VS =
       "Rasterization/DFDraw3d/DFDraw3d_VS.hlsl";
 
+  fileNames_[RasterPipline_Mode3d::Normal_MODEL3d].PiplineName =
+      "Normal_MODEL3d";
+  fileNames_[RasterPipline_Mode3d::Normal_MODEL3d].PS =
+      "Rasterization/NormalDraw3d/NormalDraw3d_PS.hlsl";
+  fileNames_[RasterPipline_Mode3d::Normal_MODEL3d].VS =
+      "Rasterization/NormalDraw3d/NormalDraw3d_VS.hlsl";
+
   fileNames_[RasterPipline_Mode3d::LINE3d].PiplineName = "LINE3d";
   fileNames_[RasterPipline_Mode3d::LINE3d].PS =
       "Rasterization/Line3d/LineDraw3d_PS.hlsl";
@@ -69,7 +76,7 @@ void CLEYERA::Graphics::Shader::system::ShaderCommon::Init() {
     auto mode = static_cast<RasterPipline_Mode2d>(i);
     compornemts2d_[mode] = std::make_shared<ShaderCompornent>();
 
-     compornemts2d_[mode]->SetType(PiplineType::Sprite);
+    compornemts2d_[mode]->SetType(PiplineType::Sprite);
     compornemts2d_[mode]->SetRasterMode(mode);
 
     compornemts2d_[mode]->ShaderFilePath(ShaderMode::PS, fileNames2d_[mode].PS);

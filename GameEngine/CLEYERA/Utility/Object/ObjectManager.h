@@ -13,8 +13,13 @@ namespace Util {
 namespace system {
 
 struct InstancingObjectData {
+    
+  using DrawMode = Graphics::RasterPipline_Mode3d;
+
   size_t max = 1;
   uint32_t modelHandle = 0;
+  DrawMode drawMode_ = DrawMode::DF_MODEL3d;
+
   std::weak_ptr<Model3d::Model> model;
 
   std::unique_ptr<Model3d::InstancingMaterial> MaterialIns = nullptr;
@@ -24,6 +29,7 @@ struct InstancingObjectData {
   std::map<std::string, const forWorldMat *> worldData;
 
   void ChangeModelData(uint32_t modelHandle_);
+  void ChangeDrawMode(DrawMode mode) { drawMode_ = mode; }
 };
 
 } // namespace system

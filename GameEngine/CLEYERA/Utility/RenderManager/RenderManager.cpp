@@ -19,38 +19,58 @@ void CLEYERA::Manager::RenderManager::Draw3d() {
   auto lightManager = Manager::LightManager::GetInstance();
   auto texManager_ = Manager::TexManager::GetInstance();
   auto commandManager_ = Base::DX::DXCommandManager::GetInstace();
+  auto descManager_ = Base::DX::DXDescripterManager::GetInstance();
+  using DrawMode = Graphics::RasterPipline_Mode3d;
 
-  piplineManager_->SetRootsignature(Graphics::RasterPipline_Mode3d::DF_MODEL3d);
-  piplineManager_->SetPipline(Graphics::RasterPipline_Mode3d::DF_MODEL3d);
 
   for (auto &data : *instancingData_) {
     auto &it = data.second;
+    auto model = it.model.lock();
+    auto albedData =
+        texManager_->GetTexData(model->GetAlbedoTexHandle()).lock();
+    auto albedHandle = descManager_->GetSRVGPUHandle(albedData->GetSrvIndex());
 
-    cameraManager_->BindCommand(0);
+      piplineManager_->SetRootsignature(
+        it.drawMode_);
+    piplineManager_->SetPipline(it.drawMode_);
 
-    it.worldIns->Command(1);
+    switch (it.drawMode_) {
+    case DrawMode::DF_MODEL3d:
+      cameraManager_->BindCommand(0);
+      it.worldIns->Command(1);
+      commandManager_->GraphicsDescripterTable(2, albedHandle);
+      lightManager->DirectionLightCommandBind(3);
+      cameraManager_->BindCommand(4);
+      it.MaterialIns->Command(5);
+      break;
+    case DrawMode::Normal_MODEL3d: {
 
-    auto data = texManager_->GetTexData(it.model.lock()->GetTexHandle());
-    auto handle = Base::DX::DXDescripterManager::GetInstance()->GetSRVGPUHandle(
-        data.lock()->GetSrvIndex());
-    commandManager_->GraphicsDescripterTable(2, handle);
+      auto normalData =
+          texManager_->GetTexData(model->GetNormalTexHandle()).lock();
+      auto normalHandle =
+          descManager_->GetSRVGPUHandle(normalData->GetSrvIndex());
 
-    lightManager->DirectionLightCommandBind(3);
+      cameraManager_->BindCommand(0);
+      it.worldIns->Command(1);
+      commandManager_->GraphicsDescripterTable(2, albedHandle);
+      lightManager->DirectionLightCommandBind(3);
+      cameraManager_->BindCommand(4);
+      it.MaterialIns->Command(5);
+      commandManager_->GraphicsDescripterTable(6, normalHandle);
+      break;
+    }
 
-    cameraManager_->BindCommand(4);
+    default:
+      break;
+    }
 
-    it.MaterialIns->Command(5);
-    // 頂点、インデックス、形状設定
-    it.model.lock()->RasterDraw3d();
-
+    model->RasterDraw3d();
     commandManager_->DrawIndexCall(
-        UINT(it.model.lock()->GetMeshData()->GetData().indecs.size()), it.max);
+        UINT(model->GetMeshData()->GetData().indecs.size()), it.max);
   }
 }
 
-void CLEYERA::Manager::RenderManager::PreDraw() { postEffect_->PreDraw(); 
-
-}
+void CLEYERA::Manager::RenderManager::PreDraw() { postEffect_->PreDraw(); }
 
 void CLEYERA::Manager::RenderManager::PostDraw() { postEffect_->PostDraw(); }
 

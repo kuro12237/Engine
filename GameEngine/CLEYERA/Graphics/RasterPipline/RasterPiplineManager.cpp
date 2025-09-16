@@ -24,6 +24,11 @@ void CLEYERA::Graphics::Raster::RasterPiplineManager::SetRootsignature(
     if (mode == RasterPipline_Mode3d::DF_MODEL3d) {
       root = common->Getpipline<system::DFModel3dDraw>(mode).lock()->GetRootSignature();
     }
+    if (mode == RasterPipline_Mode3d::Normal_MODEL3d) {
+      root = common->Getpipline<system::NormalModel3dDraw>(mode)
+                 .lock()
+                 ->GetRootSignature();
+    }
     if (mode == RasterPipline_Mode3d::LINE3d) {
       root = common->Getpipline<system::Line3dDraw>(mode).lock()->GetRootSignature();
     }
@@ -44,6 +49,10 @@ void CLEYERA::Graphics::Raster::RasterPiplineManager::SetPipline(
 
     if (mode == RasterPipline_Mode3d::DF_MODEL3d) {
       state = common->Getpipline<system::DFModel3dDraw>(mode).lock()->GetPipline();
+    }
+    if (mode == RasterPipline_Mode3d::Normal_MODEL3d) {
+      state =
+          common->Getpipline<system::NormalModel3dDraw>(mode).lock()->GetPipline();
     }
     if (mode == RasterPipline_Mode3d::LINE3d) {
       state = common->Getpipline<system::Line3dDraw>(mode).lock()->GetPipline();
