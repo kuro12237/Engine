@@ -25,9 +25,11 @@ PS_OUTPUT main(VS_OUTPUT input)
     float32_t4 worldPos = mul(ndcPos, gCamera.mtxProjInv);
     worldPos /= worldPos.w;
     
+    
     float32_t4 albedColor = gAlbed.Sample(gSampler, input.texcoord);
     float32_t3 N = normalize(gNormal.Sample(gSampler, input.texcoord).xyz * 2.0f - 1.0f);
 
+    //ライト計算
     float32_t3 cameraPos = gCamera.pos.xyz;
     
     float32_t3 lightDir = normalize(gDirectionLight.direction);
@@ -48,7 +50,22 @@ PS_OUTPUT main(VS_OUTPUT input)
 
     float32_t3 color = deffiseColor + specularColor;
     
-    output.color = float4(color, 1.0f);
+    
+    //fog
+    float fogStart = 20.0f; // フォグが始まる距離
+    float fogEnd = 125.0f; // フォグが完全にかかる距離
+    float fogWeight = 0.0f;
+    if (worldPos.z > fogStart)
+    {
+        fogWeight = saturate((worldPos.z - fogStart) / (fogEnd - fogStart));
+        fogWeight *= 0.5f * max(0.0f, 1.0f - exp(-0.1f * worldPos.z));
+    }
+    float32_t3 fogColor = float32_t3(0.8f, 0.8f, 0.8f);
+    
+    color = lerp(color.rgb, fogColor, fogWeight);
+    
+
+    output.color = float32_t4(color, 1.0f);
     //output.color = float4(N, 1.0f);
 
     return output;
