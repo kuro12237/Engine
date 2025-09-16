@@ -242,6 +242,7 @@
     <ClInclude Include="CLEYERA\2d\Sprite.h" />
     <ClInclude Include="CLEYERA\2d\SpriteMesh.h" />
     <ClInclude Include="CLEYERA\3d\Blas\Blas.h" />
+    <ClInclude Include="CLEYERA\3d\Born\Born.h" />
     <ClInclude Include="CLEYERA\3d\Game3dObject.h" />
     <ClInclude Include="CLEYERA\3d\GlobalRootSignature\GlobalRootSignature.h" />
     <ClInclude Include="CLEYERA\3d\Instancing\InstancingMaterial.h" />

@@ -611,5 +611,8 @@
     <ClInclude Include="CLEYERA\Graphics\RasterPipline\pipline\DF\NormalModelDraw.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="CLEYERA\3d\Born\Born.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

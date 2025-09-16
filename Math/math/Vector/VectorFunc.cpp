@@ -11,9 +11,6 @@ float Math::Vector::Func::Dot(const Vec3 &v1, const Vec3 &v2) {
 
 float Math::Vector::Func::Cot(float theta) { return (1.0f / tan(theta)); }
 
-float Math::Vector::Func::degreesToRadians(float degrees) {
-  return degrees * (float(std::numbers::pi) / 180.0f);
-}
 
 float Math::Vector::Func::Length(const Vec2 &v) {
   float result{};

@@ -13,54 +13,59 @@ namespace Manager {
 /// モデル管理クラス
 /// </summary>
 class ModelManager {
- public:
-   static ModelManager *GetInstance();
+public:
+  static ModelManager *GetInstance();
 
-   /// <summary>
-   /// モデル読み込み
-   /// </summary>
-   /// <param name="ファイル"></param>
-   /// <param name="ファイルの名前(objつけない)"></param>
-   /// <returns></returns>
-   [[nodiscard]]
-   uint32_t LoadModel(const std::string &directory, const std::string fileName);
+  enum class LoadModelData { OBJ, GLTF };
 
+  /// <summary>
+  /// モデル読み込み
+  /// </summary>
+  /// <param name="ファイル"></param>
+  /// <param name="ファイルの名前(objつけない)"></param>
+  /// <returns></returns>
+  [[nodiscard]]
+  uint32_t LoadModel(const std::string &directory, const std::string fileName,
+                     LoadModelData load = LoadModelData::OBJ);
 
+  /// <summary>
+  /// モデルのデータをゲット
+  /// </summary>
+  /// <param name="key"></param>
+  /// <returns></returns>
+  [[nodiscard]]
+  std::weak_ptr<Model3d::Model> GetModel(std::string key) {
+    return datas_[key]->GetModel();
+  }
 
-   /// <summary>
-   /// モデルのデータをゲット
-   /// </summary>
-   /// <param name="key"></param>
-   /// <returns></returns>
-   [[nodiscard]]
-   std::weak_ptr<Model3d::Model> GetModel(std::string key) {
-      return datas_[key]->GetModel();
-   }
+  /// <summary>
+  /// モデルのデータをゲット
+  /// </summary>
+  /// <param name="key"></param>
+  /// <returns></returns>
+  [[nodiscard]]
+  std::weak_ptr<Model3d::Model> GetModel(uint32_t key);
 
-   /// <summary>
-   /// モデルのデータをゲット
-   /// </summary>
-   /// <param name="key"></param>
-   /// <returns></returns>
-   [[nodiscard]]
-   std::weak_ptr<Model3d::Model> GetModel(uint32_t key);
+  void Init();
 
-   void Init();
+  void Finalize();
 
-   void Finalize();
+private:
+  std::unique_ptr<Model3d::system::Model3dPool> CreateOBJ(std::string directory,std::string file);
+  std::unique_ptr<Model3d::system::Model3dPool> CreateGLTF(std::string directory,
+                                                          std::string file);
 
- private:
-   std::map<std::string, std::unique_ptr<Model3d::system::Model3dPool>> datas_;
+  std::map<std::string, std::unique_ptr<Model3d::system::Model3dPool>> datas_;
 
-   uint32_t handle_ = 0;
+  uint32_t handle_ = 0;
 
-   TexManager *texManager_ = nullptr;
+  TexManager *texManager_ = nullptr;
 
 #pragma region Singlton
-   ModelManager() = default;
-   ~ModelManager() = default;
-   ModelManager(const ModelManager &) = delete;
-   ModelManager &operator=(const ModelManager &) = delete;
+  ModelManager() = default;
+  ~ModelManager() = default;
+  ModelManager(const ModelManager &) = delete;
+  ModelManager &operator=(const ModelManager &) = delete;
 #pragma endregion
 };
 

@@ -62,11 +62,11 @@ PS_OUTPUT main(VS_OUTPUT input)
     }
     float32_t3 fogColor = float32_t3(0.8f, 0.8f, 0.8f);
     
-    //color = lerp(color.rgb, fogColor, fogWeight);
+    color = lerp(color.rgb, fogColor, fogWeight);
     
 
     output.color = float32_t4(color, 1.0f);
-    output.color = float4(N, 1.0f);
+    //output.color = float4(N, 1.0f);
 
     return output;
 }

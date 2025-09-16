@@ -1,91 +1,164 @@
 #include "ModelManager.h"
 
 CLEYERA::Manager::ModelManager *CLEYERA::Manager::ModelManager::GetInstance() {
-   static ModelManager instance;
-   return &instance;
+  static ModelManager instance;
+  return &instance;
 }
 
-uint32_t CLEYERA::Manager::ModelManager::LoadModel(const std::string &directory, const std::string fileName) {
-   Assimp::Importer importer;
-   std::string file =  directory + "/" + fileName + ".obj";
+uint32_t CLEYERA::Manager::ModelManager::LoadModel(
+    const std::string &directory, const std::string fileName,
+    Manager::ModelManager::LoadModelData load) {
 
-   //読み込み済みの場合
-   if (datas_.find(file) != datas_.end()) {
+  std::unique_ptr<CLEYERA::Model3d::system::Model3dPool> data;
+  std::string file{};
+
+  if (load == LoadModelData::OBJ) {
+    file = directory + fileName + ".obj";
+    // 読み込み済みの場合
+    if (datas_.find(file) != datas_.end()) {
       return datas_[file]->GetHandle();
-   }
+    }
+    data = CreateOBJ(directory, fileName);
+  }
+  if (load == LoadModelData::GLTF) {
+    file = directory + fileName + ".gltf";
+    // 読み込み済みの場合
+    if (datas_.find(file) != datas_.end()) {
+      return datas_[file]->GetHandle();
+    }
+    data = CreateGLTF(directory, fileName);
+  }
+  datas_[file] = std::move(data);
 
-   const aiScene *scene = importer.ReadFile(file.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
-   assert(scene->HasMeshes());
-
-   std::unique_ptr<Model3d::system::Model3dPool> data = std::make_unique<Model3d::system::Model3dPool>();
-
-   std::shared_ptr<Model3d::Model> model = std::make_shared<Model3d::Model>();
-
-   for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
-      aiMesh *mesh = scene->mMeshes[meshIndex];
-      assert(mesh->HasNormals());
-      assert(mesh->HasTextureCoords(0));
-      // 頂点作成
-      model->CreateMesh(mesh);
-   }
-
-   // テクスチャ作成
-   // materialの解析
-   std::string path = "";
-   uint32_t texHandle = 0;
-   uint32_t normalTexHandle = 0;
-   for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials; materialIndex++) {
-      aiMaterial *material = scene->mMaterials[materialIndex];
-      if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
-         aiString texFilePath;
-         material->GetTexture(aiTextureType_DIFFUSE, 0, &texFilePath);
-
-         path = directory + "/" +  texFilePath.C_Str();
-         texManager_->UnUsedFilePath();
-         texHandle = texManager_->LoadPngTex(path);
-      }
-      if (material->GetTextureCount(aiTextureType_HEIGHT) > 0) {
-        aiString texFilePath;
-        material->GetTexture(aiTextureType_HEIGHT, 0, &texFilePath);
-
-        path = directory + "/" + texFilePath.C_Str();
-        texManager_->UnUsedFilePath();
-        normalTexHandle = texManager_->LoadPngTex(path);
-      }
-   \
-
-   }
-
-   model->Init();
-   data->SetHandle(handle_);
-   model->SetAlbedoTexHandle(texHandle);
-   model->SetNormalTexHandle(normalTexHandle);
-   data->SetModel(model);
-
-   datas_[file] = std::move(data);
-
-   return handle_++;
+  return handle_++;
 }
 
+std::weak_ptr<CLEYERA::Model3d::Model>
+CLEYERA::Manager::ModelManager::GetModel(uint32_t key) {
 
-std::weak_ptr<CLEYERA::Model3d::Model> CLEYERA::Manager::ModelManager::GetModel(uint32_t key) {
+  for (const auto &data : datas_) {
 
-   for (const auto &data : datas_) {
+    auto &it = data.second;
 
-      auto &it = data.second;
+    if (it->GetHandle() == key) {
 
-      if (it->GetHandle() == key) {
+      return it->GetModel();
+    }
+  }
 
-         return it->GetModel();
-      }
-   }
+  assert(false);
 
-   assert(false);
-
-   return std::weak_ptr<CLEYERA::Model3d::Model>();
+  return std::weak_ptr<CLEYERA::Model3d::Model>();
 }
 
-void CLEYERA::Manager::ModelManager::Init() { texManager_ = TexManager::GetInstance();
+void CLEYERA::Manager::ModelManager::Init() {
+  texManager_ = TexManager::GetInstance();
 }
 
 void CLEYERA::Manager::ModelManager::Finalize() { datas_.clear(); }
+
+std::unique_ptr<CLEYERA::Model3d::system::Model3dPool>
+CLEYERA::Manager::ModelManager::CreateOBJ(std::string directory,
+                                          std::string file) {
+
+  std::shared_ptr<Model3d::Model> model = std::make_shared<Model3d::Model>();
+  std::unique_ptr<Model3d::system::Model3dPool> data =
+      std::make_unique<Model3d::system::Model3dPool>();
+
+  std::string path = "";
+  uint32_t texHandle = 0;
+  uint32_t normalTexHandle = 0;
+
+  Assimp::Importer importer;
+  std::string filePath = directory + "/" + file + ".obj";
+
+  const aiScene *scene = importer.ReadFile(
+      filePath.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+  assert(scene->HasMeshes());
+
+  for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
+    aiMesh *mesh = scene->mMeshes[meshIndex];
+    assert(mesh->HasNormals());
+    assert(mesh->HasTextureCoords(0));
+    // 頂点作成
+    model->CreateMesh(mesh);
+  }
+
+  // テクスチャ作成
+  // materialの解析
+  for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials;
+       materialIndex++) {
+    aiMaterial *material = scene->mMaterials[materialIndex];
+    if (material->GetTextureCount(aiTextureType_DIFFUSE) > 0) {
+      aiString texFilePath;
+      material->GetTexture(aiTextureType_DIFFUSE, 0, &texFilePath);
+
+      path = directory + "/" + texFilePath.C_Str();
+      texManager_->UnUsedFilePath();
+      texHandle = texManager_->LoadPngTex(path);
+    }
+    if (material->GetTextureCount(aiTextureType_HEIGHT) > 0) {
+      aiString texFilePath;
+      material->GetTexture(aiTextureType_HEIGHT, 0, &texFilePath);
+
+      path = directory + "/" + texFilePath.C_Str();
+      texManager_->UnUsedFilePath();
+      normalTexHandle = texManager_->LoadPngTex(path);
+    }
+  }
+
+  model->Init();
+  data->SetHandle(handle_);
+  model->SetAlbedoTexHandle(texHandle);
+  model->SetNormalTexHandle(normalTexHandle);
+  data->SetModel(model);
+  return std::move(data);
+}
+
+std::unique_ptr<CLEYERA::Model3d::system::Model3dPool>
+CLEYERA::Manager::ModelManager::CreateGLTF(std::string directory,
+                                           std::string file) {
+
+  std::shared_ptr<Model3d::Model> model = std::make_shared<Model3d::Model>();
+  std::unique_ptr<Model3d::system::Model3dPool> data =
+      std::make_unique<Model3d::system::Model3dPool>();
+
+  Assimp::Importer importer;
+  std::string path = directory + "/" + file + ".gltf";
+  uint32_t texHandle = 0;
+
+  const aiScene *scene = importer.ReadFile(
+      path.c_str(), aiProcess_FlipWindingOrder | aiProcess_FlipUVs);
+
+  assert(scene->HasMeshes());
+  // mesh解析
+  for (uint32_t meshIndex = 0; meshIndex < scene->mNumMeshes; ++meshIndex) {
+    aiMesh *mesh = scene->mMeshes[meshIndex];
+    assert(mesh->HasNormals());
+    assert(mesh->HasTextureCoords(0));
+    // 頂点作成
+    model->CreateMesh(mesh);
+
+    // 頂点作成
+    // CreateVerteces(modelData, mesh);
+  }
+
+  // materialの解析
+  for (uint32_t materialIndex = 0; materialIndex < scene->mNumMaterials;
+       materialIndex++) {
+    aiMaterial *material = scene->mMaterials[materialIndex];
+    if (material->GetTextureCount(aiTextureType_DIFFUSE) != 0) {
+      aiString texFilePath;
+      material->GetTexture(aiTextureType_DIFFUSE, 0, &texFilePath);
+
+      path = directory + "/" + texFilePath.C_Str();
+      texManager_->UnUsedFilePath();
+      texHandle = texManager_->LoadPngTex(path);
+    }
+  }
+  model->Init();
+  data->SetHandle(handle_);
+  model->SetAlbedoTexHandle(texHandle);
+  data->SetModel(model);
+  return std::move(data);
+}

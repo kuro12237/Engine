@@ -5,7 +5,7 @@ void CLEYERA::Manager::Terrain::Init() {
   colliderSystem_ = CLEYERA::Manager::ColliderSystem::GetInstance();
   objectManager_ = CLEYERA::Manager::ObjectManager::GetInstance();
 
-  modelHandle_ = modelManager_->LoadModel(dfFilePath_, objName_);
+  modelHandle_ = modelManager_->LoadModel(dfFilePath_, objName_,ModelManager::LoadModelData::OBJ);
 
   gameObj_ = std::make_shared<CLEYERA::Model3d::Game3dObject>();
 
