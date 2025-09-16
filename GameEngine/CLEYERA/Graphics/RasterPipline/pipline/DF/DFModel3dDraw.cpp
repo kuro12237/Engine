@@ -91,14 +91,15 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingInput() {
   inputElementDesc_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
   inputElementDesc_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-  inputElementDesc_[1].SemanticName = "NORMAL";
+
+  inputElementDesc_[1].SemanticName = "TEXCOORD";
   inputElementDesc_[1].SemanticIndex = 0;
-  inputElementDesc_[1].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+  inputElementDesc_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
   inputElementDesc_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-  inputElementDesc_[2].SemanticName = "TEXCOORD";
+  inputElementDesc_[2].SemanticName = "NORMAL";
   inputElementDesc_[2].SemanticIndex = 0;
-  inputElementDesc_[2].Format = DXGI_FORMAT_R32G32_FLOAT;
+  inputElementDesc_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
   inputElementDesc_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
   inputElementDesc_[3].SemanticName = "WORLDPOS";
@@ -123,6 +124,8 @@ void CLEYERA::Graphics::Raster::system::DFModel3dDraw::SettingDepth() {
 }
 
 void CLEYERA::Graphics::Raster::system::DFModel3dDraw::RtvSetting() {
-
+  rtvFormats_.resize(2);
   rtvFormats_[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+  rtvFormats_[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
 }

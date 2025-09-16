@@ -30,29 +30,14 @@ PSOutput main(VSOutput input)
     float32_t4 outColor;
     
     
-    float32_t3 N = normalize(input.normal);
-    float32_t3 worldPos = input.worldPos;
-    float32_t3 cameraPos = gCamera.pos.xyz;
-    
-    float32_t3 lightDir = normalize(gDirectionLight.direction);
-    float32_t3 lightColor = gDirectionLight.color.rgb;
+    float32_t3 N = input.normal;
     float32_t4 textureColor = gTexture.Sample(gSampler, input.texcoord);
     
-    
-    float32_t3 toEye = normalize(cameraPos - worldPos);
-    float32_t3 hallfVector = normalize(-lightDir + toEye);
-    
-    float NdotH = saturate(dot(N, hallfVector));
-    float spec = pow(saturate(NdotH), 90.0f);
- 
-    float Ndol = saturate(dot(N, -lightDir));
-    float cos = pow(Ndol * 0.5f + 0.5f, 2.0f);
-    
-    float32_t3 deffiseColor = textureColor.rgb * gColor[input.instanceId].color_.rgb * lightColor * cos * gDirectionLight.intencity;
-    float32_t3 specularColor = lightColor * gDirectionLight.intencity * spec;
-    outColor.rgb = deffiseColor + specularColor;
+
+    outColor.rgb = textureColor.rgb * gColor[input.instanceId].color_.a;
     outColor.a = textureColor.a * gColor[input.instanceId].color_.a;
     output.color = outColor;
+    output.normal = float32_t4(input.normal, 1.0f);
     
     return output;
 }

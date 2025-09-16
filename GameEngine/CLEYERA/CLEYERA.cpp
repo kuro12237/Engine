@@ -116,7 +116,7 @@ void Engine::ImGuiUpdate() {
   flame_->ImGuiUpdate();
   dxCommon_->ImGuiUpdate();
 
-  // lightManager_->ImGuiUpdate();
+   lightManager_->ImGuiUpdate();
   // debugCamera_->ImGuiUpdate();
 
   // grid_->ImGuiUpdate();

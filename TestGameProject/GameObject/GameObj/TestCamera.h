@@ -10,4 +10,6 @@ public:
   void Update() override;
 
 private:
+
+	Math::Vector::Vec3 rot_={};
 };

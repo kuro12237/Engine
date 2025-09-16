@@ -22,7 +22,7 @@ void CLEYERA::Util::WorldTransform::ConvertMat() {
    Math::Vector::Vec3 pos = GetWorldPos();
    forGpuWorldMat_.worldPos_ = Math::Vector::Vec4(pos.x, pos.y, pos.z, 1.0f);
 
-   //forGpuWorldMat_.worldMatInv_ = forGpuWorldMat_.worldMat_.Inverse();
+   
    if (camera_) {
 
       forGpuWorldMat_.WPV_ = Math::Matrix::Func::Multiply(forGpuWorldMat_.worldMat_, camera_->mtxVP_);

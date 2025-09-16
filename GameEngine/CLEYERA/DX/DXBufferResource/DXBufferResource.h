@@ -471,7 +471,7 @@ inline void DXBufferResource<T>::CreateTexture2d(
   // 色
   D3D12_CLEAR_VALUE color = {};
 
-  const float clearColor[4] = {0.25f, 0.5f, 0.1f, 0.0f};
+  const float clearColor[4] = {0.0f, 0.0f, 0.0f, 1.0f};
 
   color.Format = format;
   for (uint32_t i = 0; i < 4; i++) {

@@ -25,29 +25,8 @@ void CLEYERA::Manager::PostEffectManager::Init() {
   const UINT rowPitch = sizeof(UINT) * WinApp::GetKWindowWidth();
   const UINT depthPitch = rowPitch * WinApp::GetKWindowHeight();
 
-  albedo_ = std::make_unique<Base::DX::DXBufferResource<uint32_t>>();
-  albedo_->SetDevice(device);
-  albedo_->Init(size_t(pixCount));
-  DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-  albedo_->CreateTexture2d(
-      {float(WinApp::GetKWindowWidth()), float(WinApp::GetKWindowHeight())},
-      format, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET,
-      D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_HEAP_TYPE_CUSTOM);
-
-  albedo_->TransfarImage(pixCount, rowPitch, depthPitch);
-
-  D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-  rtvDesc.Format = format;
-  rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
-  albedo_->RegisterRTV(rtvDesc);
-
-  D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
-  srvDesc.Format = format;
-  srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-  srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
-  srvDesc.Texture2D.MipLevels = 1;
-  albedo_->RegisterSRV(srvDesc);
+  albedo_ = CreateTexture();
+  normal_ = CreateTexture();
 
   // depth
   depth_ = std::make_unique<Base::DX::DXBufferResource<uint32_t>>();
@@ -81,27 +60,27 @@ void CLEYERA::Manager::PostEffectManager::Update() {
   // 左上
   vertData_[0].pos = {0.0f, 0.0f, 0.0f, 1.0f};
   vertData_[0].texCooard = {0.0f, 0.0f};
-
+  vertData_[0].normal = {};
   // 右上
   vertData_[1].pos = {1280.0f, 0.0f, 0.0f, 1.0f};
   vertData_[1].texCooard = {1.0f, 0.0f};
-
+  vertData_[1].normal = {};
   // 左下
   vertData_[2].pos = {0.0f, 720.0f, 0.0f, 1.0f};
   vertData_[2].texCooard = {0.0f, 1.0f};
-
+  vertData_[2].normal = {};
   // 左下 (再利用)
   vertData_[3].pos = {0.0f, 720.0f, 0.0f, 1.0f};
   vertData_[3].texCooard = {0.0f, 1.0f};
-
+  vertData_[3].normal = {};
   // 右上 (再利用)
   vertData_[4].pos = {1280.0f, 0.0f, 0.0f, 1.0f};
   vertData_[4].texCooard = {1.0f, 0.0f};
-
+  vertData_[4].normal = {};
   // 右下
   vertData_[5].pos = {1280.0f, 720.0f, 0.0f, 1.0f};
   vertData_[5].texCooard = {1.0f, 1.0f};
-
+  vertData_[5].normal = {};
   vert_->Map();
   vert_->SetParam(vertData_);
   vert_->Update();
@@ -110,6 +89,7 @@ void CLEYERA::Manager::PostEffectManager::Update() {
 void CLEYERA::Manager::PostEffectManager::FInalize() {
 
   vert_.reset();
+  normal_.reset();
   albedo_.reset();
   worldTransform_.reset();
   depth_.reset();
@@ -123,6 +103,10 @@ void CLEYERA::Manager::PostEffectManager::PreDraw() {
                              D3D12_RESOURCE_BARRIER_FLAG_NONE,
                              D3D12_RESOURCE_STATE_RENDER_TARGET);
 
+  normal_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION,
+                             D3D12_RESOURCE_BARRIER_FLAG_NONE,
+                             D3D12_RESOURCE_STATE_RENDER_TARGET);
+
   depth_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION,
                             D3D12_RESOURCE_BARRIER_FLAG_NONE,
                             D3D12_RESOURCE_STATE_DEPTH_WRITE);
@@ -131,7 +115,8 @@ void CLEYERA::Manager::PostEffectManager::PreDraw() {
   auto rtvDesc = CLEYERA::Base::DX::DXDescripterManager::GetInstance();
 
   std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> handles = {
-      rtvDesc->GetRTVCPUHandle(albedo_->GetRTVIndex())};
+      rtvDesc->GetRTVCPUHandle(albedo_->GetRTVIndex()),
+      rtvDesc->GetRTVCPUHandle(normal_->GetRTVIndex())};
 
   D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle =
       rtvDesc->GetDSVCPUHandle(depth_->GetDSVIndex());
@@ -140,13 +125,19 @@ void CLEYERA::Manager::PostEffectManager::PreDraw() {
 
   command->ClearRenderTargetView(
       rtvDesc->GetRTVCPUHandle(albedo_->GetRTVIndex()),
-      {0.25f, 0.5f, 0.1f, 0.0f});
+      {0.0f, 0.0f, 0.0f, 1.0f});
+  command->ClearRenderTargetView(
+      rtvDesc->GetRTVCPUHandle(normal_->GetRTVIndex()),
+      {0.0f, 0.0f, 0.0f, 1.0f});
 
   command->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH);
 }
 
 void CLEYERA::Manager::PostEffectManager::PostDraw() {
   albedo_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION,
+                             D3D12_RESOURCE_BARRIER_FLAG_NONE,
+                             D3D12_RESOURCE_STATE_GENERIC_READ);
+  normal_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION,
                              D3D12_RESOURCE_BARRIER_FLAG_NONE,
                              D3D12_RESOURCE_STATE_GENERIC_READ);
 
@@ -176,7 +167,54 @@ void CLEYERA::Manager::PostEffectManager::CommandCall(
     command->GraphicsDescripterTable(num, srv->GetGPUHandle(handle));
 
     break;
+  case System::PostEffectBuf::Normal:
+    handle = normal_->GetSRVIndex();
+    command->GraphicsDescripterTable(num, srv->GetGPUHandle(handle));
+
+    break;
+  case System::PostEffectBuf::Depth:
+    handle = depth_->GetSRVIndex();
+    command->GraphicsDescripterTable(num, srv->GetGPUHandle(handle));
+
+    break;
   default:
     break;
   }
+}
+
+std::unique_ptr<CLEYERA::Base::DX::DXBufferResource<uint32_t>>
+CLEYERA::Manager::PostEffectManager::CreateTexture() {
+
+  std::unique_ptr<CLEYERA::Base::DX::DXBufferResource<uint32_t>> buf_ = nullptr;
+  auto device = Base::DX::DXManager::GetInstance()->GetDevice();
+
+  const UINT pixCount = WinApp::GetKWindowWidth() * WinApp::GetKWindowHeight();
+  const UINT rowPitch = sizeof(UINT) * WinApp::GetKWindowWidth();
+  const UINT depthPitch = rowPitch * WinApp::GetKWindowHeight();
+
+  buf_ = std::make_unique<Base::DX::DXBufferResource<uint32_t>>();
+  buf_->SetDevice(device);
+  buf_->Init(size_t(pixCount));
+  DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+  buf_->CreateTexture2d(
+      {float(WinApp::GetKWindowWidth()), float(WinApp::GetKWindowHeight())},
+      format, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET,
+      D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, D3D12_HEAP_TYPE_CUSTOM);
+
+  buf_->TransfarImage(pixCount, rowPitch, depthPitch);
+
+  D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
+  rtvDesc.Format = format;
+  rtvDesc.ViewDimension = D3D12_RTV_DIMENSION_TEXTURE2D;
+  buf_->RegisterRTV(rtvDesc);
+
+  D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+  srvDesc.Format = format;
+  srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+  srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
+  srvDesc.Texture2D.MipLevels = 1;
+  buf_->RegisterSRV(srvDesc);
+
+  return std::move(buf_);
 }

@@ -22,6 +22,7 @@ struct forWorldMat {
    Math::Matrix::Mat4x4 worldMat_ = {};
    Math::Matrix::Mat4x4 worldMatInv_ = {};
    Math::Matrix::Mat4x4 WPV_ = {};
+
    Math::Vector::Vec4 worldPos_ = {};
 };
 } // namespace system

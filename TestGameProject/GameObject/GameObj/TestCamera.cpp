@@ -12,11 +12,17 @@ void TestCamera::Update() {
 #ifdef _DEBUG
 
   if(ImGui::TreeNode("TestCamera")) {
-    ImGui::DragFloat3("rotate", &rotate_.x);
+    ImGui::DragFloat3("rotate", &rot_.x);
     ImGui::DragFloat3("translate", &translate_.x);
 
     ImGui::TreePop();
   }
 
+
 #endif // _DEBUG
+
+  rotate_ = {Math::Vector::Func::degreesToRadians(rot_.x),
+             Math::Vector::Func::degreesToRadians(rot_.y),
+             Math::Vector::Func::degreesToRadians(rot_.z)};
+
 }

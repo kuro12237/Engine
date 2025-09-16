@@ -65,4 +65,5 @@ void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
   testSprite_->Update();
 }
 
-void TestScene::Draw2d() { testSprite_->Draw(); }
+void TestScene::Draw2d() { // testSprite_->Draw();
+}

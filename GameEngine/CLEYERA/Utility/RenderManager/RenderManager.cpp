@@ -64,10 +64,16 @@ void CLEYERA::Manager::RenderManager::PostEffectDraw() {
   piplineManager_->SetRootsignature(Graphics::PostEffect_Mode::Copy);
   piplineManager_->SetPipline(Graphics::PostEffect_Mode::Copy);
 
+  postEffect_->CommandCall(buf::Vert);
+
   cameraManager_->BindCommand(0);
   postEffect_->CommandCall(buf::World, 1);
   postEffect_->CommandCall(buf::Albedo, 2);
-  postEffect_->CommandCall(buf::Vert);
+  postEffect_->CommandCall(buf::Normal, 3);
+  postEffect_->CommandCall(buf::Depth, 4);
+
+  cameraManager_->BindCommand(5);
+  LightManager::GetInstance()->DirectionLightCommandBind(6);
 
   commandManager_->DrawCall(postEffect_->GetVertData().size(), 1);
 }

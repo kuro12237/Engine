@@ -10,7 +10,7 @@ namespace Manager {
 
 namespace System {
 
-enum class PostEffectBuf { Vert, World, Albedo };
+enum class PostEffectBuf { Vert, World, Albedo,Normal ,Depth};
 }
 
 /// <summary>
@@ -39,13 +39,15 @@ public:
   /// </summary>
   void PostDraw();
 
-  void CommandCall(const System::PostEffectBuf &mode,uint32_t num = 0);
+  void CommandCall(const System::PostEffectBuf &mode, uint32_t num = 0);
 
   const std::vector<Model3d::system::VertexForGPU> &GetVertData() const {
     return vertData_;
   }
 
 private:
+  std::unique_ptr<CLEYERA::Base::DX::DXBufferResource<uint32_t>> CreateTexture();
+
   std::unique_ptr<Base::DX::DXBufferResource<Model3d::system::VertexForGPU>>
       vert_;
   std::vector<Model3d::system::VertexForGPU> vertData_;
@@ -57,8 +59,9 @@ private:
   Math::Vector::Vec2 size_ = {1280.0f, 720.0f};
 
   std::unique_ptr<Util::WorldTransform> worldTransform_ = nullptr;
-  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> albedo_;
-  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> depth_;
+  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> albedo_ = nullptr;
+  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> normal_ = nullptr;
+  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> depth_ = nullptr;
 };
 
 } // namespace Manager

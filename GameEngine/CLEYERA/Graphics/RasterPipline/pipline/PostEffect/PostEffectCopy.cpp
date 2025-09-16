@@ -10,7 +10,7 @@ void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingShader() {
 
 void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingRootParam() {
 
- this->rootParam_.resize(3);
+ this->rootParam_.resize(7);
 
   // かめら
   rootParam_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -37,12 +37,47 @@ void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingRootParam() {
   rootParam_[2].DescriptorTable.NumDescriptorRanges =
       _countof(descriptorRangeVertices);
 
+  // normal
+  descriptorRangeNormal[0].BaseShaderRegister = 1;
+  descriptorRangeNormal[0].NumDescriptors = 1;
+  descriptorRangeNormal[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+  descriptorRangeNormal[0].OffsetInDescriptorsFromTableStart =
+      D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+  // tex
+  rootParam_[3].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+  rootParam_[3].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+  rootParam_[3].DescriptorTable.pDescriptorRanges = descriptorRangeNormal;
+  rootParam_[3].DescriptorTable.NumDescriptorRanges =
+      _countof(descriptorRangeNormal);
+
+  // Depth
+  descriptorRangeDepth[0].BaseShaderRegister = 2;
+  descriptorRangeDepth[0].NumDescriptors = 1;
+  descriptorRangeDepth[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+  descriptorRangeDepth[0].OffsetInDescriptorsFromTableStart =
+      D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+  // tex
+  rootParam_[4].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+  rootParam_[4].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+  rootParam_[4].DescriptorTable.pDescriptorRanges = descriptorRangeDepth;
+  rootParam_[4].DescriptorTable.NumDescriptorRanges =
+      _countof(descriptorRangeDepth);
+
+   // かめら
+  rootParam_[5].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+  rootParam_[5].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+  rootParam_[5].Descriptor.ShaderRegister = 0;
+
+  // ライトdirection
+  rootParam_[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
+  rootParam_[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+  rootParam_[6].Descriptor.ShaderRegister = 1;
 }
 
 void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingSampler() {
 
   // Sampler
-  this->staticSamplers_.resize(1);
+  this->staticSamplers_.resize(2);
 
   staticSamplers_[0].Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_LINEAR;
   staticSamplers_[0].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -53,6 +88,15 @@ void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingSampler() {
   staticSamplers_[0].MaxLOD = D3D12_FLOAT32_MAX;
   staticSamplers_[0].ShaderRegister = 0;
   staticSamplers_[0].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+
+  staticSamplers_[1].Filter = D3D12_FILTER_COMPARISON_MIN_MAG_MIP_POINT;
+  staticSamplers_[1].AddressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+  staticSamplers_[1].AddressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+  staticSamplers_[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+  staticSamplers_[1].ComparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+  staticSamplers_[1].MaxLOD = D3D12_FLOAT32_MAX;
+  staticSamplers_[1].ShaderRegister = 1;
+  staticSamplers_[1].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 }
 
 void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingInput() {
