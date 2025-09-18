@@ -62,16 +62,6 @@ void CLEYERA::Manager::ObjectManager::Update() {
       }
     }
   }
-
-  for (auto &ins : instancingData_) {
-
-    auto &it = ins.second;
-    if (!it.worldIns)
-      return;
-    it.model.lock()->Update();
-    it.worldIns->Update();
-    it.MaterialIns->Update();
-  }
 }
 
 void CLEYERA::Manager::ObjectManager::ImGuiUpdate() {
@@ -80,12 +70,15 @@ void CLEYERA::Manager::ObjectManager::ImGuiUpdate() {
 
   for (const auto &m : objects_) {
 
+    if (m.first == "") {
+      return;
+    }
     if (ImGui::TreeNode(m.first.c_str())) {
 
       for (const auto &obj : m.second) {
 
         if (!obj.second) {
-          return;
+          continue;
         }
         obj.second->ImGuiUpdate();
       }
@@ -264,7 +257,8 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(
       instancingData_[category].MaterialData[name], number);
 
   // 名前とカテゴリを設定
-  obj->SetModelHandle(&instancingData_[category].modelHandle);
+  // obj->SetModelHandle(&instancingData_[category].modelHandle);
+
   obj->SetName(name);
   obj->SetCategory(category);
 }
@@ -273,7 +267,8 @@ void CLEYERA::Manager::ObjectManager::CreateInstancing(
     const std::string &category, uint32_t size) {
 
   instancingData_[category].max = size;
-  instancingData_[category].model = ModelManager::GetInstance()->GetModel(0);
+  if (!instancingData_[category].model.lock())
+    instancingData_[category].model = ModelManager::GetInstance()->GetModel(0);
   instancingData_[category].MaterialIns =
       std::make_unique<Model3d::InstancingMaterial>();
   instancingData_[category].MaterialIns->Init(instancingData_[category].max);

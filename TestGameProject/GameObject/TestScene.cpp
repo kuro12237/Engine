@@ -11,12 +11,20 @@ void TestScene::Init() {
   std::string category = VAR_NAME(TestObj);
   modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
       "Resources/Model/system/Sphere", "Sphere");
-  modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
-      "Resources/Model/system/StageCoin", "StageCoin",CLEYERA::Manager::ModelManager::LoadModelData::GLTF);
+  /* modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
+       "Resources/Model/system/StageCoin",
+     "StageCoin",CLEYERA::Manager::ModelManager::LoadModelData::GLTF);*/
 
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
-  //objManager->GetCategoryData(category).ChangeDrawMode(
-  //    CLEYERA::Graphics::RasterPipline_Mode3d::Normal_MODEL3d);
+
+  category = VAR_NAME(SkySphere);
+  modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
+      "Resources/Model/system/SkySphere", "SkySphre");
+
+  objManager->GetCategoryData(category).ChangeModelData(modelHandle);
+
+  // objManager->GetCategoryData(category).ChangeDrawMode(
+  //     CLEYERA::Graphics::RasterPipline_Mode3d::Normal_MODEL3d);
 
   num_ = 1;
   testCamera_ = std::make_shared<TestCamera>();
@@ -25,12 +33,15 @@ void TestScene::Init() {
   testSprite_ = std::make_unique<TestSprite>();
   testSprite_->Init();
 
-     for (size_t i = 0; i < 999; i++) {
+  for (size_t i = 0; i < 999; i++) {
 
     auto obj = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
                                                  std::make_shared<TestObj>());
     obj.lock()->SetPos(this->GenerateSpawnPos());
   }
+
+  skySphere_ = objManager->CreateObject<SkySphere>(
+      VAR_NAME(SkySphere), std::make_shared<SkySphere>());
 }
 
 void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
@@ -41,7 +52,6 @@ void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
 
   if (spawnInterval_ >= 1.0f) {
 
-   
     spawnInterval_ = 0.0f;
   }
 

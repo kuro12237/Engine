@@ -96,31 +96,27 @@ void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingSampler() {
 
 void CLEYERA::Graphics::Raster::system::NormalModel3dDraw::SettingInput() {
   // Output
-  inputElementDesc_.resize(5);
+  inputElementDesc_.resize(4);
   inputElementDesc_[0].SemanticName = "POSITION";
   inputElementDesc_[0].SemanticIndex = 0;
   inputElementDesc_[0].Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
   inputElementDesc_[0].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-  inputElementDesc_[1].SemanticName = "TEXCOORD";
-  inputElementDesc_[1].SemanticIndex = 0;
-  inputElementDesc_[1].Format = DXGI_FORMAT_R32G32_FLOAT;
-  inputElementDesc_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
-
-  inputElementDesc_[2].SemanticName = "NORMAL";
+  inputElementDesc_[2].SemanticName = "TEXCOORD";
   inputElementDesc_[2].SemanticIndex = 0;
-  inputElementDesc_[2].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+  inputElementDesc_[2].Format = DXGI_FORMAT_R32G32_FLOAT;
   inputElementDesc_[2].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-  inputElementDesc_[3].SemanticName = "WORLDPOS";
-  inputElementDesc_[3].SemanticIndex = 0;
-  inputElementDesc_[3].Format = DXGI_FORMAT_R32G32B32_FLOAT;
-  inputElementDesc_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+  inputElementDesc_[1].SemanticName = "NORMAL";
+  inputElementDesc_[1].SemanticIndex = 0;
+  inputElementDesc_[1].Format = DXGI_FORMAT_R32G32B32_FLOAT;
+  inputElementDesc_[1].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
-  inputElementDesc_[4].SemanticName = "INSTANCEID";
-  inputElementDesc_[4].SemanticIndex = 0;
-  inputElementDesc_[4].Format = DXGI_FORMAT_R8_UINT;
-  inputElementDesc_[4].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
+
+  inputElementDesc_[3].SemanticName = "INSTANCEID";
+  inputElementDesc_[3].SemanticIndex = 0;
+  inputElementDesc_[3].Format = DXGI_FORMAT_R8_UINT;
+  inputElementDesc_[3].AlignedByteOffset = D3D12_APPEND_ALIGNED_ELEMENT;
 
   inputLayoutDesc.pInputElementDescs = inputElementDesc_.data();
   inputLayoutDesc.NumElements = UINT(inputElementDesc_.size());

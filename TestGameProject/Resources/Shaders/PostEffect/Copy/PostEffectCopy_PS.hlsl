@@ -27,8 +27,8 @@ PS_OUTPUT main(VS_OUTPUT input)
     
     
     float32_t4 albedColor = gAlbed.Sample(gSampler, input.texcoord);
-    float32_t3 N = normalize(gNormal.Sample(gSampler, input.texcoord).xyz * 2.0f - 1.0f);
-
+    float32_t3 N = normalize(gNormal.Sample(gSamplerPoint, input.texcoord).xyz * 2.0f - 1.0f);
+  
     //ライト計算
     float32_t3 cameraPos = gCamera.pos.xyz;
     
@@ -66,7 +66,7 @@ PS_OUTPUT main(VS_OUTPUT input)
     
 
     output.color = float32_t4(color, 1.0f);
-    //output.color = float4(N, 1.0f);
+   //output.color = float4(N, 1.0f);
 
     return output;
 }

@@ -230,6 +230,16 @@ Mat4x4 Math::Matrix::Func::PerspectiveFovMatrix(float fovY, float aspectRatio,
   return result;
 }
 
+Mat4x4 Math::Matrix::Func::TransposeMatrix(const Mat4x4 &matrix) {
+  Mat4x4 result{};
+  for (int row = 0; row < 4; ++row) {
+    for (int column = 0; column < 4; ++column) {
+      result.m[row][column] = matrix.m[column][row];
+    }
+  }
+  return result;
+}
+
 Mat4x4 Math::Matrix::Func::OrthographicMatrix(float left, float top,
                                               float right, float bottom,
                                               float nearClip, float farClip) {

@@ -1,6 +1,7 @@
 #pragma once
 #include "CLEYERA.h"
 
+#include "GameObj/SkySphere.h"
 #include "GameObj/TestCamera.h"
 #include "GameObj/TestObject.h"
 #include "GameObj/TestSprite.h"
@@ -25,7 +26,7 @@ private:
   }
 
   std::vector<std::weak_ptr<TestObj>> testObj_;
-
+  std::weak_ptr<SkySphere> skySphere_;
   std::shared_ptr<TestCamera> testCamera_ = nullptr;
   std::unique_ptr<TestSprite> testSprite_ = nullptr;
 

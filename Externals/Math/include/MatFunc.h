@@ -33,6 +33,10 @@ Mat4x4 ViewportMatrix(float left, float top, float width, float height,
 /// </summary>
 Mat4x4 PerspectiveFovMatrix(float fovY, float aspectRatio, float nearClip,
                             float farClip);
+/// <summary>
+/// 行列を転置する関数
+/// </summary>
+Mat4x4 TransposeMatrix(const Mat4x4 &matrix);
 
 /// <summary>
 /// 正射影行列を作成する関数

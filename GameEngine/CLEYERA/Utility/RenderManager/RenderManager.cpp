@@ -13,7 +13,15 @@ void CLEYERA::Manager::RenderManager::Init() {
 void CLEYERA::Manager::RenderManager::Update() {}
 
 void CLEYERA::Manager::RenderManager::Draw3d() {
+  for (auto &ins : *instancingData_) {
 
+    auto &it = ins.second;
+    if (!it.worldIns)
+      return;
+    it.model.lock()->Update();
+    it.worldIns->Update();
+    it.MaterialIns->Update();
+  }
   auto piplineManager_ = Graphics::Raster::RasterPiplineManager::GetInstance();
   auto cameraManager_ = Manager::CameraManager::GetInstance();
   auto lightManager = Manager::LightManager::GetInstance();
@@ -22,7 +30,6 @@ void CLEYERA::Manager::RenderManager::Draw3d() {
   auto descManager_ = Base::DX::DXDescripterManager::GetInstance();
   using DrawMode = Graphics::RasterPipline_Mode3d;
 
-
   for (auto &data : *instancingData_) {
     auto &it = data.second;
     auto model = it.model.lock();
@@ -30,8 +37,7 @@ void CLEYERA::Manager::RenderManager::Draw3d() {
         texManager_->GetTexData(model->GetAlbedoTexHandle()).lock();
     auto albedHandle = descManager_->GetSRVGPUHandle(albedData->GetSrvIndex());
 
-      piplineManager_->SetRootsignature(
-        it.drawMode_);
+    piplineManager_->SetRootsignature(it.drawMode_);
     piplineManager_->SetPipline(it.drawMode_);
 
     switch (it.drawMode_) {

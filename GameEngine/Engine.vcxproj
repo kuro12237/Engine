@@ -271,6 +271,7 @@
     <ClInclude Include="CLEYERA\Compornent\SpriteComponent.h" />
     <ClInclude Include="CLEYERA\DebugTools\DebugCamera.h" />
     <ClInclude Include="CLEYERA\DebugTools\Grid.h" />
+    <ClInclude Include="CLEYERA\DebugWindow\DebugWindow.h" />
     <ClInclude Include="CLEYERA\DX\DXAdapter\DXAdapter.h" />
     <ClInclude Include="CLEYERA\DX\DXBarrier\DXBarrier.h" />
     <ClInclude Include="CLEYERA\DX\DXBufferResource\DXBufferResource.h" />

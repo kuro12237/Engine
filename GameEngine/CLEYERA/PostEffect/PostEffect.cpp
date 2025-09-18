@@ -52,35 +52,36 @@ void CLEYERA::Manager::PostEffectManager::Init() {
   dsvDesc.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
   dsvDesc.ViewDimension = D3D12_DSV_DIMENSION_TEXTURE2D;
   depth_->RegisterDSV(dsvDesc);
+
+  vertData_.resize(6);
 }
 
 void CLEYERA::Manager::PostEffectManager::Update() {
 
-  vertData_.resize(6);
   // 左上
   vertData_[0].pos = {0.0f, 0.0f, 0.0f, 1.0f};
   vertData_[0].texCooard = {0.0f, 0.0f};
-  vertData_[0].normal = {};
+  vertData_[0].normal.Init();
   // 右上
   vertData_[1].pos = {1280.0f, 0.0f, 0.0f, 1.0f};
   vertData_[1].texCooard = {1.0f, 0.0f};
-  vertData_[1].normal = {};
+  vertData_[1].normal.Init();
   // 左下
   vertData_[2].pos = {0.0f, 720.0f, 0.0f, 1.0f};
   vertData_[2].texCooard = {0.0f, 1.0f};
-  vertData_[2].normal = {};
+  vertData_[2].normal.Init();
   // 左下 (再利用)
   vertData_[3].pos = {0.0f, 720.0f, 0.0f, 1.0f};
   vertData_[3].texCooard = {0.0f, 1.0f};
-  vertData_[3].normal = {};
+  vertData_[3].normal.Init();
   // 右上 (再利用)
   vertData_[4].pos = {1280.0f, 0.0f, 0.0f, 1.0f};
   vertData_[4].texCooard = {1.0f, 0.0f};
-  vertData_[4].normal = {};
+  vertData_[4].normal.Init();
   // 右下
   vertData_[5].pos = {1280.0f, 720.0f, 0.0f, 1.0f};
   vertData_[5].texCooard = {1.0f, 1.0f};
-  vertData_[5].normal = {};
+  vertData_[5].normal.Init();
   vert_->Map();
   vert_->SetParam(vertData_);
   vert_->Update();

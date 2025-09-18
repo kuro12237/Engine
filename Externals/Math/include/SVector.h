@@ -141,6 +141,41 @@ struct Vec4 {
   Vec4 operator/(const Vec4 &other) const {
     return Vec4{x / other.x, y / other.y, z / other.z, w / other.w};
   }
+  // += オペレーター
+  Vec4 &operator+=(const Vec4 &other) {
+    x += other.x;
+    y += other.y;
+    z += other.z;
+    w += other.w;
+    return *this;
+  }
+
+  // -= オペレーター
+  Vec4 &operator-=(const Vec4 &other) {
+    x -= other.x;
+    y -= other.y;
+    z -= other.z;
+    w -= other.w;
+    return *this;
+  }
+
+  // *= オペレーター
+  Vec4 &operator*=(const Vec4 &other) {
+    x *= other.x;
+    y *= other.y;
+    z *= other.z;
+    w *= other.w;
+    return *this;
+  }
+
+  // /= オペレーター
+  Vec4 &operator/=(const Vec4 &other) {
+    x /= other.x;
+    y /= other.y;
+    z /= other.z;
+    w /= other.w;
+    return *this;
+  }
 
   NLOHMANN_DEFINE_TYPE_INTRUSIVE(Vec4, x, y, z, w);
 };

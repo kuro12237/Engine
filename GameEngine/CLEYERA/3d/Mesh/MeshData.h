@@ -17,8 +17,10 @@ namespace system {
 struct VertexForGPU {
 
   Math::Vector::Vec4 pos;
-  Math::Vector::Vec2 texCooard;
   Math::Vector::Vec3 normal;
+
+  Math::Vector::Vec2 texCooard;
+  uint32_t instanceId;
 };
 
 /// <summary>

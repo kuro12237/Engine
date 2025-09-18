@@ -3,6 +3,10 @@
         "TestObj": [
             "TestObj", 
             999 
+        ],  
+        "SkySphere": [
+            "SkySphere", 
+            999 
         ]
 
     }

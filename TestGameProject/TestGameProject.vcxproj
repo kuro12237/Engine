@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\GameObj\SkySphere.cpp" />
     <ClCompile Include="GameObject\GameObj\TestCamera.cpp" />
     <ClCompile Include="GameObject\GameObj\TestObject.cpp" />
     <ClCompile Include="GameObject\GameObj\TestSprite.cpp" />
@@ -157,6 +158,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObject\GameObj\SkySphere.h" />
     <ClInclude Include="GameObject\GameObj\TestCamera.h" />
     <ClInclude Include="GameObject\GameObj\TestObject.h" />
     <ClInclude Include="GameObject\GameObj\TestSprite.h" />

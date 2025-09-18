@@ -22,6 +22,58 @@ struct Qua {
     return result;
   }
 
+  
+  Qua &operator*=(const Qua &rhs) {
+    *this = *this * rhs;
+    return *this;
+  }
+
+  // --- 加算 / 減算 ---
+  Qua operator+(const Qua &rhs) const {
+    return {x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w};
+  }
+  Qua operator-(const Qua &rhs) const {
+    return {x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w};
+  }
+
+  Qua &operator+=(const Qua &rhs) {
+    x += rhs.x;
+    y += rhs.y;
+    z += rhs.z;
+    w += rhs.w;
+    return *this;
+  }
+  Qua &operator-=(const Qua &rhs) {
+    x -= rhs.x;
+    y -= rhs.y;
+    z -= rhs.z;
+    w -= rhs.w;
+    return *this;
+  }
+
+  // --- スカラー演算 ---
+  Qua operator*(float s) const { return {x * s, y * s, z * s, w * s}; }
+  Qua operator/(float s) const { return {x / s, y / s, z / s, w / s}; }
+  Qua &operator*=(float s) {
+    x *= s;
+    y *= s;
+    z *= s;
+    w *= s;
+    return *this;
+  }
+  Qua &operator/=(float s) {
+    x /= s;
+    y /= s;
+    z /= s;
+    w /= s;
+    return *this;
+  }
+
+  // --- 比較 ---
+  bool operator==(const Qua &rhs) const {
+    return (x == rhs.x && y == rhs.y && z == rhs.z && w == rhs.w);
+  }
+  bool operator!=(const Qua &rhs) const { return !(*this == rhs); }
 };
 
 } // namespace Math::Quaternon

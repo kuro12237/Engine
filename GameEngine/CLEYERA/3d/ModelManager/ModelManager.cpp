@@ -13,7 +13,7 @@ uint32_t CLEYERA::Manager::ModelManager::LoadModel(
   std::string file{};
 
   if (load == LoadModelData::OBJ) {
-    file = directory + fileName + ".obj";
+    file = directory + "/" + fileName + ".obj";
     // 読み込み済みの場合
     if (datas_.find(file) != datas_.end()) {
       return datas_[file]->GetHandle();
@@ -101,13 +101,15 @@ CLEYERA::Manager::ModelManager::CreateOBJ(std::string directory,
       aiString texFilePath;
       material->GetTexture(aiTextureType_HEIGHT, 0, &texFilePath);
 
-      path = directory + "/" + texFilePath.C_Str();
+     std::string  texPath = directory + "/" + texFilePath.C_Str();
       texManager_->UnUsedFilePath();
-      normalTexHandle = texManager_->LoadPngTex(path);
+      normalTexHandle = texManager_->LoadPngTex(texPath);
     }
   }
 
   model->Init();
+  data->SetKey(path);
+
   data->SetHandle(handle_);
   model->SetAlbedoTexHandle(texHandle);
   model->SetNormalTexHandle(normalTexHandle);
@@ -151,12 +153,13 @@ CLEYERA::Manager::ModelManager::CreateGLTF(std::string directory,
       aiString texFilePath;
       material->GetTexture(aiTextureType_DIFFUSE, 0, &texFilePath);
 
-      path = directory + "/" + texFilePath.C_Str();
+      std::string texPath = directory + "/" + texFilePath.C_Str();
       texManager_->UnUsedFilePath();
-      texHandle = texManager_->LoadPngTex(path);
+      texHandle = texManager_->LoadPngTex(texPath);
     }
   }
   model->Init();
+  data->SetKey(path);
   data->SetHandle(handle_);
   model->SetAlbedoTexHandle(texHandle);
   data->SetModel(model);

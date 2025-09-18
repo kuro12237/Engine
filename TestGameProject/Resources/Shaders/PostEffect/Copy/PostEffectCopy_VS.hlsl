@@ -27,7 +27,7 @@ VS_OUTPUT main(VS_INPUT input, uint32_t vertexId : SV_VertexID)
     VS_OUTPUT output;
     float32_t4x4 resultMatrix = mul(gTransformform.worldmat, gCamera.orthographics);
   
-    output.position = kPositions[vertexId];
-    output.texcoord = kTexCoords[vertexId];
+    output.position =mul(input.position, resultMatrix);
+    output.texcoord = input.texCoord;
     return output;
 }
