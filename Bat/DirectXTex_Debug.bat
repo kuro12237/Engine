@@ -13,9 +13,9 @@ MSBuild "DirectXTex\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj" ^
  /m
 
 
-IF EXIST "Generated\output\DirectXTex\Debug\DirectXTex.lib" (
+IF EXIST "Generated\output\Debug\DirectXTex\DirectXTex.lib" (
     mkdir "Externals\DirectXTex\lib\Debug" >nul 2>&1
-    copy /Y "generated\output\DirectXTex\Debug\DirectXTex.lib" "Externals\DirectXTex\lib\Debug\"
+    copy /Y "generated\output\Debug\DirectXTex\DirectXTex.lib" "Externals\DirectXTex\lib\Debug\"
 ) ELSE (
     echo DirectXTex.lib not found. Build may have failed.
     pause

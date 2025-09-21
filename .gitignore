@@ -101,6 +101,8 @@ StyleCopReport.xml
 ../Externals
 ../Generated
 
+../Externals/Engine/include/
+
 # Chutzpah Test files
 _Chutzpah*
 

@@ -1,0 +1,32 @@
+#pragma once
+
+#include "../RasterPiplineCompornent.h"
+
+namespace CLEYERA {
+
+namespace Graphics {
+
+namespace Raster {
+
+namespace system {
+
+class PostEffectCopy : public RasterPiplineCompornent {
+public:
+  PostEffectCopy() {};
+  ~PostEffectCopy() {};
+
+  void SettingShader() override;
+  void SettingRootParam() override;
+  void SettingSampler() override;
+  void SettingInput() override;
+
+
+  D3D12_DESCRIPTOR_RANGE descriptorRangeVertices[1] = {};
+  D3D12_DESCRIPTOR_RANGE descriptorRangeNormal[1] = {};
+  D3D12_DESCRIPTOR_RANGE descriptorRangeDepth[1] = {};
+};
+
+} // namespace system
+} // namespace Raster
+} // namespace Graphics
+} // namespace CLEYERA

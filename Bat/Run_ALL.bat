@@ -2,9 +2,6 @@
 setlocal
 
 echo Run Start
-echo directory: %cd%
-
-rem バッチ自身のあるディレクトリに移動
 cd /d %~dp0
 set "CURDIR=%cd%"
 
@@ -12,11 +9,13 @@ rem カレントディレクトリの .bat ファイルをループ
 for %%f in ("%CURDIR%\*.bat") do (
     if /I not "%%~nxf"=="%~nx0" (
         echo Run: %%~nxf
-        call "%%f"
+        rem 新しいウィンドウで実行して、終わったら次へ
+        start /wait "Running %%~nxf" cmd /c call "%%f"
+        
+        echo Complete: %%~nxf
     )
 )
 
 endlocal
-
-echo Run_Complite
+echo Run_Complete
 pause
