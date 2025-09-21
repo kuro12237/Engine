@@ -11,8 +11,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Math", "..\Math\Math.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGameProject", "..\TestGameProject\TestGameProject.vcxproj", "{EADCCDC1-F8F9-4486-8A8B-DCBB6BF09073}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameProject", "..\GameProject\GameProject.vcxproj", "{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -53,14 +51,6 @@ Global
 		{EADCCDC1-F8F9-4486-8A8B-DCBB6BF09073}.Release|x64.Build.0 = Release|x64
 		{EADCCDC1-F8F9-4486-8A8B-DCBB6BF09073}.Release|x86.ActiveCfg = Release|Win32
 		{EADCCDC1-F8F9-4486-8A8B-DCBB6BF09073}.Release|x86.Build.0 = Release|Win32
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Debug|x64.ActiveCfg = Debug|x64
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Debug|x64.Build.0 = Debug|x64
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Debug|x86.ActiveCfg = Debug|Win32
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Debug|x86.Build.0 = Debug|Win32
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Release|x64.ActiveCfg = Release|x64
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Release|x64.Build.0 = Release|x64
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Release|x86.ActiveCfg = Release|Win32
-		{1A11AEAA-CE79-4595-BB0D-B9437A4D9694}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
