@@ -30,6 +30,16 @@ void CLEYERA::Utility::ImGuiCommon::Init() {
   ImGui::CreateContext();
   ImGui::StyleColorsDark();
 
+    // 日本語フォントの追加
+
+  ImGuiIO &io = ImGui::GetIO();
+  ImFont *jpFont = io.Fonts->AddFontFromFileTTF(
+      "Resources/font/GenShinGothic-P-Medium.ttf", 18.0f, nullptr,
+      io.Fonts->GetGlyphRangesJapanese());
+  if (jpFont == NULL) {
+    assert(0);
+  }
+
   ImGui_ImplWin32_Init(winApp_->GetHWND());
   ImGui_ImplDX12_Init(device, swapBufferCount, format, descripter,
                       descripterManager_->GetSRV()
@@ -41,13 +51,17 @@ void CLEYERA::Utility::ImGuiCommon::Init() {
                           ->GetDescripter()
                           ->GetGPUDescriptorHandleForHeapStart());
 
-  ImGuiIO &io = ImGui::GetIO();
+  io = ImGui::GetIO();
   io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
 
   unsigned char *pixels = nullptr;
   int width = 0, height = 0;
   io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
+
+
+
+  io.Fonts->Build();
   ImGui_ImplDX12_CreateDeviceObjects();
 }
 

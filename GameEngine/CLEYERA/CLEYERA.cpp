@@ -77,6 +77,8 @@ void Engine::Init() {
 
   render_ = std::make_unique<CLEYERA::Manager::RenderManager>();
   render_->Init();
+
+  debugWindow_ = std::make_unique<CLEYERA::DebugTools::DebugWindow>();
 }
 
 void Engine::Run() {
@@ -100,6 +102,7 @@ void Engine::Run() {
 
 #ifdef _DEBUG
 
+  debugWindow_->Update();
   ImGuiUpdate();
 
 #endif // _DEBUG

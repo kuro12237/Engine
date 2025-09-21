@@ -173,6 +173,7 @@
     <ClCompile Include="CLEYERA\Compornent\SpriteComponent.cpp" />
     <ClCompile Include="CLEYERA\DebugTools\DebugCamera.cpp" />
     <ClCompile Include="CLEYERA\DebugTools\Grid.cpp" />
+    <ClCompile Include="CLEYERA\DebugWindow\DebugWindow.cpp" />
     <ClCompile Include="CLEYERA\DX\DXAdapter\DXAdapter.cpp" />
     <ClCompile Include="CLEYERA\DX\DXBarrier\DXBarrier.cpp" />
     <ClCompile Include="CLEYERA\DX\DXCommand\DXCommandAllocator.cpp" />
@@ -334,6 +335,7 @@
     <ClInclude Include="CLEYERA\Utility\Flame\Flame.h" />
     <ClInclude Include="CLEYERA\Utility\ImGui\ImGuiCommon.h" />
     <ClInclude Include="CLEYERA\Utility\ImGui\ImGuiManager.h" />
+    <ClInclude Include="CLEYERA\Utility\ImGui\ImGuiJapanese.h" />
     <ClInclude Include="CLEYERA\Utility\Input\InputComtroller.h" />
     <ClInclude Include="CLEYERA\Utility\Input\InputKeybord.h" />
     <ClInclude Include="CLEYERA\Utility\Input\InputManager.h" />

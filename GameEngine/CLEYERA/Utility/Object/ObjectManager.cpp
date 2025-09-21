@@ -66,7 +66,7 @@ void CLEYERA::Manager::ObjectManager::Update() {
 
 void CLEYERA::Manager::ObjectManager::ImGuiUpdate() {
 
-  ImGui::Begin("ObjManager");
+  ImGui::Begin("オブジェクト管理");
 
   for (const auto &m : objects_) {
 

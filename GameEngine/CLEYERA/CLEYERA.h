@@ -38,6 +38,7 @@
 #include"PostEffect/PostEffect.h"
 
 #include"Utility/RenderManager/RenderManager.h"
+#include"DebugWindow/DebugWindow.h"
 
 class Engine {
 public:
@@ -83,6 +84,7 @@ private:
   CLEYERA::Manager::InputManager *inputManager_ = nullptr;
   CLEYERA::Manager::GravityManager *gravityManager_ = nullptr;
   CLEYERA::Manager::SceneManager *sceneManager_ = nullptr;
+  CLEYERA::Manager::PostEffectManager *postEffect_;
 
   CLEYERA::Util::Flame *flame_ = nullptr;
 
@@ -101,5 +103,5 @@ private:
 
   std::unique_ptr<CLEYERA::Manager::RenderManager> render_ = nullptr;
 
-  CLEYERA::Manager::PostEffectManager *postEffect_;
+  std::unique_ptr<CLEYERA::DebugTools::DebugWindow> debugWindow_;
 };
