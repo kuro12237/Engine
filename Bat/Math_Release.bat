@@ -9,12 +9,12 @@ call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\v
 MSBuild "Math\Math.vcxproj" ^
  /t:clean;rebuild ^
  /p:Configuration=Release;Platform=x64;ConfigurationType=StaticLibrary ^
- /p:OutDir=../Generated\output\Math\Release\ ^
+ /p:OutDir=../Generated\output\Release\Math ^
  /m
 
-IF EXIST "Generated\output\Math\Release\Math.lib" (
+IF EXIST "Generated\output\Release\Math\Math.lib" (
     mkdir "Externals\Math\lib\Release" >nul 2>&1
-    copy /Y "generated\output\Math\Release\Math.lib" "Externals\Math\lib\Release\"
+    copy /Y "generated\output\Release\Math\Math.lib" "Externals\Math\lib\Release\"
 ) ELSE (
     echo Math.lib not found. Build may have failed.
     pause

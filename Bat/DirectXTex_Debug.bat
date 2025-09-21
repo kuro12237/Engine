@@ -9,7 +9,7 @@ call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\v
 MSBuild "DirectXTex\DirectXTex\DirectXTex_Desktop_2022_Win10.vcxproj" ^
  /t:clean;rebuild ^
  /p:Configuration=Debug;Platform=x64;ConfigurationType=StaticLibrary ^
- /p:OutDir=../../Generated\output\DirectXTex\Debug\ ^
+ /p:OutDir=../../Generated\output\Debug\DirectXTex ^
  /m
 
 

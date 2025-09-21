@@ -9,13 +9,13 @@ call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\v
 MSBuild "ImGui\ImGui.vcxproj" ^
  /t:clean;rebuild ^
  /p:Configuration=Debug;Platform=x64;ConfigurationType=StaticLibrary ^
- /p:OutDir=../Generated\output\ImGui\Debug\ ^
+ /p:OutDir=../Generated\output\Debug\ImGui ^
  /m
 
 
-IF EXIST "Generated\output\ImGui\Debug\ImGui.lib" (
+IF EXIST "Generated\output\Debug\ImGui\ImGui.lib" (
     mkdir "Externals\ImGui\lib\Debug" >nul 2>&1
-    copy /Y "generated\output\ImGui\Debug\ImGui.lib" "Externals\ImGui\lib\Debug\"
+    copy /Y "generated\output\Debug\ImGui\ImGui.lib" "Externals\ImGui\lib\Debug\"
 ) ELSE (
     echo ImGui.lib not found. Build may have failed.
     pause

@@ -11,7 +11,7 @@ call "%ProgramFiles%\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\v
 MSBuild "GameEngine\Engine.vcxproj" ^
  /t:clean;rebuild ^
  /p:Configuration=Release;Platform=x64;ConfigurationType=StaticLibrary ^
- /p:OutDir=../Generated\output\gameEngine\Release\ ^
+ /p:OutDir=../Generated\output\Release\Engine ^
  /m
 
 
