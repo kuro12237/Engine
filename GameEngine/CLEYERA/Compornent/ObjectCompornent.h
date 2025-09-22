@@ -6,6 +6,7 @@
 #include "Utility/Flame/Flame.h"
 
 #include "JsonCompornent.h"
+#include"DLLComponent.h"
 
 namespace CLEYERA {
 
@@ -31,7 +32,7 @@ namespace Component {
 /// <summary>
 /// objectのコンポーネント基本継承
 /// </summary>
-class ObjectComponent {
+class ObjectComponent :public DLLComponent{
 public:
   ObjectComponent();
   virtual ~ObjectComponent() {};

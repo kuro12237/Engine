@@ -10,7 +10,7 @@ void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingShader() {
 
 void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingRootParam() {
 
- this->rootParam_.resize(7);
+ this->rootParam_.resize(8);
 
   // かめら
   rootParam_[0].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
@@ -72,6 +72,17 @@ void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingRootParam() {
   rootParam_[6].ParameterType = D3D12_ROOT_PARAMETER_TYPE_CBV;
   rootParam_[6].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
   rootParam_[6].Descriptor.ShaderRegister = 1;
+
+    // POintLight
+  descriptorRangePointLight[0].BaseShaderRegister = 3;
+  descriptorRangePointLight[0].NumDescriptors = 1;
+  descriptorRangePointLight[0].RangeType = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
+  descriptorRangePointLight[0].OffsetInDescriptorsFromTableStart = D3D12_DESCRIPTOR_RANGE_OFFSET_APPEND;
+  // tex
+  rootParam_[7].ParameterType = D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
+  rootParam_[7].ShaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+  rootParam_[7].DescriptorTable.pDescriptorRanges = descriptorRangePointLight;
+  rootParam_[7].DescriptorTable.NumDescriptorRanges = _countof(descriptorRangePointLight);
 }
 
 void CLEYERA::Graphics::Raster::system::PostEffectCopy::SettingSampler() {

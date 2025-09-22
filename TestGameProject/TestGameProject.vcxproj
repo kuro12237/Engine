@@ -148,7 +148,9 @@
     <ClCompile Include="GameObject\GameObj\SkySphere.cpp" />
     <ClCompile Include="GameObject\GameObj\TestCamera.cpp" />
     <ClCompile Include="GameObject\GameObj\TestObject.cpp" />
+    <ClCompile Include="GameObject\GameObj\TestPointLight.cpp" />
     <ClCompile Include="GameObject\GameObj\TestSprite.cpp" />
+    <ClCompile Include="GameObject\GameObj\TestTerrain.cpp" />
     <ClCompile Include="GameObject\TestScene.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -161,7 +163,9 @@
     <ClInclude Include="GameObject\GameObj\SkySphere.h" />
     <ClInclude Include="GameObject\GameObj\TestCamera.h" />
     <ClInclude Include="GameObject\GameObj\TestObject.h" />
+    <ClInclude Include="GameObject\GameObj\TestPointLight.h" />
     <ClInclude Include="GameObject\GameObj\TestSprite.h" />
+    <ClInclude Include="GameObject\GameObj\TestTerrain.h" />
     <ClInclude Include="GameObject\TestScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -101,5 +101,9 @@ void CLEYERA::Manager::RenderManager::PostEffectDraw() {
   cameraManager_->BindCommand(5);
   LightManager::GetInstance()->DirectionLightCommandBind(6);
 
+  
+  LightManager::GetInstance()->PointLightCommandBind(7);
+
+
   commandManager_->DrawCall(postEffect_->GetVertData().size(), 1);
 }

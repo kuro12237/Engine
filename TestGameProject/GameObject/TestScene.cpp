@@ -11,20 +11,17 @@ void TestScene::Init() {
   std::string category = VAR_NAME(TestObj);
   modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
       "Resources/Model/system/Sphere", "Sphere");
-  /* modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
-       "Resources/Model/system/StageCoin",
-     "StageCoin",CLEYERA::Manager::ModelManager::LoadModelData::GLTF);*/
 
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
 
   category = VAR_NAME(SkySphere);
+
   modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
       "Resources/Model/system/SkySphere", "SkySphre");
-
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
 
-  // objManager->GetCategoryData(category).ChangeDrawMode(
-  //     CLEYERA::Graphics::RasterPipline_Mode3d::Normal_MODEL3d);
+  modelHandle = CLEYERA::Manager::ModelManager::GetInstance()->LoadModel(
+      "Resources/Model/system/Terrain", "Terrain");
 
   num_ = 1;
   testCamera_ = std::make_shared<TestCamera>();
@@ -42,6 +39,13 @@ void TestScene::Init() {
 
   skySphere_ = objManager->CreateObject<SkySphere>(
       VAR_NAME(SkySphere), std::make_shared<SkySphere>());
+
+  terrain_ = objManager->CreateObject<TestTerrain>(
+      VAR_NAME(TestTerrain), std::make_shared<TestTerrain>());
+  objManager->GetCategoryData(VAR_NAME(TestTerrain)).ChangeModelData(modelHandle);
+
+  pointLight_ = std::make_unique<TestPointLight>();
+  pointLight_->Init();
 }
 
 void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
@@ -55,6 +59,7 @@ void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
     spawnInterval_ = 0.0f;
   }
 
+  pointLight_->Update();
 #ifdef _DEBUG
 
   if (ImGui::TreeNode("Push")) {

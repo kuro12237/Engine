@@ -166,9 +166,11 @@
     <ClCompile Include="CLEYERA\3d\Tlas\Tlas.cpp" />
     <ClCompile Include="CLEYERA\CLEYERA.cpp" />
     <ClCompile Include="CLEYERA\Compornent\CameraCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\DLLComponent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\JsonCompornent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\ManagerCompornent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\ObjectCompornent.cpp" />
+    <ClCompile Include="CLEYERA\Compornent\PointLightComponent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\SceneComponent.cpp" />
     <ClCompile Include="CLEYERA\Compornent\SpriteComponent.cpp" />
     <ClCompile Include="CLEYERA\DebugTools\DebugCamera.cpp" />
@@ -265,9 +267,11 @@
     <ClInclude Include="CLEYERA\3d\Tlas\Tlas.h" />
     <ClInclude Include="CLEYERA\CLEYERA.h" />
     <ClInclude Include="CLEYERA\Compornent\CameraCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\DLLComponent.h" />
     <ClInclude Include="CLEYERA\Compornent\JsonCompornent.h" />
     <ClInclude Include="CLEYERA\Compornent\ManagerCompornent.h" />
     <ClInclude Include="CLEYERA\Compornent\ObjectCompornent.h" />
+    <ClInclude Include="CLEYERA\Compornent\PointLightComponent.h" />
     <ClInclude Include="CLEYERA\Compornent\SceneComponent.h" />
     <ClInclude Include="CLEYERA\Compornent\SpriteComponent.h" />
     <ClInclude Include="CLEYERA\DebugTools\DebugCamera.h" />
