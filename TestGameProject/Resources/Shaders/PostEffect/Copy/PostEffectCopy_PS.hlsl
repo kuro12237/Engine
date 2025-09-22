@@ -14,49 +14,44 @@ SamplerState gSamplerPoint : register(s1);
 
 ConstantBuffer<SCamera> gCamera : register(b0);
 ConstantBuffer<DirectionLight> gDirectionLight : register(b1);
+float3 PositionFromDepth(float depth, float2 uv)
+{
+    float4 clip = float4(uv * 2 - 1, depth, 1.0f); // DirectX: z = depth 0~1
+    clip.y *= -1.0f; // Y反転
 
+    float4 viewPos = mul(clip, gCamera.mtxProjInv);
+    viewPos /= viewPos.w;
+
+    float4 worldPos4 = mul(viewPos, gCamera.mtxViewInv);
+    return worldPos4.xyz;
+}
 PS_OUTPUT main(VS_OUTPUT input)
 {
     PS_OUTPUT output;
 
-    //depth
+    // --- depth からワールド位置 ---
     float depth = gDepth.Sample(gSamplerPoint, input.texcoord);
-    float z = depth * 2.0f - 1.0f;
-    float4 ndcPos = float4(input.texcoord * 2.0f - 1.0f, z, 1.0f);
+    float3 worldPos = PositionFromDepth(depth, input.texcoord);
 
-    // View
-    float4 viewPos = mul(ndcPos, gCamera.mtxProjInv);
-    viewPos /= viewPos.w;
-
-    // World
-    float4 worldPos4 = mul(viewPos, gCamera.mtxViewInv);
-    worldPos4 /= worldPos4.w;
-    float3 worldPos = worldPos4.xyz;
-
-    //Tex
+    // --- テクスチャ ---
     float4 albedColor = gAlbed.Sample(gSampler, input.texcoord);
-    float3 N = normalize(gNormal.Sample(gSamplerPoint, input.texcoord).xyz * 2.0f - 1.0f);
-    
+
+    // --- スクリーンサイズから逆解像度 ---
+    float2 invRTSize = 1.0f / float2(1280.0f, 720.0f);
+
+    // --- 隣接ピクセルのワールド位置差から法線再構築 ---
+    float depthRight = gDepth.Sample(gSamplerPoint, input.texcoord + float2(invRTSize.x, 0)).r;
+    float depthDown = gDepth.Sample(gSamplerPoint, input.texcoord + float2(0, invRTSize.y)).r;
+    float3 posRight = PositionFromDepth(depthRight, input.texcoord + float2(invRTSize.x, 0));
+    float3 posDown = PositionFromDepth(depthDown, input.texcoord + float2(0, invRTSize.y));
+
+    float3 positionDX = posRight - worldPos;
+    float3 positionDY = posDown - worldPos;
+    float3 N_reconstructed = normalize(cross(positionDX, positionDY));
+
     float3 cameraPos = gCamera.pos.xyz;
-    float3 color = 0.0f;
-    
     float3 toEye = normalize(cameraPos - worldPos);
-    
-    //direction
-    {
-        float3 lightDir = normalize(gDirectionLight.direction);
-        float3 lightColor = gDirectionLight.color.rgb * gDirectionLight.intencity;
-        
-        float3 halfVector = normalize(-lightDir + toEye);
-
-        float NdotL = saturate(dot(N, -lightDir));
-        float NdotH = saturate(dot(N, halfVector));
-
-        float3 diffuse = albedColor.rgb * lightColor * NdotL;
-        float3 specular = lightColor * pow(NdotH, 64.0f);
-
-        //color += diffuse + specular;
-    }
+    float3 color = 0.0f;
 
     //point
     [loop]
@@ -64,7 +59,6 @@ PS_OUTPUT main(VS_OUTPUT input)
     {
         PointLight pl = gPointLight[i];
 
-        
         float3 Lw = pl.pos - worldPos;
         float dist = length(Lw);
         float3 L = Lw / max(dist, 1e-6);
@@ -75,24 +69,23 @@ PS_OUTPUT main(VS_OUTPUT input)
 
         // ハーフベクトル
         float3 halfV = normalize(L + toEye);
-        float NdotL = saturate(dot(N, L));
-        float NdotH = saturate(dot(N, halfV));
+        float NdotL = saturate(dot(N_reconstructed, L));
+        float NdotH = saturate(dot(N_reconstructed, halfV));
 
- 
         float3 lightColor = float3(1, 1, 1) * pl.intensity * att;
 
         float3 diffuse = albedColor.rgb * lightColor * NdotL;
-        float3 specular = lightColor * pow(NdotH, 64.0f);
+        float3 specular = lightColor * pow(NdotH, 90.0f);
 
         color += diffuse + specular;
     }
 
-    //fog
-    float fogStart = 20.0f;
-    float fogEnd = 125.0f;
-    float fogWeight = saturate((worldPos.z - fogStart) / (fogEnd - fogStart));
-    float3 fogColor = float3(0.8f, 0.8f, 0.8f);
-    color = lerp(color, fogColor, fogWeight);
+    ////fog
+    //float fogStart = 20.0f;
+    //float fogEnd = 125.0f;
+    //float fogWeight = saturate((worldPos.z - fogStart) / (fogEnd - fogStart));
+    //float3 fogColor = float3(0.8f, 0.8f, 0.8f);
+    //color = lerp(color, fogColor, fogWeight);
 
     output.color = float4(color, 1.0f);
     return output;
