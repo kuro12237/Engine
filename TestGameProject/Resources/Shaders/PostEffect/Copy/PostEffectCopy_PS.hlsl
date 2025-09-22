@@ -16,7 +16,7 @@ ConstantBuffer<SCamera> gCamera : register(b0);
 ConstantBuffer<DirectionLight> gDirectionLight : register(b1);
 float3 PositionFromDepth(float depth, float2 uv)
 {
-    float4 clip = float4(uv * 2 - 1, depth, 1.0f); // DirectX: z = depth 0~1
+    float4 clip = float4(uv * 2 - 1, depth, 1.0f);
     clip.y *= -1.0f; // Y反転
 
     float4 viewPos = mul(clip, gCamera.mtxProjInv);
@@ -28,18 +28,16 @@ float3 PositionFromDepth(float depth, float2 uv)
 PS_OUTPUT main(VS_OUTPUT input)
 {
     PS_OUTPUT output;
-
-    // --- depth からワールド位置 ---
+    
+    //depth
     float depth = gDepth.Sample(gSamplerPoint, input.texcoord);
     float3 worldPos = PositionFromDepth(depth, input.texcoord);
-
-    // --- テクスチャ ---
+    //albed
     float4 albedColor = gAlbed.Sample(gSampler, input.texcoord);
 
-    // --- スクリーンサイズから逆解像度 ---
     float2 invRTSize = 1.0f / float2(1280.0f, 720.0f);
 
-    // --- 隣接ピクセルのワールド位置差から法線再構築 ---
+    //フラット再生成
     float depthRight = gDepth.Sample(gSamplerPoint, input.texcoord + float2(invRTSize.x, 0)).r;
     float depthDown = gDepth.Sample(gSamplerPoint, input.texcoord + float2(0, invRTSize.y)).r;
     float3 posRight = PositionFromDepth(depthRight, input.texcoord + float2(invRTSize.x, 0));
@@ -48,10 +46,20 @@ PS_OUTPUT main(VS_OUTPUT input)
     float3 positionDX = posRight - worldPos;
     float3 positionDY = posDown - worldPos;
     float3 N_reconstructed = normalize(cross(positionDX, positionDY));
-
+    
+    //法円マップの生成がおかしい？
+    //float3 N_tex = gNormal.Sample(gSamplerPoint, input.texcoord).xyz * 2.0f - 1.0f;
+    //N_reconstructed = normalize(N_tex);
+    
     float3 cameraPos = gCamera.pos.xyz;
     float3 toEye = normalize(cameraPos - worldPos);
     float3 color = 0.0f;
+       //fog
+    float fogStart = cameraPos.z;
+    float fogEnd = cameraPos.z + 125.0f;
+    float fogWeight = saturate((worldPos.z - fogStart) / (fogEnd - fogStart));
+    float3 fogColor = float3(0.8f, 0.8f, 0.8f);
+    color = lerp(color, fogColor, fogWeight);
 
     //point
     [loop]
@@ -80,13 +88,7 @@ PS_OUTPUT main(VS_OUTPUT input)
         color += diffuse + specular;
     }
 
-    ////fog
-    //float fogStart = 20.0f;
-    //float fogEnd = 125.0f;
-    //float fogWeight = saturate((worldPos.z - fogStart) / (fogEnd - fogStart));
-    //float3 fogColor = float3(0.8f, 0.8f, 0.8f);
-    //color = lerp(color, fogColor, fogWeight);
-
+ 
     output.color = float4(color, 1.0f);
     return output;
 }
