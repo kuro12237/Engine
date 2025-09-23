@@ -41,7 +41,7 @@ PSOutput main(VSOutput input)
     outColor.rgb = textureColor.rgb * gColor[input.instanceId].color_.a;
     outColor.a = textureColor.a * gColor[input.instanceId].color_.a;
     output.color = outColor;
-    output.normal = float32_t4(normalize(normalTexture.rgb * input.normal), 1.0f);
+    output.normal = float32_t4((normalTexture.rgb * 0.5f + 0.5f), 1.0f);
     
     return output;
 }

@@ -12,6 +12,7 @@ void PointLightComponent::TransfarGPU() {
   gpuData_.decay = decay_;
   gpuData_.pos_ = pos_;
   gpuData_.rad = rad_;
+  gpuData_.color_ = color_;
 }
 
 } // namespace Component

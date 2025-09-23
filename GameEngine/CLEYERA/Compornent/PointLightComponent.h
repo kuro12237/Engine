@@ -15,6 +15,7 @@ struct PointLightForGPU {
 
   Math::Vector::Vec3 pos_;
   float rad;
+  Math::Vector::Vec4 color_;
   float intensity;
   float decay;
 };
@@ -32,6 +33,8 @@ public:
   virtual void Init() = 0;
   virtual void Update() = 0;
 
+  void SetPos(const Math::Vector::Vec3 &pos) { pos_ = pos; }
+
 private:
 
 
@@ -43,6 +46,7 @@ protected:
 
   Math::Vector::Vec3 pos_ = {};
   float rad_ = 1.0f;
+  Math::Vector::Vec4 color_ = {1.0f, 1.0f, 1.0f, 1.0f};
   float intensity_ = 1.0f;
   float decay_ = 1.0f;
 };

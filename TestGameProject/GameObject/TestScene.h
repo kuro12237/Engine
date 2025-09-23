@@ -33,7 +33,7 @@ private:
   std::weak_ptr<TestTerrain> terrain_;
   std::shared_ptr<TestCamera> testCamera_ = nullptr;
   std::unique_ptr<TestSprite> testSprite_ = nullptr;
-  std::unique_ptr<TestPointLight> pointLight_ = nullptr;
+  std::list<std::unique_ptr<TestPointLight>> pointLights_;
 
   int num_ = 0;
 

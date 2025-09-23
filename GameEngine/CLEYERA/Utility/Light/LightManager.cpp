@@ -8,10 +8,10 @@ void CLEYERA::Manager::LightManager::Init() {
   this->pointData_ = std::make_shared<Base::DX::DXBufferResource<Component::System::PointLightForGPU>>();
 
   pointData_->SetDevice(Base::DX::DXManager::GetInstance()->GetDevice());
-  pointData_->Init(32);
+  pointData_->Init(128);
   pointData_->CreateBuffer(D3D12_HEAP_TYPE_UPLOAD, D3D12_RESOURCE_STATE_GENERIC_READ);
   pointData_->RegisterSRV();
-  pointLights_.resize(32);
+  pointLights_.resize(128);
 }
 
 void CLEYERA::Manager::LightManager::Update() {

@@ -35,21 +35,9 @@ PS_OUTPUT main(VS_OUTPUT input)
     //albed
     float4 albedColor = gAlbed.Sample(gSampler, input.texcoord);
 
-    float2 invRTSize = 1.0f / float2(1280.0f, 720.0f);
-
-    //フラット再生成
-    float depthRight = gDepth.Sample(gSamplerPoint, input.texcoord + float2(invRTSize.x, 0)).r;
-    float depthDown = gDepth.Sample(gSamplerPoint, input.texcoord + float2(0, invRTSize.y)).r;
-    float3 posRight = PositionFromDepth(depthRight, input.texcoord + float2(invRTSize.x, 0));
-    float3 posDown = PositionFromDepth(depthDown, input.texcoord + float2(0, invRTSize.y));
-
-    float3 positionDX = posRight - worldPos;
-    float3 positionDY = posDown - worldPos;
-    float3 N_reconstructed = normalize(cross(positionDX, positionDY));
-    
-    //法円マップの生成がおかしい？
-    //float3 N_tex = gNormal.Sample(gSamplerPoint, input.texcoord).xyz * 2.0f - 1.0f;
-    //N_reconstructed = normalize(N_tex);
+    //法線
+    float3 N = gNormal.Sample(gSamplerPoint, input.texcoord).xyz * 2.0f - 1.0f;
+    N = normalize(N);
     
     float3 cameraPos = gCamera.pos.xyz;
     float3 toEye = normalize(cameraPos - worldPos);
@@ -59,11 +47,11 @@ PS_OUTPUT main(VS_OUTPUT input)
     float fogEnd = cameraPos.z + 125.0f;
     float fogWeight = saturate((worldPos.z - fogStart) / (fogEnd - fogStart));
     float3 fogColor = float3(0.8f, 0.8f, 0.8f);
-    color = lerp(color, fogColor, fogWeight);
+    //color = lerp(color, fogColor, fogWeight);
 
     //point
     [loop]
-    for (uint i = 0; i < 32; i++)
+    for (uint i = 0; i < 128; i++)
     {
         PointLight pl = gPointLight[i];
 
@@ -77,10 +65,10 @@ PS_OUTPUT main(VS_OUTPUT input)
 
         // ハーフベクトル
         float3 halfV = normalize(L + toEye);
-        float NdotL = saturate(dot(N_reconstructed, L));
-        float NdotH = saturate(dot(N_reconstructed, halfV));
+        float NdotL = saturate(dot(N, L));
+        float NdotH = saturate(dot(N, halfV));
 
-        float3 lightColor = float3(1, 1, 1) * pl.intensity * att;
+        float3 lightColor = pl.color.rgb * pl.intensity * att;
 
         float3 diffuse = albedColor.rgb * lightColor * NdotL;
         float3 specular = lightColor * pow(NdotH, 90.0f);

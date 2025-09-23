@@ -13,6 +13,7 @@ void TestScene::Init() {
       "Resources/Model/system/Sphere", "Sphere");
 
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
+  objManager->GetCategoryData(category).ChangeDrawMode(CLEYERA::Util::system::InstancingObjectData::DrawMode::Normal_MODEL3d);
 
   category = VAR_NAME(SkySphere);
 
@@ -42,10 +43,18 @@ void TestScene::Init() {
 
   terrain_ = objManager->CreateObject<TestTerrain>(
       VAR_NAME(TestTerrain), std::make_shared<TestTerrain>());
-  objManager->GetCategoryData(VAR_NAME(TestTerrain)).ChangeModelData(modelHandle);
+  objManager->GetCategoryData(VAR_NAME(TestTerrain))
+      .ChangeModelData(modelHandle);
 
-  pointLight_ = std::make_unique<TestPointLight>();
-  pointLight_->Init();
+  for (size_t i = 0; i < 1; i++) {
+
+    auto pointLight_ = std::make_unique<TestPointLight>();
+    pointLight_->SetPos(this->GenerateSpawnPos());
+    pointLight_->Init();
+
+
+    pointLights_.push_back(std::move(pointLight_));
+  }
 }
 
 void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
@@ -59,7 +68,9 @@ void TestScene::Update(CLEYERA::Manager::SceneManager *ins) {
     spawnInterval_ = 0.0f;
   }
 
-  pointLight_->Update();
+  for (auto &obj : pointLights_) {
+    obj->Update();
+  }
 #ifdef _DEBUG
 
   if (ImGui::TreeNode("Push")) {
