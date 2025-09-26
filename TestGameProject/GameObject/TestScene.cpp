@@ -13,7 +13,7 @@ void TestScene::Init() {
       "Resources/Model/system/Sphere", "Sphere");
 
   objManager->GetCategoryData(category).ChangeModelData(modelHandle);
-  objManager->GetCategoryData(category).ChangeDrawMode(CLEYERA::Util::system::InstancingObjectData::DrawMode::Normal_MODEL3d);
+  //objManager->GetCategoryData(category).ChangeDrawMode(CLEYERA::Util::system::InstancingObjectData::DrawMode::Normal_MODEL3d);
 
   category = VAR_NAME(SkySphere);
 
@@ -31,7 +31,7 @@ void TestScene::Init() {
   testSprite_ = std::make_unique<TestSprite>();
   testSprite_->Init();
 
-  for (size_t i = 0; i < 999; i++) {
+  for (size_t i = 0; i < 1; i++) {
 
     auto obj = objManager->CreateObject<TestObj>(VAR_NAME(TestObj),
                                                  std::make_shared<TestObj>());

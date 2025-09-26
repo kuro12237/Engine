@@ -4,7 +4,7 @@ void TestObj::Init() {
 
   this->category_ = VAR_NAME(TestObj);
   uint32_t modelHandle =
-      modelManager_->LoadModel("Resources/Model/system/NormalBox", "NormalBox");
+      modelManager_->LoadModel("Resources/Model/system/human", "walk",CLEYERA::Manager::ModelManager::LoadModelData::GLTF);
   objectManager_->GetCategoryData(category_).ChangeModelData(modelHandle);
   // 当たり判定を作る際
   // CreateCollider(ColliderType::AABB);

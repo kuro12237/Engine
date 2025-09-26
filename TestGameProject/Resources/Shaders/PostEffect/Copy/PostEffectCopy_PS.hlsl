@@ -51,7 +51,7 @@ PS_OUTPUT main(VS_OUTPUT input)
 
     //point
     [loop]
-    for (uint i = 0; i < 128; i++)
+    for (uint i = 0; i < 32; i++)
     {
         PointLight pl = gPointLight[i];
 
