@@ -103,7 +103,7 @@ CLEYERA::Manager::ModelManager::CreateOBJ(std::string directory,
 
      std::string  texPath = directory + "/" + texFilePath.C_Str();
       texManager_->UnUsedFilePath();
-      normalTexHandle = texManager_->LoadPngTex(texPath);
+      normalTexHandle = texManager_->LoadPngTex(texPath,TexManager::FormatType::UNIFORM_8);
     }
   }
 

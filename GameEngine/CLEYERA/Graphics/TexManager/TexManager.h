@@ -13,11 +13,17 @@ class TexManager {
       return &instance;
    }
 
+   enum class FormatType {
+       UNIFORM_8,
+       UNIFORM_SRGB_8
+   };
+
    void Init();
 
    void Finalize();
 
-   uint32_t LoadPngTex(const std::string &path);
+   uint32_t LoadPngTex(const std::string &path,FormatType format = FormatType::UNIFORM_SRGB_8);
+
 
    std::weak_ptr<Graphics::system::TexData>GetTexData(uint32_t handle);
 

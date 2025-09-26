@@ -13,7 +13,11 @@ void CLEYERA::Manager::DirectionLight::Init() {
 
 }
 
-void CLEYERA::Manager::DirectionLight::Update() { buf_->Map();
+void CLEYERA::Manager::DirectionLight::Update() { 
+	
+	
+
+	buf_->Map();
    buf_->SetParam(light_);
 }
 

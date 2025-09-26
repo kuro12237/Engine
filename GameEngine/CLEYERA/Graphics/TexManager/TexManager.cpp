@@ -9,7 +9,7 @@ void CLEYERA::Manager::TexManager::Finalize() {
    CoUninitialize();
 }
 
-uint32_t CLEYERA::Manager::TexManager::LoadPngTex(const std::string &path) {
+uint32_t CLEYERA::Manager::TexManager::LoadPngTex(const std::string &path,FormatType format ) {
 
    std::string filePath = path;
 
@@ -28,7 +28,32 @@ uint32_t CLEYERA::Manager::TexManager::LoadPngTex(const std::string &path) {
 
    // MipImageを作る
    DirectX::ScratchImage mipImages = CreateMipImage(filePath);
+
+ 
+   // formatに応じて変換する
+   DXGI_FORMAT targetFormat = DXGI_FORMAT_UNKNOWN;
+   switch (format) {
+   case FormatType::UNIFORM_8:
+     targetFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+     break;
+   case FormatType::UNIFORM_SRGB_8:
+     targetFormat = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+     break;
+   }
+
+   // 必要ならフォーマット変換
+   if (targetFormat != DXGI_FORMAT_UNKNOWN && mipImages.GetMetadata().format != targetFormat) {
+
+     DirectX::ScratchImage converted;
+     HRESULT hr = DirectX::Convert(*mipImages.GetImage(0, 0, 0), targetFormat, DirectX::TEX_FILTER_DEFAULT, DirectX::TEX_THRESHOLD_DEFAULT, converted);
+
+     if (SUCCEEDED(hr)) {
+       mipImages = std::move(converted); // 差し替え
+     }
+   }
+
    const DirectX::TexMetadata &metadata = mipImages.GetMetadata();
+
 
    std::shared_ptr<Graphics::system::TexData> data = std::make_shared<Graphics::system::TexData>();
    std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> buf = std::make_unique<Base::DX::DXBufferResource<uint32_t>>();
@@ -37,6 +62,9 @@ uint32_t CLEYERA::Manager::TexManager::LoadPngTex(const std::string &path) {
    buf->Init(1);
 
    D3D12_RESOURCE_DESC resourceDesc{};
+   D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
+   D3D12_HEAP_PROPERTIES heapProperties{};
+
    resourceDesc.Width = UINT(metadata.width);
    resourceDesc.Height = UINT(metadata.height);
    resourceDesc.MipLevels = UINT16(metadata.mipLevels);
@@ -44,7 +72,7 @@ uint32_t CLEYERA::Manager::TexManager::LoadPngTex(const std::string &path) {
    resourceDesc.Format = metadata.format;
    resourceDesc.SampleDesc.Count = 1;
    resourceDesc.Dimension = D3D12_RESOURCE_DIMENSION(metadata.dimension);
-   D3D12_HEAP_PROPERTIES heapProperties{};
+
    heapProperties.Type = D3D12_HEAP_TYPE_DEFAULT;
 
    buf->CreateBuffer(heapProperties, D3D12_HEAP_FLAG_NONE, resourceDesc, D3D12_RESOURCE_STATE_COPY_DEST, nullptr);
@@ -53,7 +81,6 @@ uint32_t CLEYERA::Manager::TexManager::LoadPngTex(const std::string &path) {
    std::unique_ptr<Base::DX::DXBufferResource<int64_t>> intermediateResource = UpLoadTexData(buf->GetResource(), mipImages);
    Base::DX::DXCommandManager::GetInstace()->CommandClose();
 
-   D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};
    srvDesc.Format = metadata.format;
    srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
    srvDesc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;

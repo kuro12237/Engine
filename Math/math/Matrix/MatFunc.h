@@ -81,5 +81,7 @@ Mat4x4 AffineMatrix(const Math::Vector::Vec3 &Sv,
                        const Math::Vector::Vec3 &Rv,
                        const Math::Vector::Vec3 &Tv);
 
+Mat4x4 LookAtLH(const Math::Vector::Vec3 &eye, const Math::Vector::Vec3 &target,
+                const Math::Vector::Vec3 &up);
 
 } // namespace Math::Matrix::Func

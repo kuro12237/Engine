@@ -62,6 +62,8 @@ private:
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> albedo_ = nullptr;
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> normal_ = nullptr;
   std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> depth_ = nullptr;
+
+  std::unique_ptr<Base::DX::DXBufferResource<uint32_t>> shadow_ = nullptr;
 };
 
 } // namespace Manager

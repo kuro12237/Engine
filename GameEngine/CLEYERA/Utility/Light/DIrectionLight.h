@@ -11,6 +11,7 @@ struct SDirectionLight {
    Math::Vector::Vec4 color = {1.0f, 1.0f, 1.0f,1.0f};
    Math::Vector::Vec3 direction = {0.0f, -1.0f, 0.0f};
    float intencity = 1.0f;
+   Math::Matrix::Mat4x4 cameraMat_;
 };
 } // namespace system
 } // namespace Graphics
@@ -35,6 +36,7 @@ namespace Manager {
       void CommandBind(UINT num);
 
     private:
+      float lightDistance_ = 100.0f;
       std::unique_ptr<Base::DX::DXBufferResource<Graphics::system::SDirectionLight>> buf_ =nullptr;
       Graphics::system::SDirectionLight light_;
       Base::DX::DXCommandManager *commandManager_ = nullptr;

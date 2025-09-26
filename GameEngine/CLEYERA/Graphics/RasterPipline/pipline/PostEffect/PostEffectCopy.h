@@ -23,6 +23,8 @@ public:
 
   D3D12_DESCRIPTOR_RANGE descriptorRangeVertices[1] = {};
   D3D12_DESCRIPTOR_RANGE descriptorRangeNormal[1] = {};
+
+  D3D12_DESCRIPTOR_RANGE descriptorRangeshadow[1] = {};
   D3D12_DESCRIPTOR_RANGE descriptorRangeDepth[1] = {};
 
   D3D12_DESCRIPTOR_RANGE descriptorRangePointLight[1] = {};

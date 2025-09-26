@@ -426,3 +426,30 @@ Mat4x4 Math::Matrix::Func::AffineMatrix(const Math::Vector::Vec3 &Sv,
 
   return result;
 }
+Mat4x4 Math::Matrix::Func::LookAtLH(const Math::Vector::Vec3 &eye,
+                const Math::Vector::Vec3 &target,
+                const Math::Vector::Vec3 &up) {
+  Math::Vector::Vec3 zaxis = Math::Vector::Func::Normalize(target - eye); // Forward
+  Math::Vector::Vec3 xaxis =
+      Math::Vector::Func::Normalize(Math::Vector::Func::Cross(up, zaxis)); // Right
+  Math::Vector::Vec3 yaxis = Math::Vector::Func::Cross(zaxis, xaxis); // Up
+
+  Mat4x4 m;
+  m.m[0][0] = xaxis.x;
+  m.m[0][1] = yaxis.x;
+  m.m[0][2] = zaxis.x;
+  m.m[0][3] = 0.0f;
+  m.m[1][0] = xaxis.y;
+  m.m[1][1] = yaxis.y;
+  m.m[1][2] = zaxis.y;
+  m.m[1][3] = 0.0f;
+  m.m[2][0] = xaxis.z;
+  m.m[2][1] = yaxis.z;
+  m.m[2][2] = zaxis.z;
+  m.m[2][3] = 0.0f;
+  m.m[3][0] = -Math::Vector::Func::Dot(xaxis, eye);
+  m.m[3][1] = -Math::Vector::Func::Dot(yaxis, eye);
+  m.m[3][2] = -Math::Vector::Func::Dot(zaxis, eye);
+  m.m[3][3] = 1.0f;
+  return m;
+}
