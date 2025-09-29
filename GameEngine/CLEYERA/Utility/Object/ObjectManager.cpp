@@ -204,7 +204,7 @@ void CLEYERA::Manager::ObjectManager::DeleteObject(std::weak_ptr<Component::Obje
   }
 }
 
-void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category, const size_t &size, const std::shared_ptr<CLEYERA::Component::ObjectComponent> &obj) {
+void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category, const size_t &size, std::shared_ptr<CLEYERA::Component::ObjectComponent> obj) {
 
   // カテゴリが存在しない場合、自動で128個作成
   auto itCategory = unUseObjsName_.find(category);
@@ -236,8 +236,10 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category
   std::string name = itCategory->second.front();
   itCategory->second.erase(itCategory->second.begin());
 
+  obj->SetName(name);
+  obj->SetCategory(category);
   // 登録
-  objects_[category][name] = obj;
+  objects_[category][name] = std::move(obj);
   instancingData_[category].worldData[name] = &objects_[category][name]->GetGameObject().lock()->GetWorldData();
   instancingData_[category].MaterialData[name] = &objects_[category][name]->GetColorData();
 
@@ -248,8 +250,6 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category
   // 名前とカテゴリを設定
   // obj->SetModelHandle(&instancingData_[category].modelHandle);
 
-  obj->SetName(name);
-  obj->SetCategory(category);
 }
 
 void CLEYERA::Manager::ObjectManager::CreateInstancing(const std::string &category, uint32_t size) {

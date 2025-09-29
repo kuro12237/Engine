@@ -112,7 +112,7 @@ private:
   std::map<std::string, std::vector<std::string>> unUseObjsName_;
 
   void ObjectRegister(const std::string &category, const size_t &size,
-                      const std::shared_ptr<Component::ObjectComponent> &obj);
+                      std::shared_ptr<Component::ObjectComponent> obj);
 
   void CreateInstancing(const std::string &category, uint32_t size);
 
