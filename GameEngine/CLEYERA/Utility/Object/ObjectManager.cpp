@@ -2,8 +2,7 @@
 
 using json = nlohmann::json;
 using OBJ_MODE = CLEYERA::Component::ObjectComponent::OBJ_MODE;
-void CLEYERA::Util::system::InstancingObjectData::ChangeModelData(
-    uint32_t modelHandle_) {
+void CLEYERA::Util::system::InstancingObjectData::ChangeModelData(uint32_t modelHandle_) {
 
   modelHandle = modelHandle_;
   model = CLEYERA::Manager::ModelManager::GetInstance()->GetModel(modelHandle_);
@@ -107,8 +106,7 @@ void CLEYERA::Manager::ObjectManager::Draw() {
     it.worldIns->Command(1);
 
     auto data = texManager_->GetTexData(it.model.lock()->GetAlbedoTexHandle());
-    auto handle = Base::DX::DXDescripterManager::GetInstance()->GetSRVGPUHandle(
-        data.lock()->GetSrvIndex());
+    auto handle = Base::DX::DXDescripterManager::GetInstance()->GetSRVGPUHandle(data.lock()->GetSrvIndex());
     commandManager_->GraphicsDescripterTable(2, handle);
 
     lightManager->DirectionLightCommandBind(3);
@@ -119,8 +117,7 @@ void CLEYERA::Manager::ObjectManager::Draw() {
     // 頂点、インデックス、形状設定
     it.model.lock()->RasterDraw3d();
 
-    commandManager_->DrawIndexCall(
-        UINT(it.model.lock()->GetMeshData()->GetData().indecs.size()), it.max);
+    commandManager_->DrawIndexCall(UINT(it.model.lock()->GetMeshData()->GetData().indecs.size()), it.max);
   }
 }
 
@@ -154,8 +151,7 @@ void CLEYERA::Manager::ObjectManager::LoadObjectData(const std::string &file) {
   }
 
   for (auto &[name, value] : itGroup->items()) {
-    if (!value.is_array() || value.size() != 2 || !value[0].is_string() ||
-        !value[1].is_number_unsigned()) {
+    if (!value.is_array() || value.size() != 2 || !value[0].is_string() || !value[1].is_number_unsigned()) {
       std::cerr << "Invalid object format for key: " << name << std::endl;
       continue;
     }
@@ -182,8 +178,7 @@ void CLEYERA::Manager::ObjectManager::LoadObjectData(const std::string &file) {
   }
 }
 
-void CLEYERA::Manager::ObjectManager::DeleteObject(
-    std::weak_ptr<Component::ObjectComponent> obj) {
+void CLEYERA::Manager::ObjectManager::DeleteObject(std::weak_ptr<Component::ObjectComponent> obj) {
   if (!obj.lock())
     return;
 
@@ -209,9 +204,7 @@ void CLEYERA::Manager::ObjectManager::DeleteObject(
   }
 }
 
-void CLEYERA::Manager::ObjectManager::ObjectRegister(
-    const std::string &category, const size_t &size,
-    const std::shared_ptr<CLEYERA::Component::ObjectComponent> &obj) {
+void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category, const size_t &size, const std::shared_ptr<CLEYERA::Component::ObjectComponent> &obj) {
 
   // カテゴリが存在しない場合、自動で128個作成
   auto itCategory = unUseObjsName_.find(category);
@@ -236,8 +229,7 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(
 
   // 使用可能名がないならエラー
   if (unUseObjsName_[category].empty()) {
-    std::cerr << "No available object names for category: " << category
-              << std::endl;
+    std::cerr << "No available object names for category: " << category << std::endl;
   }
 
   itCategory = unUseObjsName_.find(category);
@@ -246,15 +238,12 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(
 
   // 登録
   objects_[category][name] = obj;
-  instancingData_[category].worldData[name] =
-      &obj->GetGameObject().lock()->GetWorldData();
-  instancingData_[category].MaterialData[name] = &obj->GetColorData();
+  instancingData_[category].worldData[name] = &objects_[category][name]->GetGameObject().lock()->GetWorldData();
+  instancingData_[category].MaterialData[name] = &objects_[category][name]->GetColorData();
 
   int32_t number = ExtractNumber(name);
-  instancingData_[category].worldIns->SetWorldData(
-      instancingData_[category].worldData[name], number);
-  instancingData_[category].MaterialIns->SetWorldData(
-      instancingData_[category].MaterialData[name], number);
+  instancingData_[category].worldIns->SetWorldData(instancingData_[category].worldData[name], number);
+  instancingData_[category].MaterialIns->SetWorldData(instancingData_[category].MaterialData[name], number);
 
   // 名前とカテゴリを設定
   // obj->SetModelHandle(&instancingData_[category].modelHandle);
@@ -263,17 +252,14 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(
   obj->SetCategory(category);
 }
 
-void CLEYERA::Manager::ObjectManager::CreateInstancing(
-    const std::string &category, uint32_t size) {
+void CLEYERA::Manager::ObjectManager::CreateInstancing(const std::string &category, uint32_t size) {
 
   instancingData_[category].max = size;
   if (!instancingData_[category].model.lock())
     instancingData_[category].model = ModelManager::GetInstance()->GetModel(0);
-  instancingData_[category].MaterialIns =
-      std::make_unique<Model3d::InstancingMaterial>();
+  instancingData_[category].MaterialIns = std::make_unique<Model3d::InstancingMaterial>();
   instancingData_[category].MaterialIns->Init(instancingData_[category].max);
-  instancingData_[category].worldIns =
-      std::make_unique<Model3d::InstancingWorld>();
+  instancingData_[category].worldIns = std::make_unique<Model3d::InstancingWorld>();
   instancingData_[category].worldIns->Init(instancingData_[category].max);
 }
 
