@@ -33,6 +33,7 @@
 #include "Compornent/ManagerCompornent.h"
 #include "Compornent/ObjectCompornent.h"
 #include "Compornent/SpriteComponent.h"
+#include"Compornent/PointLightComponent.h"
 
 #include"SceneManager/SceneManager.h"
 #include"PostEffect/PostEffect.h"

@@ -4,8 +4,12 @@ uint32_t modelHandle = 0;
 void TestScene::Init() {
 
   auto objManager = CLEYERA::Manager::ObjectManager::GetInstance();
+  
 
   objManager->LoadObjectData("test.json");
+  auto terrain_ = CLEYERA::Manager::Terrain::GetInstance();
+
+  terrain_->Init();
 
   testObj_.resize(128);
   std::string category = VAR_NAME(TestObj);
@@ -41,10 +45,10 @@ void TestScene::Init() {
   skySphere_ = objManager->CreateObject<SkySphere>(
       VAR_NAME(SkySphere), std::make_shared<SkySphere>());
 
-  terrain_ = objManager->CreateObject<TestTerrain>(
+  /*terrain_ = objManager->CreateObject<TestTerrain>(
       VAR_NAME(TestTerrain), std::make_shared<TestTerrain>());
   objManager->GetCategoryData(VAR_NAME(TestTerrain))
-      .ChangeModelData(modelHandle);
+      .ChangeModelData(modelHandle);*/
 
   for (size_t i = 0; i < 1; i++) {
 
