@@ -16,7 +16,8 @@ void CLEYERA::Manager::Terrain::Init() {
   gameObj_->SetName(objName_);
   this->gameObj_->Update();
 
-  //objectManager_->AddObject(gameObj_);
+  objectManager_->CreateObject<TerrainObject>(VAR_NAME(TerrainObject), std::make_shared<TerrainObject>());
+  objectManager_->GetCategoryData(VAR_NAME(TerrainObject)).ChangeModelData(modelHandle_);
 
   CLEYERA::Model3d::MeshData *meshData =
       ModelManager::GetInstance()->GetModel(modelHandle_).lock()->GetMeshData();
@@ -159,7 +160,7 @@ void CLEYERA::Manager::Terrain::CheckObjct() {
 void CLEYERA::Manager::Terrain::ChengeData(uint32_t modelHandle) {
 
   modelHandle_ = modelHandle;
-  //gameObj_->ChangeModel(modelHandle);
+  objectManager_->GetCategoryData(VAR_NAME(TerrainObject)).ChangeModelData(modelHandle_);
 
   CLEYERA::Model3d::MeshData *meshData =
       ModelManager::GetInstance()->GetModel(modelHandle_).lock()->GetMeshData();

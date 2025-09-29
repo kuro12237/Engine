@@ -236,6 +236,7 @@
     <ClCompile Include="CLEYERA\Utility\PhysicsForces\GravityManager.cpp" />
     <ClCompile Include="CLEYERA\Utility\RenderManager\RenderManager.cpp" />
     <ClCompile Include="CLEYERA\Utility\Terrain\Terrain.cpp" />
+    <ClCompile Include="CLEYERA\Utility\Terrain\TerrainObject.cpp" />
     <ClCompile Include="CLEYERA\Utility\TransformBase\TransformBase.cpp" />
     <ClCompile Include="CLEYERA\Utility\World\WorldTransform.cpp" />
     <ClCompile Include="CLEYERA\WIn\WinApp.cpp" />
@@ -352,6 +353,7 @@
     <ClInclude Include="CLEYERA\Utility\ResourceFunc\ResourceFunc.h" />
     <ClInclude Include="CLEYERA\Utility\SceneFactory\SceneFactory.h" />
     <ClInclude Include="CLEYERA\Utility\Terrain\Terrain.h" />
+    <ClInclude Include="CLEYERA\Utility\Terrain\TerrainObject.h" />
     <ClInclude Include="CLEYERA\Utility\TransformBase\TransformBase.h" />
     <ClInclude Include="CLEYERA\Utility\World\WorldTransform.h" />
     <ClInclude Include="CLEYERA\WIn\WinApp.h" />

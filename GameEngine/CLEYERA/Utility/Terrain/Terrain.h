@@ -4,6 +4,8 @@
 #include "../../3d/ModelManager/ModelManager.h"
 #include "../Object/ObjectManager.h"
 
+#include"TerrainObject.h"
+
 namespace CLEYERA {
 namespace Manager {
 
@@ -57,6 +59,8 @@ class Terrain : public CLEYERA::Util::WorldTransform {
    std::vector<Math::Vector::Vec4> colors_ = {};
 
    Math::Matrix::Mat4x4 mat_;
+
+   std::weak_ptr<TerrainObject> obj_;
 
 #pragma region Singleton
    Terrain() = default;

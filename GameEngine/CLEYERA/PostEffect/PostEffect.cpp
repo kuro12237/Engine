@@ -97,7 +97,7 @@ void CLEYERA::Manager::PostEffectManager::Draw() {}
 void CLEYERA::Manager::PostEffectManager::PreDraw() {
 
   albedo_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_RENDER_TARGET);
-  shadow_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_RENDER_TARGET);
+  //shadow_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_RENDER_TARGET);
   normal_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
   depth_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_DEPTH_WRITE);
@@ -105,7 +105,7 @@ void CLEYERA::Manager::PostEffectManager::PreDraw() {
   auto command = CLEYERA::Base::DX::DXCommandManager::GetInstace();
   auto rtvDesc = CLEYERA::Base::DX::DXDescripterManager::GetInstance();
 
-  std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> handles = {rtvDesc->GetRTVCPUHandle(albedo_->GetRTVIndex()), rtvDesc->GetRTVCPUHandle(normal_->GetRTVIndex()),rtvDesc->GetRTVCPUHandle(shadow_->GetRTVIndex())};
+  std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> handles = {rtvDesc->GetRTVCPUHandle(albedo_->GetRTVIndex()), rtvDesc->GetRTVCPUHandle(normal_->GetRTVIndex())};
 
   D3D12_CPU_DESCRIPTOR_HANDLE dsvHandle = rtvDesc->GetDSVCPUHandle(depth_->GetDSVIndex());
 
@@ -113,14 +113,14 @@ void CLEYERA::Manager::PostEffectManager::PreDraw() {
 
   command->ClearRenderTargetView(rtvDesc->GetRTVCPUHandle(albedo_->GetRTVIndex()), {0.0f, 0.0f, 0.0f, 1.0f});
   command->ClearRenderTargetView(rtvDesc->GetRTVCPUHandle(normal_->GetRTVIndex()), {0.0f, 0.0f, 0.0f, 1.0f});
-  command->ClearRenderTargetView(rtvDesc->GetRTVCPUHandle(shadow_->GetRTVIndex()), {0.0f, 0.0f, 0.0f, 1.0f});
+  //command->ClearRenderTargetView(rtvDesc->GetRTVCPUHandle(shadow_->GetRTVIndex()), {0.0f, 0.0f, 0.0f, 1.0f});
 
   command->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH);
 }
 
 void CLEYERA::Manager::PostEffectManager::PostDraw() {
   albedo_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_GENERIC_READ);
-  shadow_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_GENERIC_READ);
+  //shadow_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_GENERIC_READ);
   normal_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_GENERIC_READ);
 
   depth_->ChangeBufferState(D3D12_RESOURCE_BARRIER_TYPE_TRANSITION, D3D12_RESOURCE_BARRIER_FLAG_NONE, D3D12_RESOURCE_STATE_GENERIC_READ);
