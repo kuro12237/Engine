@@ -240,6 +240,10 @@ void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category
   obj->SetCategory(category);
   // 登録
   objects_[category][name] = std::move(obj);
+  if (!objects_[category][name]) {
+    std::cerr << "Object pointer is null after registration!" << std::endl;
+  }
+
   instancingData_[category].worldData[name] = &objects_[category][name]->GetGameObject().lock()->GetWorldData();
   instancingData_[category].MaterialData[name] = &objects_[category][name]->GetColorData();
 

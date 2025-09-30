@@ -65,7 +65,7 @@ void Engine::Init() {
   flame_->Init();
 
   terrain_ = CLEYERA::Manager::Terrain::GetInstance();
-  terrain_->Init();
+  //terrain_->Init();
 
   gravityManager_ = CLEYERA::Manager::GravityManager::GetInstance();
   gravityManager_->Init();

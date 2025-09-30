@@ -81,7 +81,7 @@ public:
   std::weak_ptr<T>
   CreateObject(const std::string &category,
                std::shared_ptr<CLEYERA::Component::ObjectComponent> obj) {
-
+    assert(obj != nullptr);
     this->ObjectRegister(category, 128, obj);
     return std::dynamic_pointer_cast<T>(obj);
   };
