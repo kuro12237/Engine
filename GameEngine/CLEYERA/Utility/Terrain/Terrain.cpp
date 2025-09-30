@@ -122,12 +122,11 @@ void CLEYERA::Manager::Terrain::CheckObjct() {
 
       // 後で改善
       Vec3 pos = it->GetTranslate();
-      pos.y += it->GetTerrainY();
       // === ① 接地判定用レイ（下方向にだけチェック） ===
 
       // 線分の始点と終点を計算
       // yにsizeの-値
-      Vec3 start = pos + Vec3{0.0f, -1.0f, 0.0f};
+      Vec3 start = pos + Vec3{0.0f, -it->GetTerrainY(), 0.0f};
       Vec3 end = pos + Vec3{0.0f, 5.0f, 0.0f};
 
       // 三角形の平面の法線とDを計算
@@ -151,6 +150,8 @@ void CLEYERA::Manager::Terrain::CheckObjct() {
 
         const float pushDistance = 0.01f;
         Vec3 pushedPos = intersection + normal * pushDistance;
+
+        pushedPos.y += it->GetTerrainY();
         it->TerrainHit(pushedPos);
       }
     }

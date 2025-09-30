@@ -20,4 +20,7 @@ void TestObj::Update() {
 
     //SetMode(OBJ_MODE::REMOVE);
   }
+
+  ImGui::DragFloat("tY", &terrainY_, 0.1f);
+  TransformUpdate();
 }
