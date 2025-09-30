@@ -97,6 +97,7 @@ public:
   CLEYERA::Model3d::Material::ColorMaterialData &GetColorData() {
     return colors_;
   }
+  const float GetTerrainY() { return terrainY_; }
 #pragma endregion
 
 #pragma region Set

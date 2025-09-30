@@ -122,7 +122,7 @@ void CLEYERA::Manager::Terrain::CheckObjct() {
 
       // 後で改善
       Vec3 pos = it->GetTranslate();
-
+      pos.y += it->GetTerrainY();
       // === ① 接地判定用レイ（下方向にだけチェック） ===
 
       // 線分の始点と終点を計算
