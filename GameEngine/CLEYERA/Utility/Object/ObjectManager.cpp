@@ -204,7 +204,7 @@ void CLEYERA::Manager::ObjectManager::DeleteObject(std::weak_ptr<Component::Obje
   }
 }
 
-void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category, const size_t &size, std::shared_ptr<CLEYERA::Component::ObjectComponent> obj) {
+void CLEYERA::Manager::ObjectManager::ObjectRegister(const std::string &category, const size_t &size, const std::shared_ptr<CLEYERA::Component::ObjectComponent>& obj) {
 
   // カテゴリが存在しない場合、自動で128個作成
   auto itCategory = unUseObjsName_.find(category);
