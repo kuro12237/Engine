@@ -177,6 +177,7 @@ protected:
   float friction_ = 0.5f;
   float mass_ = 1.0f;
   float bounceFactor_ = 0.5f;
+  float terrainY_ = 1.0f;
 
   CLEYERA::Model3d::Material::ColorMaterialData colors_ = {};
 

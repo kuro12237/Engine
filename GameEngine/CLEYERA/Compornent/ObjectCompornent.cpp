@@ -67,7 +67,7 @@ void CLEYERA::Component::ObjectComponent::TerrainHit(const Math::Vector::Vec3 &p
   velocity_.y = velocity_.y * -bounceFactor_;
 
   translate_.y = pos.y;
-  translate_.y += 1.0f;
+  translate_.y += terrainY_;
 }
 
 void CLEYERA::Component::ObjectComponent::BaseParamImGuiDisply() {
