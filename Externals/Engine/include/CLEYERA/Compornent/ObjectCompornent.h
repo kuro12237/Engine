@@ -6,6 +6,7 @@
 #include "Utility/Flame/Flame.h"
 
 #include "JsonCompornent.h"
+#include"DLLComponent.h"
 
 namespace CLEYERA {
 
@@ -31,7 +32,7 @@ namespace Component {
 /// <summary>
 /// objectのコンポーネント基本継承
 /// </summary>
-class ObjectComponent {
+class ObjectComponent :public DLLComponent{
 public:
   ObjectComponent();
   virtual ~ObjectComponent() {};
@@ -96,6 +97,7 @@ public:
   CLEYERA::Model3d::Material::ColorMaterialData &GetColorData() {
     return colors_;
   }
+  const float GetTerrainY() { return terrainY_; }
 #pragma endregion
 
 #pragma region Set
@@ -176,6 +178,7 @@ protected:
   float friction_ = 0.5f;
   float mass_ = 1.0f;
   float bounceFactor_ = 0.5f;
+  float terrainY_ = -1.0f;
 
   CLEYERA::Model3d::Material::ColorMaterialData colors_ = {};
 

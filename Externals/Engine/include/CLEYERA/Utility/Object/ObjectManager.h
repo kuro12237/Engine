@@ -80,8 +80,8 @@ public:
   template <typename T>
   std::weak_ptr<T>
   CreateObject(const std::string &category,
-               std::shared_ptr<Component::ObjectComponent> obj) {
-
+               std::shared_ptr<CLEYERA::Component::ObjectComponent> obj) {
+    assert(obj != nullptr);
     this->ObjectRegister(category, 128, obj);
     return std::dynamic_pointer_cast<T>(obj);
   };
@@ -105,14 +105,14 @@ public:
 
 private:
   std::map<std::string,
-           std::map<std::string, std::shared_ptr<Component::ObjectComponent>>>
+           std::map<std::string, std::shared_ptr<CLEYERA::Component::ObjectComponent>>>
       objects_;
   std::map<std::string, Util::system::InstancingObjectData> instancingData_;
 
   std::map<std::string, std::vector<std::string>> unUseObjsName_;
 
   void ObjectRegister(const std::string &category, const size_t &size,
-                      const std::shared_ptr<Component::ObjectComponent> &obj);
+                      const std::shared_ptr<CLEYERA::Component::ObjectComponent> &obj);
 
   void CreateInstancing(const std::string &category, uint32_t size);
 
