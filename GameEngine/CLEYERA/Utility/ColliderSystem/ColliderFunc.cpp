@@ -157,14 +157,19 @@ CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb
   float py = (aHalf.y + bHalf.y) - std::abs(dy);
   float pz = (aHalf.z + bHalf.z) - std::abs(dz);
 
-  Math::Vector::Vec3 push(0, 0, 0);
-  if (px < py && px < pz) {
-    push.x = (dx < 0) ? -px : px;
-  } else if (py < px && py < pz) {
+Math::Vector::Vec3 push(0, 0, 0);
+
+  // 高さ方向(y)の押し出しがあるなら優先
+  if (py > 0.0f) {
     push.y = (dy < 0) ? -py : py;
   } else {
-    push.z = (dz < 0) ? -pz : pz;
+    // 横方向(x,z)の押し出し
+    if (px < pz)
+      push.x = (dx < 0) ? -px : px;
+    else
+      push.z = (dz < 0) ? -pz : pz;
   }
+
 
   return push;
 }
