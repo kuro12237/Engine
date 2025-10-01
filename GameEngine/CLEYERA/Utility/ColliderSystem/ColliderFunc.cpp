@@ -135,22 +135,23 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
 
   Math::Vector::Vec3 push(0, 0, 0);
   Math::Vector::Vec3 velocity = obj1.lock()->GetVelo();
+  // --- epsilon 補正 ---
+  const float epsilon = 0.001f; // 1mm程度の余裕（環境に応じて調整）
 
   // 最小押し出し方向を決定
   if (py <= px && py <= pz) {
-    // Y方向（床・天井）だけ velocity を考慮
-    if ((velocity.y <= 0.0f && dy > 0) || // 下に落ちて床に当たる
-        (velocity.y > 0.0f && dy < 0)) {  // 上にジャンプして天井に当たる
-      push.y = (dy < 0) ? -py : py;
+    // Y方向（床・天井）
+    if ((velocity.y <= 0.0f && dy > 0) || // 落下して床に当たる
+        (velocity.y > 0.0f && dy < 0)) {  // ジャンプして天井に当たる
+      push.y = ((dy < 0) ? -py : py) + ((dy < 0) ? -epsilon : epsilon);
     }
   } else if (px <= pz) {
     // X方向（壁）
-    push.x = (dx < 0) ? -px : px;
+    push.x = ((dx < 0) ? -px : px) + ((dx < 0) ? -epsilon : epsilon);
   } else {
     // Z方向（壁）
-    push.z = (dz < 0) ? -pz : pz;
+    push.z = ((dz < 0) ? -pz : pz) + ((dz < 0) ? -epsilon : epsilon);
   }
-
 
   return push;
 }
