@@ -135,19 +135,19 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
 
   Math::Vector::Vec3 push(0, 0, 0);
 
-  bool horizontalOverlap = (std::abs(dx) < (aHalf.x + bHalf.x)) && (std::abs(dz) < (aHalf.z + bHalf.z));
-  if (horizontalOverlap) {
-    // 上に乗っているなら y 押し出しのみ
+ 
+    // ★「上に乗っている」判定: x,z 方向では重なっていて y が最小の押し出し
+  bool onTop = (py <= px && py <= pz);
+
+  if (onTop) {
+    // Y方向で押し出す
     push.y = (dy < 0) ? -py : py;
   } else {
-    // 横方向も押し出す必要がある場合のみ
+    // 横方向の衝突
     if (px < pz)
       push.x = (dx < 0) ? -px : px;
     else
       push.z = (dz < 0) ? -pz : pz;
-  }
-  if (dy > 0 && horizontalOverlap) {
-    push.y = py;
   }
   return push;
 }
