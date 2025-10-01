@@ -78,7 +78,7 @@ void CLEYERA::Manager::ColliderSystem::Update() {
 
         if (AABBCheck(typeA->GetAABB(), typeB->GetAABB())) {
           Math::Vector::Vec3 push =
-              AABBComputePushOutVector(typeA->GetAABB(), typeB->GetAABB());
+              AABBComputePushOutVector(typeA->GetAABB(), typeB->GetAABB(),aabb1,aabb2);
           typeA->GetAABB_().SetPush(push);
           typeB->GetAABB_().SetPush(push);
 
