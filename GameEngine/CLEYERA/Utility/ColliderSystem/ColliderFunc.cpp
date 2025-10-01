@@ -119,7 +119,7 @@ bool CLEYERA::Util::Collider::system::Func::AABBCheck(const AABB &aabb1, const A
   return (aMin.x <= bMax.x && aMax.x >= bMin.x) && (aMin.y <= bMax.y && aMax.y >= bMin.y) && (aMin.z <= bMax.z && aMax.z >= bMin.z);
 }
 
-Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2,std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
+Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
   auto aCenter = aabb1.GetWorldCenter();
   auto bCenter = aabb2.GetWorldCenter();
   auto aHalf = aabb1.HalfSize();
@@ -133,29 +133,26 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   float py = (aHalf.y + bHalf.y) - std::abs(dy);
   float pz = (aHalf.z + bHalf.z) - std::abs(dz);
 
- Math::Vector::Vec3 push(0, 0, 0);
+  Math::Vector::Vec3 push(0, 0, 0);
   Math::Vector::Vec3 velocity = obj1.lock()->GetVelo();
-
-  // 最小押し出し方向を決定
-  if (py <= px && py <= pz) {
-    // Y方向の押し出し
-    if ((velocity.y <= 0.0f && dy > 0) || // 下向きに動いて床に当たる
-        (velocity.y > 0.0f && dy < 0)) {  // 上向きに動いて天井に当たる
-      push.y = (dy < 0) ? -py : py;
-    }
-  } else if (px <= pz) {
-    // X方向の押し出し
-    if ((velocity.x <= 0.0f && dx > 0) || // 左に動いて左壁
-        (velocity.x > 0.0f && dx < 0)) {  // 右に動いて右壁
-      push.x = (dx < 0) ? -px : px;
-    }
-  } else {
-    // Z方向の押し出し
-    if ((velocity.z <= 0.0f && dz > 0) || // 手前に動いて手前壁
-        (velocity.z > 0.0f && dz < 0)) {  // 奥に動いて奥壁
-      push.z = (dz < 0) ? -pz : pz;
-    }
+  // Y方向
+  if ((velocity.y < 0.0f && dy > 0) || // 下に動いて床
+      (velocity.y > 0.0f && dy < 0)) { // 上に動いて天井
+    push.y = (dy < 0) ? -py : py;
   }
+
+  // X方向
+  if ((velocity.x > 0.0f && dx > 0) || // 右に動いて右壁
+      (velocity.x < 0.0f && dx < 0)) { // 左に動いて左壁
+    push.x = (dx < 0) ? -px : px;
+  }
+
+  // Z方向
+  if ((velocity.z > 0.0f && dz > 0) || // 奥に動いて奥壁
+      (velocity.z < 0.0f && dz < 0)) { // 手前に動いて手前壁
+    push.z = (dz < 0) ? -pz : pz;
+  }
+
   return push;
 }
 
