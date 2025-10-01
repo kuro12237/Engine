@@ -85,6 +85,8 @@ public:
     return Math::Matrix::Func::AffineMatrix(scale_, rotate_, translate_);
   }
 
+  Math::Vector::Vec3 GetVelo() { return velocity_; }
+
   /// <summary>
   /// jsonパラメータのGet
   /// </summary>

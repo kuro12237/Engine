@@ -1,6 +1,7 @@
 #pragma once
 #include "SCollider.h"
 #include "pch/Pch.h"
+#include"Compornent/ObjectCompornent.h"
 
 namespace CLEYERA {
 
@@ -21,7 +22,7 @@ void MakeLinesFromAABB(std::vector<Math::Vector::Vec3> &outLines, const Math::Ve
 bool OBBCheck(const OBB &obb1, const OBB &obb2);
 bool AABBCheck(const AABB &aabb1, const AABB &aabb2);
 
-Math::Vector::Vec3 AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2);
+Math::Vector::Vec3 AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2);
 
 // 射影の重複チェック
 bool TestAxis(const Math::Vector::Vec3 &axis, const OBB &obb1, const OBB &obb2);
