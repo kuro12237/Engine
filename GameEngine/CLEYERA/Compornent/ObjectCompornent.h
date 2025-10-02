@@ -8,6 +8,8 @@
 #include "DLLComponent.h"
 #include "JsonCompornent.h"
 
+#include"Utility/ColliderSystem/SCollider.h"
+
 namespace CLEYERA {
 
 namespace Util {
@@ -132,7 +134,7 @@ public:
   /// jsonパラメータSet
   /// </summary>
   template <typename T> void SetValue(const std::string &name, T t) { jsonSystem_->SetValue<T>(name, t); }
-  void PushHitDirection(const Util::Collider::HitDirection &direction) { hitDirection_.push(direction); }
+  void PushHitDirection(CLEYERA::Util::Collider::HitDirection direction) { hitDirection_.push(direction); }
 #pragma endregion
 
 private:
@@ -192,7 +194,8 @@ protected:
   bool isGravity_ = true;
   bool isTerrainHit_ = true;
 
-  std::queue<Util::Collider::HitDirection> hitDirection_;
+  std::queue<CLEYERA::Util::Collider::HitDirection> hitDirection_;
+
 };
 } // namespace Component
 } // namespace CLEYERA

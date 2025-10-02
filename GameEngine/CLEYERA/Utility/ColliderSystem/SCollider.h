@@ -8,7 +8,7 @@ namespace Util {
 
 namespace Collider {
 
-enum HitDirection {
+enum class HitDirection {
 
   Top,
   Bottom,
