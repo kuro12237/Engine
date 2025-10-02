@@ -136,7 +136,7 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   Math::Vector::Vec3 push(0, 0, 0);
   Math::Vector::Vec3 velocity = obj1.lock()->GetVelo();
   // --- epsilon 補正 ---
-  const float epsilon = 0.001f; // 1mm程度の余裕（環境に応じて調整）
+  const float epsilon = 0.1f; // 1mm程度の余裕（環境に応じて調整）
 
   // 最小押し出し方向を決定
   if (py <= px && py <= pz) {
