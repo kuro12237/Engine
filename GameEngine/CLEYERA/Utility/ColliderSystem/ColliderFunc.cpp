@@ -171,6 +171,16 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   return push;
 }
 
+bool CLEYERA::Util::Collider::system::Func::TestAxis(const Math::Vector::Vec3 &axis, const OBB &obb1, const OBB &obb2) {
+
+  // OBBの射影を計算
+  auto projection1 = OBBProjection(obb1, axis);
+  auto projection2 = OBBProjection(obb2, axis);
+
+  // 射影が重なっているかチェック
+  return ProjectionOverlap(projection1, projection2);
+}
+
 std::pair<float, float> CLEYERA::Util::Collider::system::Func::OBBProjection(const OBB &obb, const Math::Vector::Vec3 &axis) {
 
   float val = std::sqrt(axis.x * axis.x + axis.y * axis.y + axis.z * axis.z); // 正規化
