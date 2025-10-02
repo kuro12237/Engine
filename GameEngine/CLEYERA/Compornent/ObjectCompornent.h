@@ -5,8 +5,8 @@
 #include "../Utility/Input/InputManager.h"
 #include "Utility/Flame/Flame.h"
 
+#include "DLLComponent.h"
 #include "JsonCompornent.h"
-#include"DLLComponent.h"
 
 namespace CLEYERA {
 
@@ -32,7 +32,7 @@ namespace Component {
 /// <summary>
 /// objectのコンポーネント基本継承
 /// </summary>
-class ObjectComponent :public DLLComponent{
+class ObjectComponent : public DLLComponent {
 public:
   ObjectComponent();
   virtual ~ObjectComponent() {};
@@ -49,6 +49,9 @@ public:
   virtual void Init() = 0;
   virtual void Update() = 0;
   virtual void Finalize() {};
+
+  virtual void End();
+
   /// <summary>
   /// IMGui仮想関数上書き推奨
   /// </summary>
@@ -81,24 +84,18 @@ public:
   std::weak_ptr<Model3d::Game3dObject> GetGameObject() { return gameObject_; }
   std::weak_ptr<Util::Collider::Collider> GetCollider() { return collider_; }
   Math::Vector::Vec3 &GetTranslate() { return translate_; }
-  Math::Matrix::Mat4x4 GetMatWorld() const {
-    return Math::Matrix::Func::AffineMatrix(scale_, rotate_, translate_);
-  }
+  Math::Matrix::Mat4x4 GetMatWorld() const { return Math::Matrix::Func::AffineMatrix(scale_, rotate_, translate_); }
 
   Math::Vector::Vec3 GetVelo() { return velocity_; }
 
   /// <summary>
   /// jsonパラメータのGet
   /// </summary>
-  template <typename T> T GetValue(const std::string &name) {
-    return jsonSystem_->GetValue<T>(name);
-  }
+  template <typename T> T GetValue(const std::string &name) { return jsonSystem_->GetValue<T>(name); }
 
   bool GetIsGravity() { return isGravity_; }
   bool GetIsTerrainHit() { return isTerrainHit_; }
-  CLEYERA::Model3d::Material::ColorMaterialData &GetColorData() {
-    return colors_;
-  }
+  CLEYERA::Model3d::Material::ColorMaterialData &GetColorData() { return colors_; }
   const float GetTerrainY() { return terrainY_; }
 #pragma endregion
 
@@ -134,9 +131,8 @@ public:
   /// <summary>
   /// jsonパラメータSet
   /// </summary>
-  template <typename T> void SetValue(const std::string &name, T t) {
-    jsonSystem_->SetValue<T>(name, t);
-  }
+  template <typename T> void SetValue(const std::string &name, T t) { jsonSystem_->SetValue<T>(name, t); }
+  void PushHitDirection(const Util::Collider::HitDirection &direction) { hitDirection_.push(direction); }
 #pragma endregion
 
 private:
@@ -195,6 +191,8 @@ protected:
 
   bool isGravity_ = true;
   bool isTerrainHit_ = true;
+
+  std::queue<Util::Collider::HitDirection> hitDirection_;
 };
 } // namespace Component
 } // namespace CLEYERA

@@ -59,8 +59,11 @@ void CLEYERA::Manager::ObjectManager::Update() {
         break;
       }
       }
+      obj->End();
     }
   }
+
+
 }
 
 void CLEYERA::Manager::ObjectManager::ImGuiUpdate() {

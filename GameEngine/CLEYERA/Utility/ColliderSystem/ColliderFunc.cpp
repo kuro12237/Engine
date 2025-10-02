@@ -110,16 +110,8 @@ bool CLEYERA::Util::Collider::system::Func::OBBCheck(const OBB &obb1, const OBB 
   return true;
 }
 
-bool CLEYERA::Util::Collider::system::Func::AABBCheck(const AABB &aabb1, const AABB &aabb2) {
-  Math::Vector::Vec3 aMin = aabb1.min + *aabb1.pos;
-  Math::Vector::Vec3 aMax = aabb1.max + *aabb1.pos;
-  Math::Vector::Vec3 bMin = aabb2.min + *aabb2.pos;
-  Math::Vector::Vec3 bMax = aabb2.max + *aabb2.pos;
-
-  return (aMin.x <= bMax.x && aMax.x >= bMin.x) && (aMin.y <= bMax.y && aMax.y >= bMin.y) && (aMin.z <= bMax.z && aMax.z >= bMin.z);
-}
-
 Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
+
   auto aCenter = aabb1.GetWorldCenter();
   auto bCenter = aabb2.GetWorldCenter();
   auto aHalf = aabb1.HalfSize();
@@ -135,22 +127,37 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
 
   Math::Vector::Vec3 push(0, 0, 0);
   Math::Vector::Vec3 velocity = obj1.lock()->GetVelo();
-  // --- epsilon 補正 ---
-  const float epsilon = 0.1f; // 1mm程度の余裕（環境に応じて調整）
+
+  const float epsilon = 0.001f; // 1mm程度
 
   // 最小押し出し方向を決定
   if (py <= px && py <= pz) {
     // Y方向（床・天井）
-    if ((velocity.y <= 0.0f && dy > 0) || // 落下して床に当たる
-        (velocity.y > 0.0f && dy < 0)) {  // ジャンプして天井に当たる
-      push.y = ((dy < 0) ? -py : py) + ((dy < 0) ? -epsilon : epsilon);
+    if ((velocity.y <= 0.0f && dy > 0) || // 下向きで床
+        (velocity.y > 0.0f && dy < 0)) {  // 上向きで天井
+      push.y = (dy < 0) ? -py - epsilon : py + epsilon;
+
+      if (auto o1 = obj1.lock())
+        o1->PushHitDirection((dy < 0) ? HitDirection::Top : HitDirection::Bottom);
+      if (auto o2 = obj2.lock())
+        o2->PushHitDirection((dy < 0) ? HitDirection::Bottom : HitDirection::Top);
     }
   } else if (px <= pz) {
     // X方向（壁）
-    push.x = ((dx < 0) ? -px : px) + ((dx < 0) ? -epsilon : epsilon);
+    push.x = (dx < 0) ? -px - epsilon : px + epsilon;
+
+    if (auto o1 = obj1.lock())
+      o1->PushHitDirection((dx < 0) ? HitDirection::Right : HitDirection::Left);
+    if (auto o2 = obj2.lock())
+      o2->PushHitDirection((dx < 0) ? HitDirection::Left : HitDirection::Right);
   } else {
     // Z方向（壁）
-    push.z = ((dz < 0) ? -pz : pz) + ((dz < 0) ? -epsilon : epsilon);
+    push.z = (dz < 0) ? -pz - epsilon : pz + epsilon;
+
+    if (auto o1 = obj1.lock())
+      o1->PushHitDirection((dz < 0) ? HitDirection::Front : HitDirection::Back);
+    if (auto o2 = obj2.lock())
+      o2->PushHitDirection((dz < 0) ? HitDirection::Back : HitDirection::Front);
   }
 
   return push;

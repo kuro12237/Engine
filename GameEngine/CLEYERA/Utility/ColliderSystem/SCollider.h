@@ -8,6 +8,16 @@ namespace Util {
 
 namespace Collider {
 
+enum HitDirection {
+
+  Top,
+  Bottom,
+  Left,
+  Right,
+  Front,
+  Back
+
+};
 namespace system {
 
 struct OBB {
@@ -21,12 +31,9 @@ struct OBB {
 
   Math::Matrix::Mat4x4 *worldMatrix = nullptr;
   void CalculateOrientations() {
-    orientations[0] = {worldMatrix->m[0][0], worldMatrix->m[1][0],
-                       worldMatrix->m[2][0]}; // X軸の方向ベクトル
-    orientations[1] = {worldMatrix->m[0][1], worldMatrix->m[1][1],
-                       worldMatrix->m[2][1]}; // Y軸の方向ベクトル
-    orientations[2] = {worldMatrix->m[0][2], worldMatrix->m[1][2],
-                       worldMatrix->m[2][2]}; // Z軸の方向ベクトル
+    orientations[0] = {worldMatrix->m[0][0], worldMatrix->m[1][0], worldMatrix->m[2][0]}; // X軸の方向ベクトル
+    orientations[1] = {worldMatrix->m[0][1], worldMatrix->m[1][1], worldMatrix->m[2][1]}; // Y軸の方向ベクトル
+    orientations[2] = {worldMatrix->m[0][2], worldMatrix->m[1][2], worldMatrix->m[2][2]}; // Z軸の方向ベクトル
   }
 };
 
