@@ -110,6 +110,14 @@ bool CLEYERA::Util::Collider::system::Func::OBBCheck(const OBB &obb1, const OBB 
   return true;
 }
 
+bool CLEYERA::Util::Collider::system::Func::AABBCheck(const AABB &aabb1, const AABB &aabb2) {
+  Math::Vector::Vec3 aMin = aabb1.min + *aabb1.pos;
+  Math::Vector::Vec3 aMax = aabb1.max + *aabb1.pos;
+  Math::Vector::Vec3 bMin = aabb2.min + *aabb2.pos;
+  Math::Vector::Vec3 bMax = aabb2.max + *aabb2.pos;
+
+  return (aMin.x <= bMax.x && aMax.x >= bMin.x) && (aMin.y <= bMax.y && aMax.y >= bMin.y) && (aMin.z <= bMax.z && aMax.z >= bMin.z);
+}
 Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
 
   auto aCenter = aabb1.GetWorldCenter();
@@ -161,16 +169,6 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   }
 
   return push;
-}
-
-bool CLEYERA::Util::Collider::system::Func::TestAxis(const Math::Vector::Vec3 &axis, const OBB &obb1, const OBB &obb2) {
-
-  // OBBの射影を計算
-  auto projection1 = OBBProjection(obb1, axis);
-  auto projection2 = OBBProjection(obb2, axis);
-
-  // 射影が重なっているかチェック
-  return ProjectionOverlap(projection1, projection2);
 }
 
 std::pair<float, float> CLEYERA::Util::Collider::system::Func::OBBProjection(const OBB &obb, const Math::Vector::Vec3 &axis) {
