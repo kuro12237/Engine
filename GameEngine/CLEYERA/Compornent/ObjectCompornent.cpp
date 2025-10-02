@@ -71,7 +71,7 @@ void CLEYERA::Component::ObjectComponent::TerrainHit(const Math::Vector::Vec3 &p
 }
 
 void CLEYERA::Component::ObjectComponent::End() {
-  while (hitDirection_.empty()) {
+  while (!hitDirection_.empty()) {
     hitDirection_.pop();
   }
 }
