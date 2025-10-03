@@ -119,7 +119,6 @@ bool CLEYERA::Util::Collider::system::Func::AABBCheck(const AABB &aabb1, const A
   return (aMin.x <= bMax.x && aMax.x >= bMin.x) && (aMin.y <= bMax.y && aMax.y >= bMin.y) && (aMin.z <= bMax.z && aMax.z >= bMin.z);
 }
 Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
-
   auto aCenter = aabb1.GetWorldCenter();
   auto bCenter = aabb2.GetWorldCenter();
   auto aHalf = aabb1.HalfSize();
@@ -136,15 +135,16 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   Math::Vector::Vec3 push(0, 0, 0);
   Math::Vector::Vec3 velocity = obj1.lock()->GetVelo();
 
-  const float epsilon = 0.001f; // 1mm程度
+  // 押し出し用の微小距離（上方向は大きめ）
+  const float epsilonY = 0.01f;   // 1cm
+  const float epsilonXZ = 0.001f; // 1mm
 
-
-  // 最小押し出し方向を決定
-  if (py <= px && py <= pz) {
+  // 最小押し出し方向を決定（ただしYは閾値を加味して優先しすぎない）
+  if (py <= px && py <= pz && py < 0.5f * std::min(px, pz)) {
     // Y方向（床・天井）
-    if ((velocity.y <= 0.0f && dy > 0) || // 下向きで床
-        (velocity.y > 0.0f && dy < 0)) {  // 上向きで天井
-      push.y = (dy < 0) ? -py - epsilon : py + epsilon;
+    if ((velocity.y <= 0.0f && dy > 0) || // 下に落下して床にぶつかる
+        (velocity.y > 0.0f && dy < 0)) {  // 上にジャンプして天井にぶつかる
+      push.y = (dy < 0) ? -py - epsilonY : py + epsilonY;
 
       if (auto o1 = obj1.lock())
         o1->PushHitDirection((dy < 0) ? CLEYERA::Util::Collider::HitDirection::Top : CLEYERA::Util::Collider::HitDirection::Bottom);
@@ -153,24 +153,31 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
     }
   } else if (px <= pz) {
     // X方向（壁）
-    push.x = (dx < 0) ? -px - epsilon : px + epsilon;
+    if ((velocity.x <= 0.0f && dx > 0) || // 左に動いて右壁にぶつかる
+        (velocity.x > 0.0f && dx < 0)) {  // 右に動いて左壁にぶつかる
+      push.x = (dx < 0) ? -px - epsilonXZ : px + epsilonXZ;
 
-    if (auto o1 = obj1.lock())
-      o1->PushHitDirection((dx < 0) ? CLEYERA::Util::Collider::HitDirection::Right : CLEYERA::Util::Collider::HitDirection::Left);
-    if (auto o2 = obj2.lock())
-      o2->PushHitDirection((dx < 0) ? CLEYERA::Util::Collider::HitDirection::Left : CLEYERA::Util::Collider::HitDirection::Right);
+      if (auto o1 = obj1.lock())
+        o1->PushHitDirection((dx < 0) ? CLEYERA::Util::Collider::HitDirection::Right : CLEYERA::Util::Collider::HitDirection::Left);
+      if (auto o2 = obj2.lock())
+        o2->PushHitDirection((dx < 0) ? CLEYERA::Util::Collider::HitDirection::Left : CLEYERA::Util::Collider::HitDirection::Right);
+    }
   } else {
     // Z方向（壁）
-    push.z = (dz < 0) ? -pz - epsilon : pz + epsilon;
+    if ((velocity.z <= 0.0f && dz > 0) || // 前に動いて奥壁にぶつかる
+        (velocity.z > 0.0f && dz < 0)) {  // 奥に動いて前壁にぶつかる
+      push.z = (dz < 0) ? -pz - epsilonXZ : pz + epsilonXZ;
 
-    if (auto o1 = obj1.lock())
-      o1->PushHitDirection((dz < 0) ? CLEYERA::Util::Collider::HitDirection::Front : CLEYERA::Util::Collider::HitDirection::Back);
-    if (auto o2 = obj2.lock())
-      o2->PushHitDirection((dz < 0) ? CLEYERA::Util::Collider::HitDirection::Back : CLEYERA::Util::Collider::HitDirection::Front);
+      if (auto o1 = obj1.lock())
+        o1->PushHitDirection((dz < 0) ? CLEYERA::Util::Collider::HitDirection::Front : CLEYERA::Util::Collider::HitDirection::Back);
+      if (auto o2 = obj2.lock())
+        o2->PushHitDirection((dz < 0) ? CLEYERA::Util::Collider::HitDirection::Back : CLEYERA::Util::Collider::HitDirection::Front);
+    }
   }
 
   return push;
 }
+
 
 bool CLEYERA::Util::Collider::system::Func::TestAxis(const Math::Vector::Vec3 &axis, const OBB &obb1, const OBB &obb2) {
 
