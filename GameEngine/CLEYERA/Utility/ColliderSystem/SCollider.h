@@ -18,6 +18,7 @@ enum class HitDirection {
   Back
 
 };
+
 namespace system {
 
 struct OBB {
