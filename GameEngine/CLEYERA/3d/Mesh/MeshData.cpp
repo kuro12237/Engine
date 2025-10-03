@@ -57,11 +57,11 @@ void CLEYERA::Model3d::MeshData::Create(aiMesh *mesh) {
   indexBuf_->RegisterSRV();
 
   // Blas
-  blas_ = std::make_unique<system::Blas>();
+ /* blas_ = std::make_unique<system::Blas>();
   blas_->SetParamCount(this->data_.vertices.size());
   blas_->SetSize(sizeof(system::VertexForGPU));
   blas_->SetVertexBuf(vertBuf_->GetResource());
-  blas_->Init();
+  blas_->Init();*/
 
   this->shaderName = CLEYERA::Graphics::HitGroup::ALL;
 }
