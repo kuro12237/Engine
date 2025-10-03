@@ -138,7 +138,6 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
 
   const float epsilon = 0.001f; // 1mm程度
 
-  using HitDirection = CLEYERA::Util::Collider::HitDirection;
 
   // 最小押し出し方向を決定
   if (py <= px && py <= pz) {
@@ -148,26 +147,26 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
       push.y = (dy < 0) ? -py - epsilon : py + epsilon;
 
       if (auto o1 = obj1.lock())
-        o1->PushHitDirection((dy < 0) ? HitDirection::Top : HitDirection::Bottom);
+        o1->PushHitDirection((dy < 0) ? CLEYERA::Util::Collider::HitDirection::Top : CLEYERA::Util::Collider::HitDirection::Bottom);
       if (auto o2 = obj2.lock())
-        o2->PushHitDirection((dy < 0) ? HitDirection::Bottom : HitDirection::Top);
+        o2->PushHitDirection((dy < 0) ? CLEYERA::Util::Collider::HitDirection::Bottom : CLEYERA::Util::Collider::HitDirection::Top);
     }
   } else if (px <= pz) {
     // X方向（壁）
     push.x = (dx < 0) ? -px - epsilon : px + epsilon;
 
     if (auto o1 = obj1.lock())
-      o1->PushHitDirection((dx < 0) ? HitDirection::Right : HitDirection::Left);
+      o1->PushHitDirection((dx < 0) ? CLEYERA::Util::Collider::HitDirection::Right : CLEYERA::Util::Collider::HitDirection::Left);
     if (auto o2 = obj2.lock())
-      o2->PushHitDirection((dx < 0) ? HitDirection::Left : HitDirection::Right);
+      o2->PushHitDirection((dx < 0) ? CLEYERA::Util::Collider::HitDirection::Left : CLEYERA::Util::Collider::HitDirection::Right);
   } else {
     // Z方向（壁）
     push.z = (dz < 0) ? -pz - epsilon : pz + epsilon;
 
     if (auto o1 = obj1.lock())
-      o1->PushHitDirection((dz < 0) ? HitDirection::Front : HitDirection::Back);
+      o1->PushHitDirection((dz < 0) ? CLEYERA::Util::Collider::HitDirection::Front : CLEYERA::Util::Collider::HitDirection::Back);
     if (auto o2 = obj2.lock())
-      o2->PushHitDirection((dz < 0) ? HitDirection::Back : HitDirection::Front);
+      o2->PushHitDirection((dz < 0) ? CLEYERA::Util::Collider::HitDirection::Back : CLEYERA::Util::Collider::HitDirection::Front);
   }
 
   return push;
