@@ -138,6 +138,8 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
 
   const float epsilon = 0.001f; // 1mm程度
 
+  using HitDirection = CLEYERA::Util::Collider::HitDirection;
+
   // 最小押し出し方向を決定
   if (py <= px && py <= pz) {
     // Y方向（床・天井）
