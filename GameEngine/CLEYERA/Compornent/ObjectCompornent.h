@@ -136,7 +136,7 @@ public:
   /// jsonパラメータSet
   /// </summary>
   template <typename T> void SetValue(const std::string &name, T t) { jsonSystem_->SetValue<T>(name, t); }
-  void PushHitDirection(CLEYERA::Util::Collider::HitDirection direction) { hitDirection_.push_bask(direction); }
+  void PushHitDirection(CLEYERA::Util::Collider::HitDirection direction) { hitDirection_.push(direction); }
 #pragma endregion
 
 private:
