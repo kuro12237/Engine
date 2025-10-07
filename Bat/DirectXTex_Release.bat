@@ -20,4 +20,3 @@ IF EXIST "generated\output\Release\DirectXTex\DirectXTex.lib" (
     echo DirectXTex.lib not found. Build may have failed.
   
 )
-pause
