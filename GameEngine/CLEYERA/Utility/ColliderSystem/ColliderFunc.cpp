@@ -119,84 +119,55 @@ bool CLEYERA::Util::Collider::system::Func::AABBCheck(const AABB &aabb1, const A
   return (aMin.x <= bMax.x && aMax.x >= bMin.x) && (aMin.y <= bMax.y && aMax.y >= bMin.y) && (aMin.z <= bMax.z && aMax.z >= bMin.z);
 }
 Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
+  Math::Vector::Vec3 pushOut{0.0f, 0.0f, 0.0f};
+
   auto aCenter = aabb1.GetWorldCenter();
   auto bCenter = aabb2.GetWorldCenter();
   auto aHalf = aabb1.HalfSize();
   auto bHalf = aabb2.HalfSize();
 
-  float dx = bCenter.x - aCenter.x;
-  float dy = bCenter.y - aCenter.y;
-  float dz = bCenter.z - aCenter.z;
+  Math::Vector::Vec3 delta = bCenter - aCenter;
+  Math::Vector::Vec3 intersect{(aHalf.x + bHalf.x) - std::fabs(delta.x), (aHalf.y + bHalf.y) - std::fabs(delta.y), (aHalf.z + bHalf.z) - std::fabs(delta.z)};
 
-  // 各軸の重なり量
-  float overlapX = (aHalf.x + bHalf.x) - std::abs(dx);
-  float overlapY = (aHalf.y + bHalf.y) - std::abs(dy);
-  float overlapZ = (aHalf.z + bHalf.z) - std::abs(dz);
+  // 干渉していない場合
+  if (intersect.x <= 0.0f || intersect.y <= 0.0f || intersect.z <= 0.0f)
+    return pushOut;
 
-  Math::Vector::Vec3 push(0, 0, 0);
-  const float epsilon = 0.001f; // 微小押し出し
+  // --- 押し出し軸を決定 ---
+  if (intersect.z < intersect.x && intersect.z < intersect.y) {
+    // Z方向
+    pushOut.z = (delta.z > 0.0f) ? intersect.z : -intersect.z;
 
-  // 最小の押し出し方向を決定
-  if (overlapY <= overlapX && overlapY <= overlapZ) {
-    // Y方向（床・天井）
-    if (aCenter.y < bCenter.y) {
-      // a は b の下 → 上に押し出す
-      push.y = -overlapY - epsilon;
+    if (auto o1 = obj1.lock())
+      o1->PushHitDirection((delta.z > 0.0f) ? HitDirection::Front : HitDirection::Back);
+    if (auto o2 = obj2.lock())
+      o2->PushHitDirection((delta.z > 0.0f) ? HitDirection::Back : HitDirection::Front);
+  } else if (intersect.x < intersect.y) {
+    // X方向
+    pushOut.x = (delta.x > 0.0f) ? intersect.x : -intersect.x;
 
-      if (auto o1 = obj1.lock())
-        o1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
-      if (auto o2 = obj2.lock())
-        o2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
-    } else {
-      // a は b の上 → 下に押し出す
-      push.y = overlapY + epsilon;
-
-      if (auto o1 = obj1.lock())
-        o1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
-      if (auto o2 = obj2.lock())
-        o2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
-    }
-  } else if (overlapX <= overlapZ) {
-    // X方向（左右の壁）
-    if (aCenter.x < bCenter.x) {
-      // a は b の左側 → 左に押し出す
-      push.x = -overlapX - epsilon;
-
-      if (auto o1 = obj1.lock())
-        o1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
-      if (auto o2 = obj2.lock())
-        o2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
-    } else {
-      // a は b の右側 → 右に押し出す
-      push.x = overlapX + epsilon;
-
-      if (auto o1 = obj1.lock())
-        o1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
-      if (auto o2 = obj2.lock())
-        o2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
-    }
+    if (auto o1 = obj1.lock())
+      o1->PushHitDirection((delta.x > 0.0f) ? HitDirection::Right : HitDirection::Left);
+    if (auto o2 = obj2.lock())
+      o2->PushHitDirection((delta.x > 0.0f) ? HitDirection::Left : HitDirection::Right);
   } else {
-    // Z方向（前後の壁）
-    if (aCenter.z < bCenter.z) {
-      // a は b の前 → 前に押し出す
-      push.z = -overlapZ - epsilon;
+    // Y方向（上下）
+    pushOut.y = (delta.y > 0.0f) ? intersect.y : -intersect.y;
 
-      if (auto o1 = obj1.lock())
-        o1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
-      if (auto o2 = obj2.lock())
-        o2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
-    } else {
-      // a は b の後ろ → 後ろに押し出す
-      push.z = overlapZ + epsilon;
-
-      if (auto o1 = obj1.lock())
-        o1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
-      if (auto o2 = obj2.lock())
-        o2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
-    }
+    if (auto o1 = obj1.lock())
+      o1->PushHitDirection((delta.y > 0.0f) ? HitDirection::Top : HitDirection::Bottom);
+    if (auto o2 = obj2.lock())
+      o2->PushHitDirection((delta.y > 0.0f) ? HitDirection::Bottom : HitDirection::Top);
   }
 
-  return push;
+  // --- 安定化処理 ---
+  // Z方向の押し出しがあったら、X/Y方向は無視（地面優先）
+  if (std::fabs(pushOut.z) > 0.0f) {
+    pushOut.x = 0.0f;
+    pushOut.y = 0.0f;
+  }
+
+  return pushOut;
 }
 
 

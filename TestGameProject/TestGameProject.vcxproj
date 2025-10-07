@@ -145,14 +145,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameObject\Block\Base\BlockBase.cpp" />
+    <ClCompile Include="GameObject\Block\BlockManager.cpp" />
+    <ClCompile Include="GameObject\Block\DFBlock\NormalBlock.cpp" />
     <ClCompile Include="GameObject\GameObj\SkySphere.cpp" />
     <ClCompile Include="GameObject\GameObj\TestCamera.cpp" />
     <ClCompile Include="GameObject\GameObj\TestObject.cpp" />
-    <ClCompile Include="GameObject\GameObj\TestPointLight.cpp" />
     <ClCompile Include="GameObject\GameObj\TestSprite.cpp" />
     <ClCompile Include="GameObject\GameObj\TestTerrain.cpp" />
-    <ClCompile Include="GameObject\TestScene.cpp" />
+    <ClCompile Include="GameObject\Player\Camera\PlayerCamera.cpp" />
+    <ClCompile Include="GameObject\Player\PlayerCore\Command\PlayerCommandHandler.cpp" />
+    <ClCompile Include="GameObject\Player\PlayerCore\Command\PlayerCommandMove.cpp" />
+    <ClCompile Include="GameObject\Player\PlayerCore\Command\PlayerJumpCommand.cpp" />
+    <ClCompile Include="GameObject\Player\PlayerCore\PlayerCore.cpp" />
+    <ClCompile Include="GameObject\Player\PlayerManager.cpp" />
+    <ClCompile Include="GameObject\Sun\Sun.cpp" />
+    <ClCompile Include="GameObject\TestObject\TestCamera.cpp" />
+    <ClCompile Include="GameObject\TestObject\TestLight.cpp" />
+    <ClCompile Include="GameObject\TestObject\TestObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Scene\GameScene.cpp" />
+    <ClCompile Include="Util\SceneLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameEngine\Engine.vcxproj">
@@ -160,13 +173,30 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameObject\Block\Base\BlockBase.h" />
+    <ClInclude Include="GameObject\Block\BlockManager.h" />
+    <ClInclude Include="GameObject\Block\DFBlock\NormalBlock.h" />
     <ClInclude Include="GameObject\GameObj\SkySphere.h" />
     <ClInclude Include="GameObject\GameObj\TestCamera.h" />
     <ClInclude Include="GameObject\GameObj\TestObject.h" />
-    <ClInclude Include="GameObject\GameObj\TestPointLight.h" />
     <ClInclude Include="GameObject\GameObj\TestSprite.h" />
     <ClInclude Include="GameObject\GameObj\TestTerrain.h" />
-    <ClInclude Include="GameObject\TestScene.h" />
+    <ClInclude Include="GameObject\Player\Base\IPlayer.h" />
+    <ClInclude Include="GameObject\Player\Camera\PlayerCamera.h" />
+    <ClInclude Include="GameObject\Player\PlayerCore\Command\IPlayerCommand.h" />
+    <ClInclude Include="GameObject\Player\PlayerCore\Command\PlayerCommandHandler.h" />
+    <ClInclude Include="GameObject\Player\PlayerCore\Command\PlayerCommandMove.h" />
+    <ClInclude Include="GameObject\Player\PlayerCore\Command\PlayerJumpCommand.h" />
+    <ClInclude Include="GameObject\Player\PlayerCore\PlayerCore.h" />
+    <ClInclude Include="GameObject\Player\PlayerCore\state\PlayerCoreStateBase.h" />
+    <ClInclude Include="GameObject\Player\PlayerManager.h" />
+    <ClInclude Include="GameObject\Sun\Sun.h" />
+    <ClInclude Include="GameObject\TestObject\TestCamera.h" />
+    <ClInclude Include="GameObject\TestObject\TestLight.h" />
+    <ClInclude Include="GameObject\TestObject\TestObject.h" />
+    <ClInclude Include="GameObject\UtilGameObject\UtilGameObject.h" />
+    <ClInclude Include="Scene\GameScene.h" />
+    <ClInclude Include="Util\SceneLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
