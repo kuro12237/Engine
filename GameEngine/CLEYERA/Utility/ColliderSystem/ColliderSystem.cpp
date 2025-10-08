@@ -80,6 +80,7 @@ void CLEYERA::Manager::ColliderSystem::Update() {
           Math::Vector::Vec3 push =
               AABBComputePushOutVector(typeA->GetAABB(), typeB->GetAABB(),aabb1,aabb2);
           typeA->GetAABB_().SetPush(push);
+          push = push * -1.0f;
           typeB->GetAABB_().SetPush(push);
 
           colA->HitCall(aabb1);
