@@ -118,6 +118,7 @@ bool CLEYERA::Util::Collider::system::Func::AABBCheck(const AABB &aabb1, const A
 
   return (aMin.x <= bMax.x && aMax.x >= bMin.x) && (aMin.y <= bMax.y && aMax.y >= bMin.y) && (aMin.z <= bMax.z && aMax.z >= bMin.z);
 }
+
 Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVector(const AABB &aabb1, const AABB &aabb2, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj1, std::weak_ptr<CLEYERA::Component::ObjectComponent> obj2) {
   Math::Vector::Vec3 pushOut{0.0f, 0.0f, 0.0f};
 
@@ -133,8 +134,8 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   if (intersect.x <= 0.0f || intersect.y <= 0.0f || intersect.z <= 0.0f)
     return pushOut;
 
-  // --- 小さな誤差を無視 ---
-  const float EPS = 0.001f;
+  // --- 微小誤差を無視（ここを強めに） ---
+  const float EPS = 0.01f; // ← 精度を緩くする
   if (intersect.x < EPS)
     intersect.x = 0.0f;
   if (intersect.y < EPS)
@@ -145,11 +146,10 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   // --- 最小押し出し軸を決定 ---
   float minIntersect = std::min({intersect.x, intersect.y, intersect.z});
 
-  // --- Y軸が最小かつ "ほぼ接地状態" のとき、Yを優先して他軸を無視 ---
-  bool grounded = (intersect.y <= minIntersect + 0.1f);
+  // --- Y軸が最小（接地）なら Y 優先 ---
+  bool grounded = (intersect.y <= minIntersect + 0.0001f); // ← 誤差を極小に
 
-  if (grounded) {
-    // Y方向押し出し
+  if (grounded && intersect.y > 0.0f) {
     pushOut.y = (delta.y > 0.0f) ? intersect.y : -intersect.y;
 
     if (auto o1 = obj1.lock())
@@ -157,19 +157,18 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
     if (auto o2 = obj2.lock())
       o2->PushHitDirection((delta.y > 0.0f) ? HitDirection::Bottom : HitDirection::Top);
 
-    // 上下で押し出したなら横方向を無視
-    return pushOut;
+    return pushOut; // ← 接地時は他軸スキップ
   }
 
-  // --- 横 or 前後押し出し ---
-  if (minIntersect == intersect.x) {
+  // --- 横 / 前後 ---
+  if (minIntersect == intersect.x && intersect.x > 0.0f) {
     pushOut.x = (delta.x > 0.0f) ? intersect.x : -intersect.x;
 
     if (auto o1 = obj1.lock())
       o1->PushHitDirection((delta.x > 0.0f) ? HitDirection::Right : HitDirection::Left);
     if (auto o2 = obj2.lock())
       o2->PushHitDirection((delta.x > 0.0f) ? HitDirection::Left : HitDirection::Right);
-  } else if (minIntersect == intersect.z) {
+  } else if (minIntersect == intersect.z && intersect.z > 0.0f) {
     pushOut.z = (delta.z > 0.0f) ? intersect.z : -intersect.z;
 
     if (auto o1 = obj1.lock())
@@ -180,6 +179,7 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
 
   return pushOut;
 }
+
 
 bool CLEYERA::Util::Collider::system::Func::TestAxis(const Math::Vector::Vec3 &axis, const OBB &obb1, const OBB &obb2) {
 
