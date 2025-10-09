@@ -146,7 +146,7 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   float minIntersect = std::min({intersect.x, intersect.y, intersect.z});
 
   // --- Y軸が最小かつ "ほぼ接地状態" のとき、Yを優先して他軸を無視 ---
-  bool grounded = (intersect.y <= minIntersect + 0.01f);
+  bool grounded = (intersect.y <= minIntersect + 0.1f);
 
   if (grounded) {
     // Y方向押し出し
