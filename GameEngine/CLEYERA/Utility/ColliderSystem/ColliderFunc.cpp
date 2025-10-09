@@ -129,42 +129,53 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   Math::Vector::Vec3 delta = bCenter - aCenter;
   Math::Vector::Vec3 intersect{(aHalf.x + bHalf.x) - std::fabs(delta.x), (aHalf.y + bHalf.y) - std::fabs(delta.y), (aHalf.z + bHalf.z) - std::fabs(delta.z)};
 
-  // 干渉していない場合
+  // --- 干渉していない ---
   if (intersect.x <= 0.0f || intersect.y <= 0.0f || intersect.z <= 0.0f)
     return pushOut;
 
-  // --- 押し出し軸を決定 ---
-  if (intersect.y < intersect.x && intersect.y < intersect.z) {
-    // Y方向（上下）
+  // --- 小さな誤差を無視 ---
+  const float EPS = 0.001f;
+  if (intersect.x < EPS)
+    intersect.x = 0.0f;
+  if (intersect.y < EPS)
+    intersect.y = 0.0f;
+  if (intersect.z < EPS)
+    intersect.z = 0.0f;
+
+  // --- 最小押し出し軸を決定 ---
+  float minIntersect = std::min({intersect.x, intersect.y, intersect.z});
+
+  // --- Y軸が最小かつ "ほぼ接地状態" のとき、Yを優先して他軸を無視 ---
+  bool grounded = (intersect.y <= minIntersect + 0.0001f);
+
+  if (grounded) {
+    // Y方向押し出し
     pushOut.y = (delta.y > 0.0f) ? intersect.y : -intersect.y;
 
     if (auto o1 = obj1.lock())
       o1->PushHitDirection((delta.y > 0.0f) ? HitDirection::Top : HitDirection::Bottom);
     if (auto o2 = obj2.lock())
       o2->PushHitDirection((delta.y > 0.0f) ? HitDirection::Bottom : HitDirection::Top);
-  } else if (intersect.x < intersect.z) {
-    // X方向
+
+    // 上下で押し出したなら横方向を無視
+    return pushOut;
+  }
+
+  // --- 横 or 前後押し出し ---
+  if (minIntersect == intersect.x) {
     pushOut.x = (delta.x > 0.0f) ? intersect.x : -intersect.x;
 
     if (auto o1 = obj1.lock())
       o1->PushHitDirection((delta.x > 0.0f) ? HitDirection::Right : HitDirection::Left);
     if (auto o2 = obj2.lock())
       o2->PushHitDirection((delta.x > 0.0f) ? HitDirection::Left : HitDirection::Right);
-  } else {
-    // Z方向
+  } else if (minIntersect == intersect.z) {
     pushOut.z = (delta.z > 0.0f) ? intersect.z : -intersect.z;
 
     if (auto o1 = obj1.lock())
       o1->PushHitDirection((delta.z > 0.0f) ? HitDirection::Front : HitDirection::Back);
     if (auto o2 = obj2.lock())
       o2->PushHitDirection((delta.z > 0.0f) ? HitDirection::Back : HitDirection::Front);
-  }
-
-  // --- 安定化処理 ---
-  // 上下で押し出された場合は横方向の押し出しを無視（地面優先）
-  if (std::fabs(pushOut.y) > 0.0f) {
-    pushOut.x = 0.0f;
-    pushOut.z = 0.0f;
   }
 
   return pushOut;
