@@ -133,20 +133,6 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   if (intersect.x <= 0.0f || intersect.y <= 0.0f || intersect.z <= 0.0f)
     return pushOut;
 
-Math::Vector::Vec3 pushOut{0.0f, 0.0f, 0.0f};
-
-  auto aCenter = aabb1.GetWorldCenter();
-  auto bCenter = aabb2.GetWorldCenter();
-  auto aHalf = aabb1.HalfSize();
-  auto bHalf = aabb2.HalfSize();
-
-  Math::Vector::Vec3 delta = bCenter - aCenter;
-  Math::Vector::Vec3 intersect{(aHalf.x + bHalf.x) - std::fabs(delta.x), (aHalf.y + bHalf.y) - std::fabs(delta.y), (aHalf.z + bHalf.z) - std::fabs(delta.z)};
-
-  // 干渉していない場合
-  if (intersect.x <= 0.0f || intersect.y <= 0.0f || intersect.z <= 0.0f)
-    return pushOut;
-
   // --- 押し出し軸を決定 ---
   if (intersect.y < intersect.x && intersect.y < intersect.z) {
     // Y方向（上下）
@@ -181,10 +167,8 @@ Math::Vector::Vec3 pushOut{0.0f, 0.0f, 0.0f};
     pushOut.z = 0.0f;
   }
 
-
   return pushOut;
 }
-
 
 bool CLEYERA::Util::Collider::system::Func::TestAxis(const Math::Vector::Vec3 &axis, const OBB &obb1, const OBB &obb2) {
 
