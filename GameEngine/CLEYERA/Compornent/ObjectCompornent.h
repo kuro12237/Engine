@@ -137,6 +137,8 @@ public:
   /// </summary>
   template <typename T> void SetValue(const std::string &name, T t) { jsonSystem_->SetValue<T>(name, t); }
   void PushHitDirection(CLEYERA::Util::Collider::HitDirection direction) { hitDirection_.push(direction); }
+  std::queue<CLEYERA::Util::Collider::HitDirection> GetHItDirections() { return hitDirection_; }
+
 #pragma endregion
 
 private:
