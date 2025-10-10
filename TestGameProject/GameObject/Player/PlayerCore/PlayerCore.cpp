@@ -41,6 +41,8 @@ void PlayerCore::OnCollision(
     this->translate_ += aabb->GetAABB().push;
     std::queue<CLEYERA::Util::Collider::HitDirection> dir = this->hitDirection_;
 
+    prev_ = dir;
+
     while (!dir.empty()) {
       if (dir.front() == CLEYERA::Util::Collider::HitDirection::Bottom) {
         velocity_.y = 0.0f;

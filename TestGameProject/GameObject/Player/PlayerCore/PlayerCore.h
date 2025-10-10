@@ -31,4 +31,6 @@ public:
 private:
 
   float speed_ = 0.1f;
+  std::queue<CLEYERA::Util::Collider::HitDirection> prev_;
+
 };
