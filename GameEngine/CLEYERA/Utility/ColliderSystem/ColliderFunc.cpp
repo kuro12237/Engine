@@ -142,20 +142,17 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   if (intersect.z < EPS)
     intersect.z = 0.0f;
 
-  ////y優先
-  //if (delta.y > 0.0f && intersect.y > 0.0f) {
-  //  if (intersect.y <= (intersect.x + intersect.z) * 1.2f) {
-  //    pushOut.y = intersect.y;
+  //y優先
+  if (delta.y > 0.0f && intersect.y < intersect.x && intersect.y < intersect.z) {
+    pushOut.y = intersect.y;
 
-  //    if (auto o1 = obj1.lock())
-  //      o1->PushHitDirection(HitDirection::Top);
-  //    if (auto o2 = obj2.lock())
-  //      o2->PushHitDirection(HitDirection::Bottom);
+    if (auto o1 = obj1.lock())
+      o1->PushHitDirection(HitDirection::Top);
+    if (auto o2 = obj2.lock())
+      o2->PushHitDirection(HitDirection::Bottom);
 
-  //    return pushOut;
-  //  }
-  //}
-
+    return pushOut;
+  }
   //--------------------------------------------
   // 通常処理：最小押し出し軸
   //--------------------------------------------
