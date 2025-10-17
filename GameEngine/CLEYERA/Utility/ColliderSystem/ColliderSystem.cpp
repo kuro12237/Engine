@@ -78,31 +78,32 @@ void CLEYERA::Manager::ColliderSystem::Update() {
           // 方向ベクトルの符号で押し出し方向を判定
           if (fabs(push.x) > fabs(push.y) && fabs(push.x) > fabs(push.z)) {
             if (push.x > 0) {
-              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
-              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
-            } else {
               aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
               aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
+            } else {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
             }
           } else if (fabs(push.y) > fabs(push.x) && fabs(push.y) > fabs(push.z)) {
             if (push.y > 0) {
-              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
-              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
-            } else {
               aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
               aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
+            } else {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
             }
           } else {
             if (push.z > 0) {
-              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
-              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
-            } else {
               aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
               aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
+            } else {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
             }
           }
 
           // 押し出し反映
+          push = push * -1.0f;
           typeA->GetAABB_().SetPush(push);
           push = push * -1.0f;
           typeB->GetAABB_().SetPush(push);
