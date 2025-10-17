@@ -31,8 +31,7 @@ void Engine::Init() {
   auto shaderManager = Shader::ShaderManager::GetInstance();
   shaderManager->SetCommon(shaderCommon_);
 
-  rasterPiplineCommon_ =
-      std::make_shared<Raster::system::RasterPiplineCommon>();
+  rasterPiplineCommon_ = std::make_shared<Raster::system::RasterPiplineCommon>();
   rasterPiplineCommon_->Init();
 
   rasterPiplineManager_ = Raster::RasterPiplineManager::GetInstance();
@@ -65,7 +64,7 @@ void Engine::Init() {
   flame_->Init();
 
   terrain_ = CLEYERA::Manager::Terrain::GetInstance();
-  //terrain_->Init();
+  // terrain_->Init();
 
   gravityManager_ = CLEYERA::Manager::GravityManager::GetInstance();
   gravityManager_->Init();
@@ -84,16 +83,21 @@ void Engine::Init() {
 void Engine::Run() {
   Begin();
 
-  PhysiceForcesUpdate();
   sceneManager_->Update();
 
-  Update();
+  PhysiceForcesUpdate();
 
-  std::vector<ID3D12DescriptorHeap *> desc = {
-      CLEYERA::Base::DX::DXDescripterManager::GetInstance()
-          ->GetSRV()
-          .lock()
-          ->GetDescripter()};
+  for (auto obj : CLEYERA::Manager::ObjectManager::GetInstance()->GetObjects()) {
+    for (auto it : obj.second) {
+      if (it.second) {
+
+        it.second->TransformUpdate();
+      }
+    }
+  }
+
+  Update();
+  std::vector<ID3D12DescriptorHeap *> desc = {CLEYERA::Base::DX::DXDescripterManager::GetInstance()->GetSRV().lock()->GetDescripter()};
   DXCommandManager::GetInstace()->SetDescripterHeap(desc);
 
   Draw();
@@ -119,7 +123,7 @@ void Engine::ImGuiUpdate() {
   flame_->ImGuiUpdate();
   dxCommon_->ImGuiUpdate();
 
-   lightManager_->ImGuiUpdate();
+  lightManager_->ImGuiUpdate();
   // debugCamera_->ImGuiUpdate();
 
   // grid_->ImGuiUpdate();
@@ -131,10 +135,8 @@ void Engine::ImGuiUpdate() {
 void Engine::PhysiceForcesUpdate() { gravityManager_->Update(); }
 
 void Engine::Update() {
-  CLEYERA::Base::DX::DXCommandManager *commandManager =
-      CLEYERA::Base::DX::DXCommandManager::GetInstace();
-  CLEYERA::Base::Win::WinApp *winApp =
-      CLEYERA::Base::Win::WinApp::GetInstance();
+  CLEYERA::Base::DX::DXCommandManager *commandManager = CLEYERA::Base::DX::DXCommandManager::GetInstace();
+  CLEYERA::Base::Win::WinApp *winApp = CLEYERA::Base::Win::WinApp::GetInstance();
 
   terrain_->Update();
   objectManager_->Update();
@@ -149,10 +151,8 @@ void Engine::Update() {
   CLEYERA::Manager::CameraManager::GetInstance()->Update();
   postEffect_->Update();
 
-  commandManager->SetViewCommand(winApp->GetKWindowWidth(),
-                                 winApp->GetKWindowHeight());
-  commandManager->SetScissorCommand(winApp->GetKWindowWidth(),
-                                    winApp->GetKWindowHeight());
+  commandManager->SetViewCommand(winApp->GetKWindowWidth(), winApp->GetKWindowHeight());
+  commandManager->SetScissorCommand(winApp->GetKWindowWidth(), winApp->GetKWindowHeight());
 }
 
 void Engine::Finalize() {

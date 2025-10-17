@@ -16,7 +16,6 @@ void CLEYERA::Manager::ColliderSystem::ImGuiUpdate() {
         if (collider) {
           if (isLineDraw_) {
           } else {
-          
           }
         }
       }
@@ -26,16 +25,13 @@ void CLEYERA::Manager::ColliderSystem::ImGuiUpdate() {
 
 void CLEYERA::Manager::ColliderSystem::Update() {
   // Octree初期化（未使用なら削除可）
-  std::unique_ptr<Util::Collider::Octree> octree =
-      std::make_unique<Util::Collider::Octree>();
+  std::unique_ptr<Util::Collider::Octree> octree = std::make_unique<Util::Collider::Octree>();
   octree->Init();
 
   // モートン番号ごとにオブジェクトを分類
-  std::map<int, std::vector<std::weak_ptr<CLEYERA::Component::ObjectComponent>>>
-      mortonMap;
+  std::map<int, std::vector<std::weak_ptr<CLEYERA::Component::ObjectComponent>>> mortonMap;
 
-  for (const auto &[category, nameMap] :
-       Manager::ObjectManager::GetInstance()->GetObjects()) {
+  for (const auto &[category, nameMap] : Manager::ObjectManager::GetInstance()->GetObjects()) {
     for (const auto &[name, obj] : nameMap) {
       if (!obj)
         continue;
@@ -77,8 +73,8 @@ void CLEYERA::Manager::ColliderSystem::Update() {
           continue;
 
         if (AABBCheck(typeA->GetAABB(), typeB->GetAABB())) {
-          Math::Vector::Vec3 push =
-              AABBComputePushOutVector(typeA->GetAABB(), typeB->GetAABB(),aabb1,aabb2);
+          Math::Vector::Vec3 push = AABBComputePushOutVector(typeA->GetAABB(), typeB->GetAABB(), aabb1, aabb2);
+          push = push * -1.0f;
           typeA->GetAABB_().SetPush(push);
           push = push * -1.0f;
           typeB->GetAABB_().SetPush(push);
@@ -117,8 +113,7 @@ void CLEYERA::Manager::ColliderSystem::Update() {
   }
 
   // 各コライダーの更新
-  for (const auto &[category, nameMap] :
-       Manager::ObjectManager::GetInstance()->GetObjects()) {
+  for (const auto &[category, nameMap] : Manager::ObjectManager::GetInstance()->GetObjects()) {
     for (const auto &[name, obj] : nameMap) {
       if (!obj)
         continue;

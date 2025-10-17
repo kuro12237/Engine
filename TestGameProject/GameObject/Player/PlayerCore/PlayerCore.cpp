@@ -23,7 +23,7 @@ void PlayerCore::Update() {
   auto &aabb = c->GetAABB_();
   //aabb.min = scale_ * -1;
 
-  this->TransformUpdate();
+  //this->TransformUpdate();
 }
 
 void PlayerCore::OnCollision(
@@ -67,7 +67,7 @@ void PlayerCore::MoveCommand() {
 
 
     force_.x = joy.x * speed_;
-
+  force_.z = joy.y * speed_;
 }
 
 void PlayerCore::JumpCommand() {
