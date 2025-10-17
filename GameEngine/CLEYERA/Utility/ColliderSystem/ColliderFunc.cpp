@@ -139,12 +139,12 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   if (overlapY <= overlapX && overlapY <= overlapZ) {
     // Y 軸を優先して押し出す（例として少し余裕を加える）
     pushOut = {0.0f, ((*aabb1.pos).y < (*aabb2.pos).y) ? -overlapY : overlapY + 0.1f, 0.0f};
-    obj1.lock()->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
-    obj2.lock()->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
   } else if (overlapX <= overlapY && overlapX <= overlapZ) {
     pushOut = ((*aabb1.pos).x < (*aabb2.pos).x) ? Math::Vector::Vec3{-overlapX, 0.0f, 0.0f} : Math::Vector::Vec3{overlapX, 0.0f, 0.0f};
+
   } else {
     pushOut = ((*aabb1.pos).z < (*aabb2.pos).z) ? Math::Vector::Vec3{0.0f, 0.0f, -overlapZ} : Math::Vector::Vec3{0.0f, 0.0f, overlapZ};
+
   }
 
   return pushOut;

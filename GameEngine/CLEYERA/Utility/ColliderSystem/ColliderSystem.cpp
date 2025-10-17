@@ -71,17 +71,47 @@ void CLEYERA::Manager::ColliderSystem::Update() {
         auto typeB = dynamic_cast<Util::Collider::AABBCollider *>(colB.get());
         if (!typeB)
           continue;
-
         if (AABBCheck(typeA->GetAABB(), typeB->GetAABB())) {
+          // 押し出し量を計算
           Math::Vector::Vec3 push = AABBComputePushOutVector(typeA->GetAABB(), typeB->GetAABB(), aabb1, aabb2);
-          push = push * -1.0f;
+
+          // 方向ベクトルの符号で押し出し方向を判定
+          if (fabs(push.x) > fabs(push.y) && fabs(push.x) > fabs(push.z)) {
+            if (push.x > 0) {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
+            } else {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Right);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Left);
+            }
+          } else if (fabs(push.y) > fabs(push.x) && fabs(push.y) > fabs(push.z)) {
+            if (push.y > 0) {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
+            } else {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Top);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Bottom);
+            }
+          } else {
+            if (push.z > 0) {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
+            } else {
+              aabb1->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Back);
+              aabb2->PushHitDirection(CLEYERA::Util::Collider::HitDirection::Front);
+            }
+          }
+
+          // 押し出し反映
           typeA->GetAABB_().SetPush(push);
           push = push * -1.0f;
           typeB->GetAABB_().SetPush(push);
 
+          // 衝突コールバック
           colA->HitCall(aabb1);
           colB->HitCall(aabb2);
         }
+
       }
     }
 
