@@ -138,7 +138,7 @@ Math::Vector::Vec3 CLEYERA::Util::Collider::system::Func::AABBComputePushOutVect
   // 最小オーバーラップ軸を選ぶ
   if (overlapY <= overlapX && overlapY <= overlapZ) {
     // Y 軸を優先して押し出す（例として少し余裕を加える）
-    pushOut = {0.0f, ((*aabb1.pos).y < (*aabb2.pos).y) ? -overlapY : overlapY + 0.01, 0.0f};
+    pushOut = {0.0f, ((*aabb1.pos).y < (*aabb2.pos).y) ? -overlapY : overlapY + 0.01f, 0.0f};
   } else if (overlapX <= overlapY && overlapX <= overlapZ) {
     pushOut = ((*aabb1.pos).x < (*aabb2.pos).x) ? Math::Vector::Vec3{-overlapX, 0.0f, 0.0f} : Math::Vector::Vec3{overlapX, 0.0f, 0.0f};
 
